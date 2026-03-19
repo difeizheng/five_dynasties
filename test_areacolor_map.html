@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>政权地图 - 测试 areaColor</title>
+    <script src="https://assets.pyecharts.org/assets/v6/echarts.min.js"></script>
+    <script src="https://assets.pyecharts.org/assets/v6/maps/china.js"></script>
+    <style>
+        body { margin: 0; padding: 20px; }
+        #map { width: 100%; height: 600px; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div style="margin-top:10px;">
+        <p>测试说明：ECharts Map 类型中，itemStyle.areaColor 用于设置省份填充色</p>
+    </div>
+    <script>
+        var chart = echarts.init(document.getElementById('map'), 'white');
+        var option = {
+            title: {
+                text: "五代十国政权疆域图",
+                left: 'center',
+                top: 10
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function(params) {
+                    var regime = params.data.regime || '未知';
+                    return '<b>' + params.name + '</b><br/>所属政权：' + regime;
+                }
+            },
+            series: [{
+                type: 'map',
+                map: 'china',
+                data: [{"name": "河南", "value": 1, "itemStyle": {"areaColor": "#2ecc71"}, "regime": "后周"}, {"name": "山东", "value": 1, "itemStyle": {"areaColor": "#2ecc71"}, "regime": "后周"}, {"name": "陕西", "value": 1, "itemStyle": {"areaColor": "#d35400"}, "regime": "后蜀"}, {"name": "河北", "value": 1, "itemStyle": {"areaColor": "#2ecc71"}, "regime": "后周"}, {"name": "山西", "value": 1, "itemStyle": {"areaColor": "#95a5a6"}, "regime": "北汉"}, {"name": "安徽", "value": 1, "itemStyle": {"areaColor": "#e74c3c"}, "regime": "南唐"}, {"name": "浙江", "value": 1, "itemStyle": {"areaColor": "#1abc9c"}, "regime": "吴越"}, {"name": "上海", "value": 1, "itemStyle": {"areaColor": "#1abc9c"}, "regime": "吴越"}, {"name": "江苏", "value": 1, "itemStyle": {"areaColor": "#e74c3c"}, "regime": "南唐"}, {"name": "江西", "value": 1, "itemStyle": {"areaColor": "#e74c3c"}, "regime": "南唐"}, {"name": "湖北", "value": 1, "itemStyle": {"areaColor": "#1abc9c"}, "regime": "荆南"}, {"name": "四川", "value": 1, "itemStyle": {"areaColor": "#d35400"}, "regime": "后蜀"}, {"name": "重庆", "value": 1, "itemStyle": {"areaColor": "#d35400"}, "regime": "后蜀"}, {"name": "福建", "value": 1, "itemStyle": {"areaColor": "#9b59b6"}, "regime": "闽国"}, {"name": "广东", "value": 1, "itemStyle": {"areaColor": "#3498db"}, "regime": "南汉"}, {"name": "广西", "value": 1, "itemStyle": {"areaColor": "#3498db"}, "regime": "南汉"}, {"name": "海南", "value": 1, "itemStyle": {"areaColor": "#3498db"}, "regime": "南汉"}, {"name": "湖南", "value": 1, "itemStyle": {"areaColor": "#3498db"}, "regime": "楚"}],
+                label: {
+                    show: true,
+                    fontSize: 9,
+                    color: '#333',
+                    formatter: '{b}'
+                }
+            }],
+            legend: {
+                data: ["楚", "后蜀", "闽国", "后晋", "后周", "后汉", "后唐", "荆南", "北汉", "吴越", "后梁", "南唐", "南汉", "前蜀"],
+                top: 50,
+                type: 'scroll'
+            }
+        };
+        chart.setOption(option);
+    </script>
+</body>
+</html>

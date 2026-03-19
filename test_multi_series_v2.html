@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>政权地图测试</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/map/js/china.js"></script>
+    <style>
+        body { margin: 0; padding: 0; background: #fff; }
+        #map { width: 100%; height: 600px; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var chart = echarts.init(document.getElementById('map'), '#ffffff');
+
+        // 省份 - 政权映射
+        var provinceRegimeMap = {
+            "河南": "后周", "山东": "后周", "河北": "后周",
+            "陕西": "后蜀", "四川": "后蜀", "重庆": "后蜀",
+            "山西": "北汉",
+            "安徽": "南唐", "江苏": "南唐", "江西": "南唐",
+            "浙江": "吴越", "上海": "吴越",
+            "湖北": "荆南",
+            "福建": "闽国",
+            "广东": "南汉", "广西": "南汉", "海南": "南汉",
+            "湖南": "楚"
+        };
+
+        // 政权颜色映射
+        var regimeColorMap = {
+            "后周": "#2ecc71",
+            "后蜀": "#d35400",
+            "北汉": "#95a5a6",
+            "南唐": "#e74c3c",
+            "吴越": "#1abc9c",
+            "荆南": "#1abc9c",
+            "闽国": "#9b59b6",
+            "南汉": "#3498db",
+            "楚": "#3498db"
+        };
+
+        // 构建 series 数据
+        var seriesData = [];
+        var regimeNames = Object.keys(regimeColorMap);
+
+        regimeNames.forEach(function(regime) {
+            seriesData.push({
+                type: 'map',
+                map: 'china',
+                name: regime,
+                data: [],
+                label: {
+                    show: true,
+                    fontSize: 9,
+                    color: '#333',
+                    formatter: '{b}'
+                },
+                itemStyle: {
+                    areaColor: regimeColorMap[regime],
+                    borderColor: '#555',
+                    borderWidth: 0.5
+                },
+                emphasis: {
+                    itemStyle: {
+                        areaColor: '#ffd700',
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    },
+                    label: {
+                        color: '#fff',
+                        fontWeight: 'bold'
+                    }
+                },
+                roam: false,
+                zoom: 1.2,
+                center: [104, 36]
+            });
+        });
+
+        var option = {
+            title: {
+                text: "五代十国疆域范围",
+                left: 'center',
+                top: 10
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function(params) {
+                    var regime = provinceRegimeMap[params.name] || '未知';
+                    return '<b>' + params.name + '</b><br/>所属政权：' + regime;
+                }
+            },
+            series: seriesData,
+            legend: {
+                data: regimeNames,
+                top: 50,
+                selectedMode: true,
+                type: 'scroll',
+                orient: 'horizontal'
+            }
+        };
+        chart.setOption(option);
+        window.addEventListener('resize', function() {
+            chart.resize();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ECharts Map 颜色测试</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/map/js/china.js"></script>
+    <style>body{margin:0;padding:20px;} #map{width:100%;height:600px;}</style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var chart = echarts.init(document.getElementById('map'));
+        
+        // 测试数据 - 直接在 itemStyle 中设置 color
+        var data = [
+            {name: '北京市', value: 1, itemStyle: {color: '#e74c3c'}},
+            {name: '天津市', value: 1, itemStyle: {color: '#3498db'}},
+            {name: '上海市', value: 1, itemStyle: {color: '#2ecc71'}},
+            {name: '重庆市', value: 1, itemStyle: {color: '#f39c12'}},
+            {name: '河北省', value: 1, itemStyle: {color: '#9b59b6'}},
+            {name: '河南省', value: 1, itemStyle: {color: '#1abc9c'}},
+            {name: '山东省', value: 1, itemStyle: {color: '#e67e22'}},
+            {name: '山西省', value: 1, itemStyle: {color: '#34495e'}},
+        ];
+        
+        var option = {
+            title: {text: 'ECharts Map 颜色测试 - itemStyle.color', left:'center'},
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}: {c}'
+            },
+            series: [{
+                type: 'map',
+                mapType: 'china',
+                data: data,
+                label: {show: true, formatter: '{b}'},
+                // 关键：不设置 itemStyle.areaColor，让 data 中的 color 生效
+                roam: false,
+                zoom: 1.2,
+                center: [104, 36]
+            }]
+        };
+        
+        chart.setOption(option);
+    </script>
+</body>
+</html>

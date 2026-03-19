@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+                <script type="text/javascript" src="https://assets.pyecharts.org/assets/v6/echarts.min.js"></script>
+            <script type="text/javascript" src="https://assets.pyecharts.org/assets/v6/maps/china.js"></script>
+
+    
+</head>
+<body >
+    <div id="3d1a1087fad04cf4bba602b50c9edd14" class="chart-container" style="width:100%; height:600px; "></div>
+    <script>
+        var chart_3d1a1087fad04cf4bba602b50c9edd14 = echarts.init(
+            document.getElementById('3d1a1087fad04cf4bba602b50c9edd14'), 'white', {renderer: 'canvas', locale: 'ZH'});
+        var option_3d1a1087fad04cf4bba602b50c9edd14 = {"animation": true, "animationThreshold": 2000, "animationDuration": 1000, "animationEasing": "cubicOut", "animationDelay": 0, "animationDurationUpdate": 300, "animationEasingUpdate": "cubicOut", "animationDelayUpdate": 0, "aria": {"enabled": false}, "series": [{"type": "map", "name": "政权疆域", "label": {"show": true, "margin": 8, "richInheritPlainLabel": true, "valueAnimation": false}, "map": "china", "data": [{"name": "河南", "value": 1}, {"name": "山东", "value": 1}, {"name": "陕西", "value": 1}, {"name": "浙江", "value": 2}, {"name": "江苏", "value": 2}, {"name": "上海", "value": 2}, {"name": "广东", "value": 3}, {"name": "广西", "value": 3}, {"name": "海南", "value": 3}], "roam": true, "aspectScale": 0.75, "nameProperty": "name", "selectedMode": false, "zoom": 1, "zlevel": 0, "z": 2, "seriesLayoutBy": "column", "datasetIndex": 0, "mapValueCalculation": "sum", "showLegendSymbol": true, "preserveAspect": false, "clip": false, "emphasis": {}}], "legend": [{"data": ["政权疆域"], "selected": {}, "show": true, "padding": 5, "itemGap": 10, "itemWidth": 25, "itemHeight": 14, "backgroundColor": "transparent", "borderColor": "#ccc", "borderRadius": 0, "pageButtonItemGap": 5, "pageButtonPosition": "end", "pageFormatter": "{current}/{total}", "pageIconColor": "#2f4554", "pageIconInactiveColor": "#aaa", "pageIconSize": 15, "animationDurationUpdate": 800, "selector": false, "selectorPosition": "auto", "selectorItemGap": 7, "selectorButtonGap": 10, "triggerEvent": false}], "tooltip": {"show": true, "trigger": "item", "triggerOn": "mousemove|click", "axisPointer": {"type": "line"}, "showContent": true, "alwaysShowContent": false, "showDelay": 0, "hideDelay": 100, "enterable": false, "confine": false, "appendToBody": false, "transitionDuration": 0.4, "displayTransition": true, "formatter": "{b}: {a}", "textStyle": {"fontSize": 14, "richInheritPlainLabel": true}, "borderWidth": 0, "padding": 5, "order": "seriesAsc"}, "title": [{"show": true, "text": "测试地图", "target": "blank", "subtarget": "blank", "padding": 5, "itemGap": 10, "textAlign": "auto", "textVerticalAlign": "auto", "triggerEvent": false}], "visualMap": {"show": true, "type": "piecewise", "min": 0, "max": 100, "inRange": {}, "calculable": true, "inverse": false, "splitNumber": 5, "hoverLink": true, "orient": "horizontal", "left": "10%", "bottom": "5%", "padding": 5, "showLabel": true, "itemWidth": 20, "itemHeight": 14, "borderWidth": 0, "pieces": [{"value": 1, "label": "后梁", "color": "#e74c3c"}, {"value": 2, "label": "吴越", "color": "#1abc9c"}, {"value": 3, "label": "南汉", "color": "#3498db"}]}};
+        chart_3d1a1087fad04cf4bba602b50c9edd14.setOption(option_3d1a1087fad04cf4bba602b50c9edd14);
+            window.addEventListener('resize', function(){
+                chart_3d1a1087fad04cf4bba602b50c9edd14.resize();
+            })
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+# Streamlit 框架
+streamlit>=1.32.0
+
+# 数据处理
+pandas>=2.0.0
+openpyxl>=3.1.0
+
+# 可视化
+pyecharts>=1.9.1
+streamlit-echarts>=0.4.0
+plotly>=5.18.0
+
+# 文本分析
+jieba>=0.42.0
+
+# 数据库
+sqlite3
+
+# 工具库
+requests>=2.31.0
+chardet>=5.2.0

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>政权地图测试</title>
+    <script src="https://assets.pyecharts.org/assets/v6/echarts.min.js"></script>
+    <script src="https://assets.pyecharts.org/assets/v6/maps/china.js"></script>
+    <style>
+        body { margin: 0; padding: 0; background: #fff; }
+        #map { width: 100%; height: 600px; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var chart = echarts.init(document.getElementById('map'), 'white');
+
+        var option = {
+            title: { text: "测试 areaColor" },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}: {a}'
+            },
+            series: [{
+                type: 'map',
+                map: 'china',
+                data: [
+                    {name: '河南', value: 1, itemStyle: {areaColor: '#2ecc71'}},
+                    {name: '浙江', value: 2, itemStyle: {areaColor: '#1abc9c'}},
+                    {name: '广东', value: 3, itemStyle: {areaColor: '#3498db'}}
+                ],
+                label: {show: true, fontSize: 9, formatter: '{b}'},
+                itemStyle: {
+                    borderColor: '#555',
+                    borderWidth: 0.5
+                }
+            }]
+        };
+
+        chart.setOption(option);
+        window.addEventListener('resize', function() {
+            chart.resize();
+        });
+    </script>
+</body>
+</html>

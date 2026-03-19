@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>visualMap inRange 测试</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; background: #fff; }
+        #map { width: 100%; height: 600px; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var provinceRegimeMap = {
+            "河南省": "后周", "山东省": "后周", "河北省": "后周", "安徽省": "后周",
+            "山西省": "北汉",
+            "陕西省": "后唐", "甘肃省": "后唐",
+            "江苏省": "南唐", "浙江省": "南唐", "上海市": "南唐", "江西省": "南唐",
+            "湖北省": "荆南",
+            "湖南省": "楚",
+            "四川省": "后蜀", "重庆市": "后蜀",
+            "福建省": "闽国",
+            "广东省": "南汉", "广西": "南汉", "海南省": "南汉"
+        };
+
+        var regimeValueMap = {
+            "后周": 1, "北汉": 2, "后唐": 3, "南唐": 4,
+            "荆南": 5, "楚": 6, "后蜀": 7, "闽国": 8, "南汉": 9
+        };
+
+        var colorsList = ["#2ecc71", "#95a5a6", "#3498db", "#e74c3c", "#1abc9c", "#3498db", "#d35400", "#9b59b6", "#3498db"];
+
+        var piecesConfig = [
+            {value: 1, label: '后周', color: '#2ecc71'},
+            {value: 2, label: '北汉', color: '#95a5a6'},
+            {value: 3, label: '后唐', color: '#3498db'},
+            {value: 4, label: '南唐', color: '#e74c3c'},
+            {value: 5, label: '荆南', color: '#1abc9c'},
+            {value: 6, label: '楚', color: '#3498db'},
+            {value: 7, label: '后蜀', color: '#d35400'},
+            {value: 8, label: '闽国', color: '#9b59b6'},
+            {value: 9, label: '南汉', color: '#3498db'}
+        ];
+
+        var mapData = [];
+        for (var province in provinceRegimeMap) {
+            mapData.push({
+                name: province,
+                value: regimeValueMap[provinceRegimeMap[province]]
+            });
+        }
+
+        fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json')
+            .then(response => response.json())
+            .then(geoJson => {
+                echarts.registerMap('china', geoJson);
+
+                var chart = echarts.init(document.getElementById('map'), 'white');
+
+                var option = {
+                    title: {
+                        text: 'visualMap inRange 测试',
+                        left: 'center',
+                        top: 10
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: function(params) {
+                            var regime = provinceRegimeMap[params.name] || '未知';
+                            return '<b>' + params.name + '</b><br/>value: ' + params.value + ' (' + regime + ')';
+                        }
+                    },
+                    series: [{
+                        type: 'map',
+                        map: 'china',
+                        data: mapData,
+                        label: {
+                            show: true,
+                            fontSize: 9,
+                            color: '#333',
+                            formatter: '{b}'
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                areaColor: '#ffd700'
+                            }
+                        }
+                    }],
+                    visualMap: {
+                        type: 'piecewise',
+                        show: true,
+                        right: '10',
+                        top: '50',
+                        pieces: piecesConfig,
+                        textStyle: {
+                            color: '#333'
+                        },
+                        inRange: {
+                            color: colorsList
+                        }
+                    }
+                };
+
+                chart.setOption(option);
+                console.log('Option set');
+            })
+            .catch(err => {
+                console.error('Failed to load map:', err);
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>地图测试 - 多数据源</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; background: #fff; }
+        #map { width: 100%; height: 600px; }
+        .status { padding: 10px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="status" id="status">正在加载地图...</div>
+    <div id="map"></div>
+    <script>
+        var chart = echarts.init(document.getElementById('map'), 'white');
+        var statusDiv = document.getElementById('status');
+
+        // 尝试多个 GeoJSON 数据源
+        var sources = [
+            'https://raw.githubusercontent.com/aliyun/aliyun-data-v/master/areas_v3/bound/100000_full.json',
+            'https://raw.githubusercontent.com/zoujingli/China-Areas/master/china.geojson',
+            'https://lib.baomitu.com/echarts/4.9.0-rc.1/map/json/china.json'
+        ];
+
+        function tryLoadSource(index) {
+            if (index >= sources.length) {
+                statusDiv.textContent = '所有数据源都加载失败';
+                return;
+            }
+
+            statusDiv.textContent = '尝试加载数据源 ' + (index + 1) + ': ' + sources[index];
+
+            fetch(sources[index])
+                .then(response => {
+                    if (!response.ok) throw new Error('HTTP ' + response.status);
+                    return response.json();
+                })
+                .then(geoJson => {
+                    echarts.registerMap('china', geoJson);
+
+                    var mapData = [
+                        {name: '河南省', value: 1},
+                        {name: '浙江省', value: 1},
+                        {name: '江苏省', value: 1}
+                    ];
+
+                    var option = {
+                        title: {
+                            text: "地图测试",
+                            left: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item'
+                        },
+                        series: [{
+                            type: 'map',
+                            map: 'china',
+                            data: mapData,
+                            label: {
+                                show: true,
+                                fontSize: 9,
+                                color: '#333'
+                            },
+                            itemStyle: {
+                                borderColor: '#555',
+                                borderWidth: 0.5,
+                                areaColor: function(params) {
+                                    return params.value === 1 ? '#e74c3c' : '#f5f5f5';
+                                }
+                            }
+                        }]
+                    };
+
+                    chart.setOption(option);
+                    statusDiv.textContent = '地图加载成功！';
+                    statusDiv.style.color = 'green';
+                })
+                .catch(err => {
+                    console.error('Source ' + (index + 1) + ' failed:', err);
+                    tryLoadSource(index + 1);
+                });
+        }
+
+        tryLoadSource(0);
+    </script>
+</body>
+</html>

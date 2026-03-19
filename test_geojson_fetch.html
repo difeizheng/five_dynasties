@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>GeoJSON 加载测试</title>
+    <style>
+        body { padding: 20px; font-family: Arial; }
+        #status { color: #666; margin: 10px 0; }
+        #result { color: green; }
+        #error { color: red; }
+    </style>
+</head>
+<body>
+    <h2>GeoJSON 加载测试</h2>
+    <div id="status">正在测试...</div>
+    <div id="result"></div>
+    <script>
+        var statusDiv = document.getElementById('status');
+        var resultDiv = document.getElementById('result');
+
+        // 测试多个数据源
+        var sources = [
+            'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json',
+            'https://geo.datav.aliyun.com/areas_v3/bound/100000.json',
+            'https://raw.githubusercontent.com/aliyun/aliyun-data-v/master/areas_v3/bound/100000_full.json'
+        ];
+
+        async function testSources() {
+            for (var i = 0; i < sources.length; i++) {
+                statusDiv.innerHTML = '测试数据源 ' + (i + 1) + ': ' + sources[i];
+                try {
+                    var response = await fetch(sources[i]);
+                    if (response.ok) {
+                        var data = await response.json();
+                        resultDiv.innerHTML = '<p id="result">✓ 数据源 ' + (i + 1) + ' 加载成功!</p>' +
+                            '<p>URL: ' + sources[i] + '</p>' +
+                            '<p>类型：' + data.type + '</p>' +
+                            '<p>特征数量：' + (data.features ? data.features.length : 'N/A') + '</p>';
+                        return;
+                    }
+                } catch (err) {
+                    console.log('Source ' + (i + 1) + ' failed:', err);
+                }
+            }
+            statusDiv.innerHTML = '<span id="error">所有数据源都加载失败</span>';
+        }
+
+        testSources();
+    </script>
+</body>
+</html>

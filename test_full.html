@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>政权地图完整测试</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/map/js/china.js"></script>
+    <style>
+        body { margin: 0; padding: 0; background: #fff; }
+        #map { width: 100%; height: 800px; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var chart = echarts.init(document.getElementById('map'), 'white');
+
+        // 实际数据 - 使用中国地图的标准省份名称
+        var mapData = [
+            {name: '河南省', value: 1},
+            {name: '山东省', value: 1},
+            {name: '河北省', value: 1},
+            {name: '安徽省', value: 1},
+            {name: '山西省', value: 2},
+            {name: '陕西省', value: 3},
+            {name: '甘肃省', value: 3},
+            {name: '江苏省', value: 4},
+            {name: '安徽省', value: 4},
+            {name: '浙江省', value: 4},
+            {name: '上海市', value: 4},
+            {name: '江西省', value: 4},
+            {name: '湖北省', value: 5},
+            {name: '湖南省', value: 6},
+            {name: '四川省', value: 7},
+            {name: '重庆市', value: 7},
+            {name: '陕西省', value: 7},
+            {name: '福建省', value: 8},
+            {name: '广东省', value: 9},
+            {name: '广西', value: 9},
+            {name: '海南省', value: 9},
+            {name: '辽宁省', value: 10},
+            {name: '内蒙古', value: 11},
+            {name: '北京', value: 1},
+            {name: '天津', value: 1},
+            {name: '上海', value: 4},
+            {name: '重庆', value: 7},
+            {name: '宁夏', value: 3},
+            {name: '新疆', value: 3},
+            {name: '青海', value: 3},
+            {name: '西藏', value: 3},
+            {name: '云南', value: 7},
+            {name: '贵州', value: 6},
+            {name: '吉林', value: 10},
+            {name: '黑龙江', value: 10}
+        ];
+
+        var option = {
+            title: {
+                text: '五代十国政权地图 - 完整测试',
+                left: 'center',
+                top: 10
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function(params) {
+                    var v = params.value;
+                    var regimes = {1:'后周',2:'北汉',3:'后唐',4:'南唐',5:'荆南',6:'楚',7:'后蜀',8:'闽国',9:'南汉',10:'辽',11:'契丹'};
+                    return '<b>' + params.name + '</b><br/>value: ' + v + ' (' + (regimes[v]||'未知') + ')';
+                }
+            },
+            series: [{
+                type: 'map',
+                map: 'china',
+                data: mapData,
+                label: {
+                    show: true,
+                    fontSize: 8,
+                    color: '#333',
+                    formatter: '{b}'
+                },
+                itemStyle: {
+                    borderColor: '#555',
+                    borderWidth: 0.5
+                },
+                emphasis: {
+                    itemStyle: {
+                        areaColor: '#ffd700'
+                    }
+                }
+            }],
+            visualMap: {
+                type: 'piecewise',
+                show: true,
+                left: 'right',
+                top: '80',
+                pieces: [
+                    {value: 1, label: '后周', color: '#2ecc71'},
+                    {value: 2, label: '北汉', color: '#95a5a6'},
+                    {value: 3, label: '后唐', color: '#3498db'},
+                    {value: 4, label: '南唐', color: '#e74c3c'},
+                    {value: 5, label: '荆南', color: '#1abc9c'},
+                    {value: 6, label: '楚', color: '#3498db'},
+                    {value: 7, label: '后蜀', color: '#d35400'},
+                    {value: 8, label: '闽国', color: '#9b59b6'},
+                    {value: 9, label: '南汉', color: '#3498db'},
+                    {value: 10, label: '辽', color: '#ff9999'},
+                    {value: 11, label: '契丹', color: '#cccccc'}
+                ],
+                textStyle: {
+                    color: '#333'
+                }
+            }
+        };
+
+        chart.setOption(option);
+        console.log('Option set, data:', mapData);
+    </script>
+</body>
+</html>

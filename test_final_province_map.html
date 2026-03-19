@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+                <script type="text/javascript" src="https://assets.pyecharts.org/assets/v6/echarts.min.js"></script>
+            <script type="text/javascript" src="https://assets.pyecharts.org/assets/v6/maps/china.js"></script>
+
+    
+</head>
+<body >
+    <div id="9111129b9dc14630bd1cf63dc18653b1" class="chart-container" style="width:100%; height:600px; "></div>
+    <script>
+        var chart_9111129b9dc14630bd1cf63dc18653b1 = echarts.init(
+            document.getElementById('9111129b9dc14630bd1cf63dc18653b1'), 'white', {renderer: 'canvas', locale: 'ZH'});
+        var option_9111129b9dc14630bd1cf63dc18653b1 = {"animation": true, "animationThreshold": 2000, "animationDuration": 1000, "animationEasing": "cubicOut", "animationDelay": 0, "animationDurationUpdate": 300, "animationEasingUpdate": "cubicOut", "animationDelayUpdate": 0, "aria": {"enabled": false}, "series": [{"type": "map", "name": "政权疆域", "label": {"show": true, "color": "#333", "margin": 8, "fontSize": 9, "richInheritPlainLabel": true, "valueAnimation": false}, "map": "china", "data": [{"name": "河南", "value": "后梁", "itemStyle": {"color": "#e74c3c"}}, {"name": "山东", "value": "后梁", "itemStyle": {"color": "#e74c3c"}}, {"name": "陕西", "value": "后梁", "itemStyle": {"color": "#e74c3c"}}, {"name": "浙江", "value": "吴越", "itemStyle": {"color": "#1abc9c"}}, {"name": "江苏", "value": "吴越", "itemStyle": {"color": "#1abc9c"}}, {"name": "上海", "value": "吴越", "itemStyle": {"color": "#1abc9c"}}, {"name": "广东", "value": "南汉", "itemStyle": {"color": "#3498db"}}, {"name": "广西", "value": "南汉", "itemStyle": {"color": "#3498db"}}, {"name": "海南", "value": "南汉", "itemStyle": {"color": "#3498db"}}], "roam": true, "aspectScale": 0.75, "nameProperty": "name", "selectedMode": false, "zoom": 1, "zlevel": 0, "z": 2, "seriesLayoutBy": "column", "datasetIndex": 0, "mapValueCalculation": "sum", "showLegendSymbol": true, "preserveAspect": false, "clip": false, "emphasis": {}}], "legend": [{"data": ["政权疆域"], "selected": {}, "show": false, "padding": 5, "itemGap": 10, "itemWidth": 25, "itemHeight": 14, "backgroundColor": "transparent", "borderColor": "#ccc", "borderRadius": 0, "pageButtonItemGap": 5, "pageButtonPosition": "end", "pageFormatter": "{current}/{total}", "pageIconColor": "#2f4554", "pageIconInactiveColor": "#aaa", "pageIconSize": 15, "animationDurationUpdate": 800, "selector": false, "selectorPosition": "auto", "selectorItemGap": 7, "selectorButtonGap": 10, "triggerEvent": false}], "tooltip": {"show": true, "trigger": "item", "triggerOn": "mousemove|click", "axisPointer": {"type": "line"}, "showContent": true, "alwaysShowContent": false, "showDelay": 0, "hideDelay": 100, "enterable": false, "confine": false, "appendToBody": false, "transitionDuration": 0.4, "displayTransition": true, "formatter": "{b}: {a}", "textStyle": {"fontSize": 14, "richInheritPlainLabel": true}, "borderWidth": 0, "padding": 5, "order": "seriesAsc"}, "title": [{"show": true, "text": "测试政权疆域范围", "target": "blank", "subtarget": "blank", "padding": 5, "itemGap": 10, "textAlign": "auto", "textVerticalAlign": "auto", "triggerEvent": false}]};
+        chart_9111129b9dc14630bd1cf63dc18653b1.setOption(option_9111129b9dc14630bd1cf63dc18653b1);
+            window.addEventListener('resize', function(){
+                chart_9111129b9dc14630bd1cf63dc18653b1.resize();
+            })
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>政权地图 - regions 方案</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/map/js/china.js"></script>
+    <style>body{margin:0;padding:20px;} #map{width:100%;height:600px;}</style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var chart = echarts.init(document.getElementById('map'));
+        
+        // 省份 - 颜色映射
+        var provinceColorMap = {
+            '河南': '#e74c3c', '山东': '#e74c3c', '陕西': '#e74c3c',  // 后梁
+            '浙江': '#1abc9c', '江苏': '#1abc9c', '上海': '#1abc9c',  // 吴越
+            '广东': '#3498db', '广西': '#3498db', '海南': '#3498db',  // 南汉
+            '湖南': '#3498db',  // 楚
+            '湖北': '#1abc9c',  // 荆南
+            '四川': '#d35400', '重庆': '#d35400', '陕西': '#d35400',  // 后蜀
+            '福建': '#9b59b6',  // 闽国
+            '安徽': '#e74c3c', '江西': '#e74c3c', '江苏': '#e74c3c', '湖北': '#e74c3c',  // 南唐
+            '河北': '#2ecc71', '河南': '#2ecc71', '山东': '#2ecc71',  // 后周
+            '山西': '#95a5a6',  // 北汉
+        };
+        
+        // 省份 - 政权映射
+        var provinceRegimeMap = {
+            '河南': '后梁', '山东': '后梁', '陕西': '后梁',
+            '浙江': '吴越', '江苏': '吴越', '上海': '吴越',
+            '广东': '南汉', '广西': '南汉', '海南': '南汉',
+            '湖南': '楚', '湖北': '荆南',
+            '四川': '后蜀', '重庆': '后蜀',
+            '福建': '闽国',
+            '安徽': '南唐', '江西': '南唐',
+            '河北': '后周',
+            '山西': '北汉',
+        };
+        
+        var option = {
+            title: {text: '五代十国政权疆域图 - regions 方案', left:'center'},
+            tooltip: {
+                trigger: 'item',
+                formatter: function(params) {
+                    var regime = provinceRegimeMap[params.name] || '未知';
+                    return '<b>' + params.name + '</b><br/>所属政权：' + regime;
+                }
+            },
+            series: [{
+                type: 'map',
+                mapType: 'china',
+                // 使用 regions 配置每个省份的样式
+                regions: Object.keys(provinceColorMap).map(function(name) {
+                    return {
+                        name: name,
+                        itemStyle: {
+                            color: provinceColorMap[name]
+                        }
+                    };
+                }),
+                label: {show: true, fontSize: 9, formatter: '{b}'},
+                roam: false,
+                zoom: 1.2,
+                center: [104, 36]
+            }],
+            legend: {
+                data: ['后梁', '吴越', '南汉', '楚', '荆南', '后蜀', '闽国', '南唐', '后周', '北汉'],
+                top: 10
+            }
+        };
+        
+        chart.setOption(option);
+    </script>
+</body>
+</html>

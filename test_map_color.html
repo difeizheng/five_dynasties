@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>地图颜色测试</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/map/js/china.js"></script>
+    <style>
+        body { margin: 0; padding: 0; background: #fff; }
+        #map { width: 100%; height: 800px; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var chart = echarts.init(document.getElementById('map'), 'white');
+
+        var mapData = [
+            {name: '河南省', value: 1},
+            {name: '山东省', value: 1},
+            {name: '河北省', value: 1},
+            {name: '山西省', value: 2},
+            {name: '陕西省', value: 3},
+            {name: '浙江省', value: 4},
+            {name: '江苏省', value: 4},
+            {name: '上海市', value: 4},
+            {name: '安徽省', value: 4},
+            {name: '江西省', value: 5},
+            {name: '湖北省', value: 5},
+            {name: '湖南省', value: 6},
+            {name: '四川省', value: 7},
+            {name: '重庆市', value: 7},
+            {name: '福建省', value: 8},
+            {name: '广东省', value: 9},
+            {name: '广西省', value: 9},
+            {name: '海南省', value: 9},
+            {name: '甘肃省', value: 3},
+            {name: '辽宁省', value: 10},
+            {name: '内蒙古', value: 11}
+        ];
+
+        var option = {
+            title: {
+                text: '五代十国政权地图测试',
+                left: 'center',
+                top: 10
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function(params) {
+                    return '<b>' + params.name + '</b><br/>value: ' + params.value;
+                }
+            },
+            series: [{
+                type: 'map',
+                map: 'china',
+                data: mapData,
+                label: {
+                    show: true,
+                    fontSize: 9,
+                    color: '#333',
+                    formatter: '{b}'
+                },
+                itemStyle: {
+                    borderColor: '#555',
+                    borderWidth: 0.5
+                },
+                emphasis: {
+                    itemStyle: {
+                        areaColor: '#ffd700'
+                    }
+                }
+            }],
+            visualMap: {
+                type: 'piecewise',
+                show: true,
+                left: 'right',
+                top: '50',
+                pieces: [
+                    {value: 1, label: '后周', color: '#2ecc71'},
+                    {value: 2, label: '北汉', color: '#95a5a6'},
+                    {value: 3, label: '后唐', color: '#3498db'},
+                    {value: 4, label: '南唐', color: '#e74c3c'},
+                    {value: 5, label: '荆南', color: '#1abc9c'},
+                    {value: 6, label: '楚', color: '#3498db'},
+                    {value: 7, label: '后蜀', color: '#d35400'},
+                    {value: 8, label: '闽国', color: '#9b59b6'},
+                    {value: 9, label: '南汉', color: '#3498db'},
+                    {value: 10, label: '辽', color: '#ff9999'},
+                    {value: 11, label: '契丹', color: '#cccccc'}
+                ]
+            }
+        };
+
+        chart.setOption(option);
+    </script>
+</body>
+</html>
