@@ -7,6 +7,7 @@ import streamlit as st
 from streamlit.components.v1 import html
 from pyecharts import options as opts
 from pyecharts.charts import Bar, Timeline, Line
+from pyecharts.commons.utils import JsCode
 import pandas as pd
 
 from src.data_processor import (
@@ -71,9 +72,24 @@ def render_regime_gantt():
     wudai_df = df[df['type'] == '五代'].sort_values('start')
     shiguo_df = df[df['type'] == '十国'].sort_values('start', ascending=False)
 
+    # 构建五代政权的起始年份和结束年份映射
+    wudai_info = {row['name']: {'start': row['start'], 'end': row['end'], 'duration': row['duration']}
+                  for _, row in wudai_df.iterrows()}
+
     # 创建甘特图 - 五代部分
     bar_wudai = Bar(init_opts=opts.InitOpts(width="100%", height="350px"))
     bar_wudai.add_xaxis([str(y) for y in range(905, 985, 5)])
+
+    tooltip_formatter = """
+        function(params) {
+            var name = params.seriesName;
+            var data = params.data;
+            return '<b>' + name + '</b><br/>' +
+                   '起始：' + data.start + '年<br/>' +
+                   '结束：' + data.end + '年<br/>' +
+                   '存续：' + data.duration + '年';
+        }
+    """
 
     for _, row in wudai_df.iterrows():
         # 创建起始占位数据
@@ -82,12 +98,29 @@ def render_regime_gantt():
         values += [0] * (len(range(905, 985, 5)) - len(values))
         values = values[:len(range(905, 985, 5))]  # 截断到正确长度
 
+        # 添加自定义数据项，包含起始、结束年份
+        data_items = []
+        for i, v in enumerate(values):
+            if v > 0:
+                data_items.append({
+                    'value': v,
+                    'start': row['start'],
+                    'end': row['end'],
+                    'duration': row['duration']
+                })
+            else:
+                data_items.append({'value': v, 'start': 0, 'end': 0, 'duration': 0})
+
         bar_wudai.add_yaxis(
             row['name'],
-            values,
+            data_items,
             label_opts=opts.LabelOpts(position="inside", formatter="{b}: {c}年"),
             itemstyle_opts=opts.ItemStyleOpts(color=row['color'], border_radius=3),
             stack="wudai",
+            tooltip_opts=opts.TooltipOpts(
+                trigger="item",
+                formatter=JsCode(tooltip_formatter)
+            ),
         )
 
     bar_wudai.set_global_opts(
@@ -99,17 +132,27 @@ def render_regime_gantt():
         ),
         yaxis_opts=opts.AxisOpts(name=""),
         legend_opts=opts.LegendOpts(type_="scroll", pos_top="90%"),
-        tooltip_opts=opts.TooltipOpts(
-            trigger="axis",
-            axis_pointer_type="shadow",
-            formatter="{b}年<br/>{a}: {c}年 ({{c}}%)",
-        ),
     )
     bar_wudai.reversal_axis()
+
+    # 构建十国政权的起始年份和结束年份映射
+    shiguo_info = {row['name']: {'start': row['start'], 'end': row['end'], 'duration': row['duration']}
+                   for _, row in shiguo_df.iterrows()}
 
     # 创建甘特图 - 十国部分
     bar_shiguo = Bar(init_opts=opts.InitOpts(width="100%", height="500px"))
     bar_shiguo.add_xaxis([str(y) for y in range(895, 985, 5)])
+
+    tooltip_formatter_shiguo = """
+        function(params) {
+            var name = params.seriesName;
+            var data = params.data;
+            return '<b>' + name + '</b><br/>' +
+                   '起始：' + data.start + '年<br/>' +
+                   '结束：' + data.end + '年<br/>' +
+                   '存续：' + data.duration + '年';
+        }
+    """
 
     for _, row in shiguo_df.iterrows():
         values = [0] * ((row['start'] - 895) // 5)
@@ -117,12 +160,29 @@ def render_regime_gantt():
         values += [0] * (len(range(895, 985, 5)) - len(values))
         values = values[:len(range(895, 985, 5))]
 
+        # 添加自定义数据项，包含起始、结束年份
+        data_items = []
+        for i, v in enumerate(values):
+            if v > 0:
+                data_items.append({
+                    'value': v,
+                    'start': row['start'],
+                    'end': row['end'],
+                    'duration': row['duration']
+                })
+            else:
+                data_items.append({'value': v, 'start': 0, 'end': 0, 'duration': 0})
+
         bar_shiguo.add_yaxis(
             row['name'],
-            values,
+            data_items,
             label_opts=opts.LabelOpts(position="inside", formatter="{b}: {c}年"),
             itemstyle_opts=opts.ItemStyleOpts(color=row['color'], border_radius=3),
             stack="shiguo",
+            tooltip_opts=opts.TooltipOpts(
+                trigger="item",
+                formatter=JsCode(tooltip_formatter_shiguo)
+            ),
         )
 
     bar_shiguo.set_global_opts(
@@ -134,10 +194,6 @@ def render_regime_gantt():
         ),
         yaxis_opts=opts.AxisOpts(name=""),
         legend_opts=opts.LegendOpts(type_="scroll", pos_top="95%"),
-        tooltip_opts=opts.TooltipOpts(
-            trigger="axis",
-            axis_pointer_type="shadow",
-        ),
     )
     bar_shiguo.reversal_axis()
 

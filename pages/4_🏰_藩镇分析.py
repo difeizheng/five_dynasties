@@ -4,6 +4,7 @@
 """
 import streamlit as st
 from streamlit.components.v1 import html
+import json
 
 from pyecharts import options as opts
 from pyecharts.charts import Sankey, Graph, HeatMap
@@ -17,6 +18,45 @@ from src.data_loader import (
 from src.data_processor import (
     get_regime_color,
 )
+
+# 省份名称映射（古 -> 今）
+PROVINCE_MAPPING = {
+    "河南": "河南省",
+    "河北": "河北省",
+    "山东": "山东省",
+    "山西": "山西省",
+    "陕西": "陕西省",
+    "浙江": "浙江省",
+    "江苏": "江苏省",
+    "上海": "上海市",
+    "安徽": "安徽省",
+    "江西": "江西省",
+    "湖北": "湖北省",
+    "湖南": "湖南省",
+    "四川": "四川省",
+    "重庆": "重庆市",
+    "福建": "福建省",
+    "广东": "广东省",
+    "广西": "广西",
+    "海南": "海南省",
+    "甘肃": "甘肃省",
+    "辽宁": "辽宁省",
+    "内蒙古": "内蒙古",
+}
+
+# 藩镇颜色配置
+FANZHEN_COLORS = {
+    "宣武": "#e74c3c",
+    "河东": "#3498db",
+    "凤翔": "#9b59b6",
+    "成德": "#e67e22",
+    "魏博": "#2ecc71",
+    "卢龙": "#1abc9c",
+    "淮南": "#f39c12",
+    "镇海": "#e74c3c",
+    "武安": "#3498db",
+    "武宁": "#9b59b6",
+}
 
 st.set_page_config(page_title="藩镇分析", page_icon="🏰", layout="wide")
 
@@ -39,60 +79,178 @@ def render_fanzhen_header():
 
 def generate_fanzhen_evolution_data():
     """生成藩镇演变数据"""
-    # 唐末主要藩镇
+    # 唐末主要藩镇 - 增加藩镇所属区域详细信息
     fanzhen_data = {
-        "宣武": {"color": "#e74c3c", "area": "河南", "power": 95},
-        "河东": {"color": "#3498db", "area": "山西", "power": 90},
-        "凤翔": {"color": "#9b59b6", "area": "陕西", "power": 75},
-        "成德": {"color": "#e67e22", "area": "河北", "power": 70},
-        "魏博": {"color": "#2ecc71", "area": "河北", "power": 85},
-        "卢龙": {"color": "#1abc9c", "area": "河北", "power": 80},
-        "淮南": {"color": "#f39c12", "area": "江苏", "power": 70},
-        "镇海": {"color": "#e74c3c", "area": "浙江", "power": 60},
-        "武安": {"color": "#3498db", "area": "湖南", "power": 55},
-        "武宁": {"color": "#9b59b6", "area": "江苏", "power": 50},
+        "宣武": {"color": "#e74c3c", "area": "河南", "power": 95, "province": "河南省"},
+        "河东": {"color": "#3498db", "area": "山西", "power": 90, "province": "山西省"},
+        "凤翔": {"color": "#9b59b6", "area": "陕西", "power": 75, "province": "陕西省"},
+        "成德": {"color": "#e67e22", "area": "河北", "power": 70, "province": "河北省"},
+        "魏博": {"color": "#2ecc71", "area": "河北", "power": 85, "province": "河北省"},
+        "卢龙": {"color": "#1abc9c", "area": "河北", "power": 80, "province": "河北省"},
+        "淮南": {"color": "#f39c12", "area": "江苏", "power": 70, "province": "江苏省"},
+        "镇海": {"color": "#e74c3c", "area": "浙江", "power": 60, "province": "浙江省"},
+        "武安": {"color": "#3498db", "area": "湖南", "power": 55, "province": "湖南省"},
+        "武宁": {"color": "#9b59b6", "area": "江苏", "power": 50, "province": "江苏省"},
     }
 
     return fanzhen_data
 
 
 def render_fanzhen_map():
-    """渲染藩镇分布图"""
+    """渲染藩镇分布图 - 使用内嵌 GeoJSON + visualMap 方案"""
+
+    # 读取内嵌的 GeoJSON 数据
+    with open('china_full.geojson', 'r', encoding='utf-8') as f:
+        china_geojson = f.read()
+
     fanzhen_data = generate_fanzhen_evolution_data()
 
-    # 创建地图
-    from pyecharts.charts import Map
+    # 构建藩镇 - 省份映射
+    fanzhen_province_map = {}
+    province_fanzhen_map = {}
 
-    m = Map(init_opts=opts.InitOpts(width="100%", height="500px"))
+    for fanzhen_name, data in fanzhen_data.items():
+        province = data['province']
+        fanzhen_province_map[fanzhen_name] = province
+        if province not in province_fanzhen_map:
+            province_fanzhen_map[province] = []
+        province_fanzhen_map[province].append(fanzhen_name)
 
-    # 按区域分组
-    area_data = {}
-    for name, data in fanzhen_data.items():
-        area = data['area']
-        if area not in area_data:
-            area_data[area] = 0
-        area_data[area] += data['power']
+    # 为每个藩镇分配唯一值用于 visualMap
+    fanzhen_list = list(fanzhen_data.keys())
+    fanzhen_value_map = {fanzhen: idx + 1 for idx, fanzhen in enumerate(fanzhen_list)}
 
-    data_items = [(area, power) for area, power in area_data.items()]
+    # 构建地图数据
+    map_data = []
+    for province, fanzhens in province_fanzhen_map.items():
+        # 取第一个藩镇作为该省份的代表
+        main_fanzhen = fanzhens[0]
+        map_data.append({
+            "name": province,
+            "value": fanzhen_value_map[main_fanzhen]
+        })
 
-    m = Map(init_opts=opts.InitOpts(width="100%", height="500px"))
+    # 构建 visualMap pieces 配置和颜色列表
+    pieces_config = []
+    colors_list = []
+    for fanzhen, value in fanzhen_value_map.items():
+        color = FANZHEN_COLORS.get(fanzhen, "#999999")
+        pieces_config.append({
+            "value": value,
+            "label": fanzhen,
+            "color": color
+        })
+        colors_list.append(color)
 
-    m.add(
-        "藩镇势力",
-        data_items,
-        maptype="china",
-        label_opts=opts.LabelOpts(is_show=True),
-    )
+    # 创建自定义 HTML
+    html_template = '''<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>藩镇分布图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; background: #fff; }
+        #map { width: 100%; height: 600px; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        // 内嵌 GeoJSON 数据
+        var chinaGeojson = GEOJSON_PLACEHOLDER;
 
-    m.set_global_opts(
-        title_opts=opts.TitleOpts(title="唐末藩镇势力分布"),
-        visualmap_opts=opts.VisualMapOpts(
-            max_=100,
-            is_piecewise=True,
-        ),
-    )
+        // 藩镇 - 省份映射（用于 tooltip）
+        var fanzhenProvinceMap = FANZHEN_PROVINCE_PLACEHOLDER;
 
-    return m
+        // 省份 - 藩镇映射（用于 tooltip）
+        var provinceFanzhenMap = PROVINCE_FANZHEN_PLACEHOLDER;
+
+        // 注册地图
+        echarts.registerMap('china', chinaGeojson);
+
+        var mapData = DATA_PLACEHOLDER;
+
+        var chart = echarts.init(document.getElementById('map'), 'white');
+
+        var option = {
+            title: {
+                text: "唐末藩镇分布",
+                left: 'center',
+                top: 10
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function(params) {
+                    var fanzhen = provinceFanzhenMap[params.name] || [];
+                    var fanzhenStr = fanzhen.length > 0 ? fanzhen.join('、') : '无';
+                    return '<b>' + params.name + '</b><br/>藩镇：' + fanzhenStr;
+                }
+            },
+            series: [{
+                type: 'map',
+                map: 'china',
+                data: mapData,
+                label: {
+                    show: true,
+                    fontSize: 9,
+                    color: '#333',
+                    formatter: '{b}'
+                },
+                emphasis: {
+                    itemStyle: {
+                        areaColor: '#ffd700',
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    },
+                    label: {
+                        color: '#fff',
+                        fontWeight: 'bold'
+                    }
+                }
+            }],
+            visualMap: {
+                type: 'piecewise',
+                show: true,
+                right: '10',
+                top: '50',
+                pieces: PIECES_PLACEHOLDER,
+                textStyle: {
+                    color: '#333'
+                },
+                inRange: {
+                    color: COLORS_PLACEHOLDER
+                }
+            },
+            legend: {
+                data: LEGEND_PLACEHOLDER,
+                top: 50,
+                selectedMode: true,
+                type: 'scroll',
+                orient: 'horizontal'
+            }
+        };
+
+        chart.setOption(option);
+
+        window.addEventListener('resize', function() {
+            var chart = echarts.getInstanceByDom(document.getElementById('map'));
+            if (chart) chart.resize();
+        });
+    </script>
+</body>
+</html>'''
+
+    # 替换占位符
+    html_template = html_template.replace('GEOJSON_PLACEHOLDER', china_geojson)
+    html_template = html_template.replace('DATA_PLACEHOLDER', json.dumps(map_data, ensure_ascii=False))
+    html_template = html_template.replace('FANZHEN_PROVINCE_PLACEHOLDER', json.dumps(fanzhen_province_map, ensure_ascii=False))
+    html_template = html_template.replace('PROVINCE_FANZHEN_PLACEHOLDER', json.dumps(province_fanzhen_map, ensure_ascii=False))
+    html_template = html_template.replace('PIECES_PLACEHOLDER', json.dumps(pieces_config, ensure_ascii=False))
+    html_template = html_template.replace('COLORS_PLACEHOLDER', json.dumps(colors_list, ensure_ascii=False))
+    html_template = html_template.replace('LEGEND_PLACEHOLDER', json.dumps(fanzhen_list, ensure_ascii=False))
+
+    return html_template
 
 
 def render_fanzhen_sankey():
@@ -326,7 +484,7 @@ def main():
     # 藩镇分布图
     st.subheader("🗺️ 藩镇分布")
     fanzhen_map = render_fanzhen_map()
-    html(fanzhen_map.render_embed(), height=650, scrolling=False)
+    html(fanzhen_map, height=650, scrolling=False)
 
     st.markdown("---")
 
