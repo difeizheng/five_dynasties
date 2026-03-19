@@ -7,10 +7,10 @@ five_dynasties/
 ├── app.py                      # Streamlit 主应用
 ├── requirements.txt            # Python 依赖
 ├── pages/
-│   ├── 1_📅_时间线.py          # 历史时间线页面
+│   ├── 1_📅_时间轴.py          # 历史时间线页面（甘特图、政权更迭）
 │   ├── 2_🗺️_政权地图.py        # 政权疆域地图页面
 │   ├── 3_👥_人物关系.py        # 人物关系网络页面
-│   ├── 4_⚔️_战役分析.py        # 战役分析页面
+│   ├── 4_🏰_藩镇分析.py        # 藩镇演变分析页面
 │   ├── 5_📊_数据分析.py        # 数据分析页面
 │   └── 6_📖_文档检索.py        # 文档检索页面
 ├── src/
@@ -36,9 +36,20 @@ streamlit run app.py --server.port=8502
 ## GitHub 仓库
 
 - 地址：https://github.com/difeizheng/five_dynasties
-- 标签：v1.0.0
+- 最新标签：v1.1.0
 
 ## 已实现的功能
+
+### 时间轴（pages/1_📅_时间轴.py）
+
+1. **政权更迭甘特图**：展示各政权存续时间
+   - 使用 JsCode 自定义 tooltip formatter
+   - 显示起始年份、结束年份、存续年数
+   - 五代和十国分开展示
+
+2. **政权时间线对比**：折线图展示同时期政权数量变化
+
+3. **重大历史事件**：按时间顺序列出改朝换代关键节点
 
 ### 政权地图（pages/2_🗺️_政权地图.py）
 
@@ -55,6 +66,19 @@ streamlit run app.py --server.port=8502
 
 4. **现代省份对照表**：列出现代省份与古代政权的对应关系
 
+### 藩镇分析（pages/4_🏰_藩镇分析.py）
+
+1. **藩镇分布图**：使用内嵌 GeoJSON + visualMap 方案
+   - 展示唐末主要藩镇的地理位置
+   - 不同颜色代表不同藩镇
+   - tooltip 显示藩镇名称和所属省份
+
+2. **藩镇实力对比**：柱状图对比各藩镇综合实力
+
+3. **藩镇演变流向图**：桑基图展示藩镇随时间演变的归属变化
+
+4. **藩镇关系网络**：力导向图展示藩镇之间的联盟、敌对关系
+
 ### 关键配置
 
 ```python
@@ -70,6 +94,13 @@ REGIME_COLORS = {
     "后梁": "#e74c3c", "后唐": "#3498db", "后晋": "#9b59b6",
     "后汉": "#e67e22", "后周": "#2ecc71",
     # ... 完整配置见代码
+}
+
+# 藩镇颜色配置
+FANZHEN_COLORS = {
+    "宣武": "#e74c3c", "河东": "#3498db", "凤翔": "#9b59b6",
+    "成德": "#e67e22", "魏博": "#2ecc71", "卢龙": "#1abc9c",
+    # ... 完整配置见 pages/4_🏰_藩镇分析.py
 }
 ```
 
@@ -110,17 +141,36 @@ echarts.registerMap('china', chinaGeojson);
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 ```
 
+### 问题 4：甘特图 tooltip 显示异常
+**原因**：堆叠条形图使用默认 tooltip 只显示数值，不显示年份范围
+
+**解决方案**：使用 JsCode 自定义 formatter，在数据项中添加 start/end/duration 字段
+```python
+from pyecharts.commons.utils import JsCode
+
+# 数据项包含完整信息
+data_items.append({
+    'value': v,
+    'start': row['start'],
+    'end': row['end'],
+    'duration': row['duration']
+})
+
+# 自定义 tooltip formatter
+tooltip_formatter = """
+    function(params) {
+        return '<b>' + params.seriesName + '</b><br/>' +
+               '起始：' + params.data.start + '年<br/>' +
+               '结束：' + params.data.end + '年<br/>' +
+               '存续：' + params.data.duration + '年';
+    }
+"""
+```
+
 ## 数据文件
 
 - `china_full.geojson`：中国地图 GeoJSON 数据（35 个省级行政区）
 - `data/` 目录下包含多个 Excel 数据文件
-
-## 测试文件
-
-项目中包含多个测试 HTML 文件用于调试地图问题：
-- `test_visualmap_inrange.html`：visualMap + inRange 成功方案
-- `test_geojson_fetch.html`：GeoJSON 加载测试
-- `test_other_sources.html`：多数据源测试
 
 ## 依赖
 
