@@ -19,6 +19,7 @@ from src.data_processor import (
     calculate_regime_stats,
     get_regime_color,
 )
+from src.config import REGIME_COLORS, CAPITAL_TO_PROVINCE
 from pyecharts import options as opts
 from pyecharts.charts import Bar, Pie, Timeline, Grid
 from pyecharts.commons.utils import JsCode
@@ -192,19 +193,8 @@ def render_capital_map():
     """渲染都城分布图（简化版）"""
     df = process_regime_timeline()
 
-    # 都城对应省份
-    capital_to_province = {
-        "开封": "河南省",
-        "洛阳": "河南省",
-        "杭州": "浙江省",
-        "南京": "江苏省",
-        "成都": "四川省",
-        "福州": "福建省",
-        "广州": "广东省",
-        "长沙": "湖南省",
-        "荆州": "湖北省",
-        "太原": "山西省",
-    }
+    # 都城对应省份 - 使用统一配置
+    capital_to_province = CAPITAL_TO_PROVINCE
 
     capitals = df['capital'].unique()
     province_count = {}

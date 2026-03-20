@@ -9,44 +9,21 @@ from typing import List, Dict, Tuple
 from datetime import datetime
 import streamlit as st
 
-# 五代十国政权基础数据
-WUDAI_REGIMES = [
-    {"name": "后梁", "start": 907, "end": 923, "capital": "开封", "founder": "朱温", "color": "#e74c3c"},
-    {"name": "后唐", "start": 923, "end": 936, "capital": "洛阳", "founder": "李存勖", "color": "#3498db"},
-    {"name": "后晋", "start": 936, "end": 947, "capital": "开封", "founder": "石敬瑭", "color": "#9b59b6"},
-    {"name": "后汉", "start": 947, "end": 950, "capital": "开封", "founder": "刘知远", "color": "#e67e22"},
-    {"name": "后周", "start": 951, "end": 960, "capital": "开封", "founder": "郭威", "color": "#2ecc71"},
-]
-
-SHIGUO_REGIMES = [
-    {"name": "吴越", "start": 907, "end": 978, "capital": "杭州", "founder": "钱镠", "color": "#1abc9c"},
-    {"name": "南唐", "start": 937, "end": 975, "capital": "南京", "founder": "李昪", "color": "#e74c3c"},
-    {"name": "前蜀", "start": 907, "end": 925, "capital": "成都", "founder": "王建", "color": "#f39c12"},
-    {"name": "后蜀", "start": 934, "end": 965, "capital": "成都", "founder": "孟知祥", "color": "#d35400"},
-    {"name": "闽国", "start": 909, "end": 945, "capital": "福州", "founder": "王审知", "color": "#9b59b6"},
-    {"name": "南汉", "start": 917, "end": 971, "capital": "广州", "founder": "刘䶮", "color": "#e74c3c"},
-    {"name": "楚", "start": 907, "end": 951, "capital": "长沙", "founder": "马殷", "color": "#3498db"},
-    {"name": "荆南", "start": 924, "end": 963, "capital": "荆州", "founder": "高季兴", "color": "#1abc9c"},
-    {"name": "北汉", "start": 951, "end": 979, "capital": "太原", "founder": "刘崇", "color": "#95a5a6"},
-]
-
-# 政权与现代省份对照
-REGIME_TO_PROVINCE = {
-    "后梁": ["河南", "山东", "陕西"],
-    "后唐": ["河南", "河北", "山西", "山东"],
-    "后晋": ["河南", "河北", "山西", "山东"],
-    "后汉": ["河南", "河北", "山西", "山东"],
-    "后周": ["河南", "河北", "山东", "安徽"],
-    "吴越": ["浙江", "上海", "江苏"],
-    "南唐": ["江苏", "安徽", "江西", "湖北"],
-    "前蜀": ["四川", "重庆", "陕西"],
-    "后蜀": ["四川", "重庆", "陕西"],
-    "闽国": ["福建"],
-    "南汉": ["广东", "广西", "海南"],
-    "楚": ["湖南"],
-    "荆南": ["湖北"],
-    "北汉": ["山西"],
-}
+from src.config import (
+    WUDAI_REGIMES,
+    SHIGUO_REGIMES,
+    REGIME_TO_PROVINCE,
+    REGIME_COLORS,
+    FANZHEN_COLORS,
+    FANZHEN_BASE_DATA,
+    MAJOR_EVENTS,
+    WUDAI_SUCCESSION,
+    SHIGUO_SUCCESSION,
+    YEARLY_EVENTS,
+    REGIME_POWER_DATA,
+    REGIME_AREA_DATA,
+    CAPITAL_TO_PROVINCE,
+)
 
 
 def parse_year_range(year_str: str) -> Tuple[int, int]:
@@ -157,15 +134,12 @@ def extract_major_events(text: str) -> List[Dict]:
 
 def get_regime_color(regime_name: str) -> str:
     """获取政权颜色"""
-    for r in WUDAI_REGIMES + SHIGUO_REGIMES:
-        if r['name'] == regime_name:
-            return r['color']
-    return '#95a5a6'
+    return REGIME_COLORS.get(regime_name, '#95a5a6')
 
 
 def calculate_regime_stats() -> Dict:
     """计算政权统计数据"""
-    all_regimes = WUDAI_REGIMES + SHIGUO_REGIMES
+    all_regimes = get_all_regimes()
 
     stats = {
         'total_regimes': len(all_regimes),
@@ -178,6 +152,11 @@ def calculate_regime_stats() -> Dict:
     }
 
     return stats
+
+
+def get_all_regimes():
+    """获取所有政权列表"""
+    return WUDAI_REGIMES + SHIGUO_REGIMES
 
 
 def get_province_regime_mapping() -> pd.DataFrame:
@@ -219,6 +198,51 @@ def generate_map_data() -> List[Dict]:
         })
 
     return map_data
+
+
+def get_wudai_succession_data() -> Dict:
+    """获取五代世系数据"""
+    return WUDAI_SUCCESSION
+
+
+def get_shiguo_succession_data() -> Dict:
+    """获取十国世系数据"""
+    return SHIGUO_SUCCESSION
+
+
+def get_all_succession_data() -> Dict:
+    """获取所有世系数据"""
+    return {**WUDAI_SUCCESSION, **SHIGUO_SUCCESSION}
+
+
+def get_fanzhen_base_data() -> Dict:
+    """获取藩镇基础数据"""
+    return FANZHEN_BASE_DATA
+
+
+def get_major_events() -> List[Dict]:
+    """获取重大事件列表"""
+    return MAJOR_EVENTS
+
+
+def get_yearly_events() -> Dict:
+    """获取年度事件统计"""
+    return YEARLY_EVENTS
+
+
+def get_regime_power_data() -> List[Dict]:
+    """获取政权实力对比数据"""
+    return REGIME_POWER_DATA
+
+
+def get_regime_area_data() -> Dict:
+    """获取政权面积数据"""
+    return REGIME_AREA_DATA
+
+
+def get_capital_to_province() -> Dict:
+    """获取都城到省份的映射"""
+    return CAPITAL_TO_PROVINCE
 
 
 if __name__ == "__main__":

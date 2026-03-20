@@ -17,46 +17,11 @@ from src.data_loader import (
 )
 from src.data_processor import (
     get_regime_color,
+    get_fanzhen_base_data,
+    FANZHEN_COLORS,
+    PROVINCE_MAPPING,
 )
-
-# 省份名称映射（古 -> 今）
-PROVINCE_MAPPING = {
-    "河南": "河南省",
-    "河北": "河北省",
-    "山东": "山东省",
-    "山西": "山西省",
-    "陕西": "陕西省",
-    "浙江": "浙江省",
-    "江苏": "江苏省",
-    "上海": "上海市",
-    "安徽": "安徽省",
-    "江西": "江西省",
-    "湖北": "湖北省",
-    "湖南": "湖南省",
-    "四川": "四川省",
-    "重庆": "重庆市",
-    "福建": "福建省",
-    "广东": "广东省",
-    "广西": "广西",
-    "海南": "海南省",
-    "甘肃": "甘肃省",
-    "辽宁": "辽宁省",
-    "内蒙古": "内蒙古",
-}
-
-# 藩镇颜色配置
-FANZHEN_COLORS = {
-    "宣武": "#e74c3c",
-    "河东": "#3498db",
-    "凤翔": "#9b59b6",
-    "成德": "#e67e22",
-    "魏博": "#2ecc71",
-    "卢龙": "#1abc9c",
-    "淮南": "#f39c12",
-    "镇海": "#e74c3c",
-    "武安": "#3498db",
-    "武宁": "#9b59b6",
-}
+from src.config import FANZHEN_CHRONICLES
 
 st.set_page_config(page_title="藩镇分析", page_icon="🏰", layout="wide")
 
@@ -79,21 +44,7 @@ def render_fanzhen_header():
 
 def generate_fanzhen_evolution_data():
     """生成藩镇演变数据"""
-    # 唐末主要藩镇 - 增加藩镇所属区域详细信息
-    fanzhen_data = {
-        "宣武": {"color": "#e74c3c", "area": "河南", "power": 95, "province": "河南省"},
-        "河东": {"color": "#3498db", "area": "山西", "power": 90, "province": "山西省"},
-        "凤翔": {"color": "#9b59b6", "area": "陕西", "power": 75, "province": "陕西省"},
-        "成德": {"color": "#e67e22", "area": "河北", "power": 70, "province": "河北省"},
-        "魏博": {"color": "#2ecc71", "area": "河北", "power": 85, "province": "河北省"},
-        "卢龙": {"color": "#1abc9c", "area": "河北", "power": 80, "province": "河北省"},
-        "淮南": {"color": "#f39c12", "area": "江苏", "power": 70, "province": "江苏省"},
-        "镇海": {"color": "#e74c3c", "area": "浙江", "power": 60, "province": "浙江省"},
-        "武安": {"color": "#3498db", "area": "湖南", "power": 55, "province": "湖南省"},
-        "武宁": {"color": "#9b59b6", "area": "江苏", "power": 50, "province": "江苏省"},
-    }
-
-    return fanzhen_data
+    return get_fanzhen_base_data()
 
 
 def render_fanzhen_map():
@@ -452,6 +403,70 @@ def render_fanzhen_detail_table():
     st.dataframe(df, use_container_width=True)
 
 
+def render_fanzhen_chronicle():
+    """渲染藩镇编年史"""
+    st.subheader("📜 藩镇编年史")
+
+    st.markdown("""
+    **使用说明**：选择藩镇查看其历史沿革，包括节度使更迭和重大历史事件。
+    """)
+
+    # 藩镇选择器
+    fanzhen_names = list(FANZHEN_CHRONICLES.keys())
+    selected_fanzhen = st.selectbox(
+        "选择藩镇",
+        fanzhen_names,
+        key="fanzhen_chronicle_selector"
+    )
+
+    if selected_fanzhen:
+        # 显示藩镇详情卡片
+        chronicle = FANZHEN_CHRONICLES.get(selected_fanzhen, [])
+
+        if chronicle:
+            # 藩镇基本信息
+            fanzhen_info = generate_fanzhen_evolution_data().get(selected_fanzhen, {})
+            col1, col2, col3 = st.columns(3)
+
+            with col1:
+                st.markdown(f"**区域**: {fanzhen_info.get('area', '未知')}")
+            with col2:
+                st.markdown(f"**实力**: {fanzhen_info.get('power', '未知')}")
+            with col3:
+                color = FANZHEN_COLORS.get(selected_fanzhen, "#999999")
+                st.markdown(
+                    f"""<div style="display:inline-block; padding:0.25rem 0.5rem; border-radius:0.25rem; background:{color}20; color:{color}; font-weight:bold;">
+                    {selected_fanzhen}
+                    </div>""",
+                    unsafe_allow_html=True
+                )
+
+            # 编年史时间线
+            st.markdown("#### 📅 历史沿革")
+
+            for event in chronicle:
+                year = event['year']
+                event_desc = event['event']
+                jiedushi = event.get('jiedushi', '')
+
+                # 使用卡片样式展示事件
+                st.markdown(
+                    f"""<div style="
+                        padding: 0.75rem 1rem;
+                        margin: 0.5rem 0;
+                        border-radius: 0.5rem;
+                        border-left: 4px solid {FANZHEN_COLORS.get(selected_fanzhen, '#999999')};
+                        background: {FANZHEN_COLORS.get(selected_fanzhen, '#999999')}10;">
+                        <strong style="font-size: 1.1em;">{year}年</strong><br/>
+                        {event_desc}<br/>
+                        <span style="color: #666; font-size: 0.9em;">节度使：{jiedushi}</span>
+                    </div>""",
+                    unsafe_allow_html=True
+                )
+        else:
+            st.warning(f"暂未收录 {selected_fanzhen} 的编年史数据")
+
+
 def render_hebei_three_towns():
     """渲染河北三镇详解"""
     st.subheader("🏰 河北三镇（河朔三镇）")
@@ -485,6 +500,11 @@ def main():
     st.subheader("🗺️ 藩镇分布")
     fanzhen_map = render_fanzhen_map()
     html(fanzhen_map, height=650, scrolling=False)
+
+    st.markdown("---")
+
+    # 藩镇编年史
+    render_fanzhen_chronicle()
 
     st.markdown("---")
 

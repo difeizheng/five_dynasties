@@ -17,9 +17,83 @@ from src.data_processor import (
     WUDAI_REGIMES,
     SHIGUO_REGIMES,
     get_regime_color,
+    get_all_succession_data,
 )
+from src.config import REGIME_COLORS
 
 st.set_page_config(page_title="人物关系", page_icon="👥", layout="wide")
+
+
+# ============================================
+# 人物详情组件
+# ============================================
+
+def show_character_detail(name: str = None):
+    """显示人物详情"""
+    if not name:
+        return
+
+    all_succession = get_all_succession_data()
+
+    # 查找人物
+    character_info = None
+    regime_name = None
+
+    for regime, rulers in all_succession.items():
+        for ruler in rulers:
+            if ruler['name'] == name:
+                character_info = ruler
+                regime_name = regime
+                break
+        if character_info:
+            break
+
+    if not character_info:
+        st.warning(f"未找到人物：{name}")
+        return
+
+    # 人物详情卡片
+    st.markdown(f"### 👤 {name}")
+
+    col1, col2, col3 = st.columns([2, 1, 1])
+
+    with col1:
+        # 基本信息
+        st.markdown("#### 📋 基本信息")
+        st.markdown(f"**所属政权**: {regime_name}")
+        st.markdown(f"**在位时间**: {character_info.get('years', '未知')}")
+        st.markdown(f"**身份关系**: {character_info.get('relation', '未知')}")
+
+        if character_info.get('temple_name'):
+            st.markdown(f"**庙号**: {character_info['temple_name']}")
+        if character_info.get('posthumous_name'):
+            st.markdown(f"**谥号**: {character_info['posthumous_name']}")
+
+    with col2:
+        # 政权颜色标签
+        color = REGIME_COLORS.get(regime_name, "#999999")
+        st.markdown(
+            f"""
+            <div style="background: {color}20; border-left: 4px solid {color}; padding: 1rem; border-radius: 0.5rem;">
+                <h3 style="margin: 0; color: {color}">{regime_name}</h3>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    with col3:
+        # 关闭按钮
+        st.markdown("#### 操作")
+        if st.button("❌ 关闭", use_container_width=True, key="close_detail"):
+            st.session_state.selected_character = None
+            st.rerun()
+
+    # 生平事迹
+    if character_info.get('bio'):
+        st.markdown("#### 📖 生平事迹")
+        st.info(character_info['bio'])
+
+    st.markdown("---")
 
 
 def render_relationship_header():
@@ -39,105 +113,17 @@ def render_relationship_header():
 
 def generate_wudai_succession_tree():
     """生成五代世系树数据"""
-    # 五代帝王更迭数据
-    succession_data = {
-        "后梁": [
-            {"name": "朱温", "relation": "开国皇帝", "years": "907-912"},
-            {"name": "朱友珪", "relation": "子", "years": "912-913"},
-            {"name": "朱友贞", "relation": "子", "years": "913-923"},
-        ],
-        "后唐": [
-            {"name": "李存勖", "relation": "开国皇帝", "years": "923-926"},
-            {"name": "李嗣源", "relation": "养子", "years": "926-933"},
-            {"name": "李从厚", "relation": "子", "years": "933-934"},
-            {"name": "李从珂", "relation": "养子", "years": "934-936"},
-        ],
-        "后晋": [
-            {"name": "石敬瑭", "relation": "开国皇帝", "years": "936-942"},
-            {"name": "石重贵", "relation": "侄", "years": "942-947"},
-        ],
-        "后汉": [
-            {"name": "刘知远", "relation": "开国皇帝", "years": "947-950"},
-            {"name": "刘承祐", "relation": "子", "years": "950-951"},
-        ],
-        "后周": [
-            {"name": "郭威", "relation": "开国皇帝", "years": "951-954"},
-            {"name": "柴荣", "relation": "养子", "years": "954-959"},
-            {"name": "柴宗训", "relation": "子", "years": "959-960"},
-        ],
-    }
-
-    return succession_data
+    return get_all_succession_data()
 
 
 def generate_shiguo_succession_tree():
     """生成十国世系树数据"""
-    succession_data = {
-        "吴越": [
-            {"name": "钱镠", "relation": "开国君主", "years": "907-932"},
-            {"name": "钱元瓘", "relation": "子", "years": "932-941"},
-            {"name": "钱弘佐", "relation": "子", "years": "941-947"},
-            {"name": "钱弘倧", "relation": "弟", "years": "947"},
-            {"name": "钱弘俶", "relation": "弟", "years": "947-978"},
-        ],
-        "南唐": [
-            {"name": "李昪", "relation": "开国君主", "years": "937-943"},
-            {"name": "李璟", "relation": "子", "years": "943-961"},
-            {"name": "李煜", "relation": "子", "years": "961-975"},
-        ],
-        "前蜀": [
-            {"name": "王建", "relation": "开国君主", "years": "907-918"},
-            {"name": "王衍", "relation": "子", "years": "918-925"},
-        ],
-        "后蜀": [
-            {"name": "孟知祥", "relation": "开国君主", "years": "934-935"},
-            {"name": "孟昶", "relation": "子", "years": "935-965"},
-        ],
-        "闽国": [
-            {"name": "王审知", "relation": "开国君主", "years": "909-925"},
-            {"name": "王延翰", "relation": "子", "years": "925-927"},
-            {"name": "王延钧", "relation": "弟", "years": "927-935"},
-            {"name": "王继鹏", "relation": "子", "years": "935-939"},
-            {"name": "王延羲", "relation": "叔", "years": "939-944"},
-            {"name": "王延政", "relation": "弟", "years": "944-945"},
-        ],
-        "南汉": [
-            {"name": "刘䶮", "relation": "开国君主", "years": "917-942"},
-            {"name": "刘玢", "relation": "子", "years": "942-943"},
-            {"name": "刘晟", "relation": "弟", "years": "943-958"},
-            {"name": "刘鋹", "relation": "子", "years": "958-971"},
-        ],
-        "楚": [
-            {"name": "马殷", "relation": "开国君主", "years": "907-930"},
-            {"name": "马希声", "relation": "子", "years": "930-932"},
-            {"name": "马希范", "relation": "弟", "years": "932-947"},
-            {"name": "马希广", "relation": "弟", "years": "947-950"},
-            {"name": "马希萼", "relation": "兄", "years": "950-951"},
-        ],
-        "荆南": [
-            {"name": "高季兴", "relation": "开国君主", "years": "924-928"},
-            {"name": "高从诲", "relation": "子", "years": "928-948"},
-            {"name": "高保融", "relation": "子", "years": "948-960"},
-            {"name": "高保勖", "relation": "子", "years": "960-962"},
-            {"name": "高继冲", "relation": "侄", "years": "962-963"},
-        ],
-        "北汉": [
-            {"name": "刘崇", "relation": "开国君主", "years": "951-954"},
-            {"name": "刘承钧", "relation": "子", "years": "954-968"},
-            {"name": "刘继恩", "relation": "子", "years": "968"},
-            {"name": "刘继元", "relation": "养子", "years": "968-979"},
-        ],
-    }
-
-    return succession_data
+    return get_all_succession_data()
 
 
 def render_succession_tree(regime_name: str):
     """渲染单个政权的世系树"""
-    wudai_data = generate_wudai_succession_tree()
-    shiguo_data = generate_shiguo_succession_tree()
-
-    all_data = {**wudai_data, **shiguo_data}
+    all_data = generate_wudai_succession_tree()
 
     if regime_name not in all_data:
         return None
@@ -186,9 +172,11 @@ def render_relationship_graph():
     nodes = []
     links = []
 
+    # 使用统一配置的世系数据
+    all_succession = get_all_succession_data()
+
     # 五代帝王
-    wudai_data = generate_wudai_succession_tree()
-    for regime, rulers in wudai_data.items():
+    for regime, rulers in all_succession.items():
         # 添加政权节点
         nodes.append({
             "name": regime,
@@ -273,9 +261,9 @@ def render_succession_table():
     """渲染世系对照表"""
     st.subheader("📋 五代帝王世系对照表")
 
-    wudai_data = generate_wudai_succession_tree()
+    all_succession = get_all_succession_data()
 
-    for regime, rulers in wudai_data.items():
+    for regime, rulers in all_succession.items():
         st.markdown(f"#### {regime}")
         df = pd.DataFrame(rulers)
         st.dataframe(df, use_container_width=True)
@@ -284,6 +272,65 @@ def render_succession_table():
 def main():
     """主函数"""
     render_relationship_header()
+
+    # 人物详情 - 使用 session state 管理
+    if 'selected_character' not in st.session_state:
+        st.session_state.selected_character = None
+
+    # 侧边栏 - 人物选择器
+    with st.sidebar:
+        st.markdown("### 🔍 人物选择")
+
+        all_succession = get_all_succession_data()
+
+        # 按政权分组的人物列表
+        selected_regime = st.selectbox(
+            "选择政权",
+            ["全部"] + list(all_succession.keys())
+        )
+
+        # 构建人物列表
+        char_list = []
+        for regime, rulers in all_succession.items():
+            if selected_regime == "全部" or selected_regime == regime:
+                for ruler in rulers:
+                    char_list.append(f"{ruler['name']} ({regime})")
+
+        selected_char = st.selectbox(
+            "选择人物",
+            char_list,
+            index=0 if char_list else None
+        )
+
+        if selected_char:
+            char_name = selected_char.split(' (')[0]
+            st.session_state.selected_character = char_name
+
+    # 显示人物详情（如果有选择）
+    if st.session_state.selected_character:
+        show_character_detail(st.session_state.selected_character)
+    else:
+        # 显示所有人物卡片概览
+        st.subheader("👥 人物概览")
+        all_succession = get_all_succession_data()
+
+        cols = st.columns(5)
+        idx = 0
+
+        for regime, rulers in all_succession.items():
+            for ruler in rulers:
+                with cols[idx % 5]:
+                    if st.button(
+                        f"{ruler['name']}\n{regime}",
+                        key=f"char_{ruler['name']}",
+                        use_container_width=True,
+                        help=ruler.get('bio', '')[:50] if ruler.get('bio') else None
+                    ):
+                        st.session_state.selected_character = ruler['name']
+                        st.rerun()
+                idx += 1
+
+        st.markdown("---")
 
     # 关系网络图
     st.subheader("🕸️ 五代帝王关系网络")

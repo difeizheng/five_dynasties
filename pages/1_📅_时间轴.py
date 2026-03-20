@@ -15,7 +15,11 @@ from src.data_processor import (
     SHIGUO_REGIMES,
     process_regime_timeline,
     get_regime_color,
+    get_major_events,
 )
+from src.config import YEARLY_EVENTS
+
+st.set_page_config(page_title="时间轴", page_icon="📅", layout="wide")
 
 st.set_page_config(page_title="时间轴", page_icon="📅", layout="wide")
 
@@ -47,6 +51,88 @@ def render_timeline_header():
     """)
 
     st.markdown("---")
+
+
+def render_timeline_filters():
+    """渲染时间轴筛选器"""
+    st.sidebar.subheader("🔍 筛选条件")
+
+    # 时间范围筛选
+    st.sidebar.markdown("**📅 时间范围**")
+    min_year, max_year = st.sidebar.slider(
+        "选择年份范围",
+        min_value=900,
+        max_value=980,
+        value=(907, 979),
+        step=1,
+        key="year_range_slider"
+    )
+
+    # 政权类型筛选
+    st.sidebar.markdown("**🏛️ 政权类型**")
+    regime_type = st.sidebar.multiselect(
+        "选择政权类型",
+        options=["五代", "十国"],
+        default=["五代", "十国"],
+        key="regime_type_filter"
+    )
+
+    # 事件类型筛选
+    st.sidebar.markdown("**📜 事件类型**")
+    event_types = st.sidebar.multiselect(
+        "选择事件类型",
+        options=["建国", "战争", "政变", "禅让", "统一"],
+        default=["建国", "战争", "政变", "禅让", "统一"],
+        key="event_type_filter"
+    )
+
+    return min_year, max_year, regime_type, event_types
+
+
+def render_filtered_events(min_year: int, max_year: int, event_types: list):
+    """渲染筛选后的事件列表"""
+    all_events = get_major_events()
+
+    # 筛选事件
+    filtered_events = [e for e in all_events if min_year <= e['year'] <= max_year]
+
+    # 简单的事件类型分类（根据关键词）
+    type_keywords = {
+        "建国": ["建立", "篡", "开国"],
+        "战争": ["灭", "战", "入侵"],
+        "政变": ["兵变", "杀", "篡位"],
+        "禅让": ["禅让", "归降", "投降"],
+        "统一": ["统一", "结束"],
+    }
+
+    st.subheader(f"📜 重大历史事件 ({len(filtered_events)}个)")
+
+    for event in filtered_events:
+        # 判断事件类型
+        event_type = "其他"
+        for etype, keywords in type_keywords.items():
+            if any(kw in event['event'] for kw in keywords):
+                event_type = etype
+                break
+
+        # 只显示选中的事件类型
+        if event_type not in event_types and event_type != "其他":
+            continue
+
+        regime_color = get_regime_color(event['regime'].split('/')[0])
+        st.markdown(
+            f"""
+            <div class="timeline-event" style="border-left-color: {regime_color}; background: {regime_color}15;">
+                <strong>{event['year']}年</strong> <span style="color: {regime_color}; font-size: 0.8em;">[{event_type}]</span> [{event['regime']}] {event['event']}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    if not filtered_events:
+        st.info("该时间范围内没有事件")
+
+    return filtered_events
 
 
 def render_regime_gantt():
@@ -269,21 +355,7 @@ def render_major_events():
     """渲染重大事件"""
     st.subheader("📜 重大历史事件")
 
-    events = [
-        {"year": 907, "event": "朱温篡唐，建立后梁，五代十国开始", "regime": "后梁"},
-        {"year": 923, "event": "李存勖灭后梁，建立后唐", "regime": "后唐"},
-        {"year": 936, "event": "石敬瑭割让燕云十六州，借契丹兵建立后晋", "regime": "后晋"},
-        {"year": 947, "event": "契丹灭后晋，刘知远建立后汉", "regime": "后汉"},
-        {"year": 951, "event": "郭威建立后周，刘崇建立北汉", "regime": "后周/北汉"},
-        {"year": 954, "event": "柴荣即位周世宗，开始统一战争", "regime": "后周"},
-        {"year": 960, "event": "赵匡胤陈桥兵变，建立北宋，后周灭亡", "regime": "北宋"},
-        {"year": 963, "event": "宋灭荆南", "regime": "北宋"},
-        {"year": 965, "event": "宋灭后蜀", "regime": "北宋"},
-        {"year": 971, "event": "宋灭南汉", "regime": "北宋"},
-        {"year": 975, "event": "宋灭南唐，李煜被俘", "regime": "北宋"},
-        {"year": 978, "event": "吴越钱俶纳土归宋，和平统一", "regime": "北宋"},
-        {"year": 979, "event": "宋灭北汉，五代十国结束", "regime": "北宋"},
-    ]
+    events = get_major_events()
 
     # 使用列表展示
     for event in events:
@@ -337,6 +409,9 @@ def main():
     """主函数"""
     render_timeline_header()
 
+    # 侧边栏筛选器
+    min_year, max_year, regime_type, event_types = render_timeline_filters()
+
     # 甘特图 - 分开展示更清晰
     st.subheader("📊 政权更迭甘特图")
     wudai_gantt, shiguo_gantt = render_regime_gantt()
@@ -368,8 +443,8 @@ def main():
 
     st.markdown("---")
 
-    # 重大事件
-    render_major_events()
+    # 重大事件（带筛选）
+    render_filtered_events(min_year, max_year, event_types)
 
 
 if __name__ == "__main__":

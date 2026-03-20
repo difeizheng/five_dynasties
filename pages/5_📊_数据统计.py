@@ -23,6 +23,9 @@ from src.data_processor import (
     calculate_regime_stats,
     get_regime_color,
     get_province_regime_mapping,
+    get_yearly_events,
+    get_regime_power_data,
+    get_regime_area_data,
 )
 from src.text_analyzer import (
     extract_keywords,
@@ -180,15 +183,8 @@ def render_province_distribution():
 
 def render_regime_radar():
     """渲染政权对比雷达图"""
-    # 选取主要政权进行对比
-    regimes_to_compare = [
-        {"name": "后周", "duration": 9, "area": 50, "power": 95, "culture": 80, "military": 95},
-        {"name": "南唐", "duration": 38, "area": 35, "power": 85, "culture": 95, "military": 75},
-        {"name": "吴越", "duration": 71, "area": 12, "power": 60, "culture": 85, "military": 70},
-        {"name": "前蜀", "duration": 18, "area": 25, "power": 70, "culture": 75, "military": 65},
-        {"name": "后蜀", "duration": 31, "area": 25, "power": 65, "culture": 80, "military": 60},
-        {"name": "南汉", "duration": 54, "area": 20, "power": 50, "culture": 60, "military": 55},
-    ]
+    # 使用统一配置的政权对比数据
+    regimes_to_compare = get_regime_power_data()
 
     radar = Radar(init_opts=opts.InitOpts(width="100%", height="500px"))
 
@@ -296,24 +292,8 @@ def render_yearly_events_chart():
     """渲染年度事件统计图"""
     from pyecharts.charts import Line
 
-    # 模拟年度重大事件数量
-    yearly_events = {
-        907: 5, 908: 2, 909: 1, 910: 2, 911: 1,
-        912: 3, 913: 2, 914: 1, 915: 2, 916: 1,
-        917: 2, 918: 1, 919: 1, 920: 1, 921: 1,
-        922: 2, 923: 4, 924: 2, 925: 3, 926: 3,
-        927: 1, 928: 1, 929: 1, 930: 2, 931: 1,
-        932: 2, 933: 2, 934: 3, 935: 1, 936: 4,
-        937: 2, 938: 1, 939: 1, 940: 1, 941: 1,
-        942: 2, 943: 2, 944: 1, 945: 3, 946: 1,
-        947: 4, 948: 1, 949: 1, 950: 3, 951: 4,
-        952: 1, 953: 1, 954: 3, 955: 2, 956: 2,
-        957: 2, 958: 2, 959: 2, 960: 4, 961: 2,
-        962: 1, 963: 3, 964: 1, 965: 3, 966: 1,
-        967: 1, 968: 1, 969: 1, 970: 1, 971: 2,
-        972: 1, 973: 1, 974: 1, 975: 3, 976: 1,
-        977: 1, 978: 2, 979: 3,
-    }
+    # 使用统一配置的年度事件数据
+    yearly_events = get_yearly_events()
 
     line = Line(init_opts=opts.InitOpts(width="100%", height="400px"))
 

@@ -1,6 +1,7 @@
 """
 数据加载模块
 负责读取 Excel、Markdown、TXT 等原始数据文件
+包含错误处理和降级方案
 """
 
 import pandas as pd
@@ -9,10 +10,54 @@ import os
 from pathlib import Path
 import chardet
 import streamlit as st
+import logging
+
+# 配置日志
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # 数据文件路径
 DATA_DIR = Path(__file__).parent.parent  # 项目根目录
 DATA_FILES_DIR = DATA_DIR / 'data'  # 数据文件在 data 文件夹中
+
+
+# ============================================
+# 错误处理工具函数
+# ============================================
+
+def check_data_file_exists(filename: str) -> tuple[bool, str]:
+    """
+    检查数据文件是否存在
+
+    Args:
+        filename: 文件名
+
+    Returns:
+        (是否存在，错误消息)
+    """
+    file_path = DATA_FILES_DIR / filename
+    if not file_path.exists():
+        error_msg = f"数据文件不存在：{filename}"
+        logger.error(error_msg)
+        return False, error_msg
+    return True, ""
+
+
+def handle_load_error(filename: str, error: Exception, fallback_value: any = None) -> any:
+    """
+    处理加载错误，返回降级值
+
+    Args:
+        filename: 文件名
+        error: 异常对象
+        fallback_value: 降级返回值
+
+    Returns:
+        降级值
+    """
+    error_msg = f"加载文件失败 {filename}: {str(error)}"
+    logger.error(error_msg)
+    return fallback_value
 
 
 def get_data_file_path(filename: str) -> Path:
@@ -24,13 +69,21 @@ def get_data_file_path(filename: str) -> Path:
 def load_excel_data(filename: str, sheet_name: str = 0) -> pd.DataFrame:
     """加载 Excel 数据"""
     try:
+        exists, error_msg = check_data_file_exists(filename)
+        if not exists:
+            st.warning(f"⚠️ {error_msg}")
+            return pd.DataFrame()
+
         file_path = get_data_file_path(filename)
         df = pd.read_excel(file_path, sheet_name=sheet_name)
         # 清理列名
         df.columns = df.columns.str.strip()
         return df
+    except FileNotFoundError as e:
+        st.error(f"❌ 文件未找到：{filename}")
+        return pd.DataFrame()
     except Exception as e:
-        print(f"加载 Excel 失败 {filename}: {e}")
+        st.error(f"❌ 加载 Excel 失败 {filename}: {str(e)}")
         return pd.DataFrame()
 
 
@@ -38,6 +91,11 @@ def load_excel_data(filename: str, sheet_name: str = 0) -> pd.DataFrame:
 def load_all_sheets(filename: str) -> dict:
     """加载 Excel 所有 sheet"""
     try:
+        exists, error_msg = check_data_file_exists(filename)
+        if not exists:
+            st.warning(f"⚠️ {error_msg}")
+            return {}
+
         file_path = get_data_file_path(filename)
         xls = pd.ExcelFile(file_path)
         result = {}
@@ -46,8 +104,11 @@ def load_all_sheets(filename: str) -> dict:
             df.columns = df.columns.str.strip()
             result[sheet] = df
         return result
+    except FileNotFoundError as e:
+        st.error(f"❌ 文件未找到：{filename}")
+        return {}
     except Exception as e:
-        print(f"加载 Excel 所有 sheet 失败 {filename}: {e}")
+        st.error(f"❌ 加载 Excel 所有 sheet 失败 {filename}: {str(e)}")
         return {}
 
 
@@ -62,12 +123,20 @@ def detect_encoding(file_path: Path) -> str:
 def load_txt_data(filename: str) -> str:
     """加载 TXT 数据"""
     try:
+        exists, error_msg = check_data_file_exists(filename)
+        if not exists:
+            st.warning(f"⚠️ {error_msg}")
+            return ""
+
         file_path = get_data_file_path(filename)
         encoding = detect_encoding(file_path)
         with open(file_path, 'r', encoding=encoding) as f:
             return f.read()
+    except FileNotFoundError as e:
+        st.error(f"❌ 文件未找到：{filename}")
+        return ""
     except Exception as e:
-        print(f"加载 TXT 失败 {filename}: {e}")
+        st.error(f"❌ 加载 TXT 失败 {filename}: {str(e)}")
         return ""
 
 

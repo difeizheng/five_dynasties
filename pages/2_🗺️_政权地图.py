@@ -17,57 +17,13 @@ from src.data_processor import (
     process_regime_timeline,
     get_regime_color,
     get_province_regime_mapping,
+    REGIME_COLORS,
+    CAPITAL_COORDS,
+    CAPITAL_TO_PROVINCE,
 )
+from src.config import PROVINCE_MAPPING
 
 st.set_page_config(page_title="政权地图", page_icon="🗺️", layout="wide")
-
-# 省份名称映射（古 -> 今）- 使用中国地图 JS 中的标准名称格式
-PROVINCE_MAPPING = {
-    "河南": "河南省",
-    "河北": "河北省",
-    "山东": "山东省",
-    "山西": "山西省",
-    "陕西": "陕西省",
-    "浙江": "浙江省",
-    "江苏": "江苏省",
-    "上海": "上海市",
-    "安徽": "安徽省",
-    "江西": "江西省",
-    "湖北": "湖北省",
-    "湖南": "湖南省",
-    "四川": "四川省",
-    "重庆": "重庆市",
-    "福建": "福建省",
-    "广东": "广东省",
-    "广西": "广西",
-    "海南": "海南省",
-    "甘肃": "甘肃省",
-    "辽宁": "辽宁省",
-    "内蒙古": "内蒙古",
-}
-
-# 政权颜色配置
-REGIME_COLORS = {
-    "后梁": "#e74c3c", "后唐": "#3498db", "后晋": "#9b59b6",
-    "后汉": "#e67e22", "后周": "#2ecc71",
-    "吴越": "#1abc9c", "南唐": "#e74c3c", "前蜀": "#f39c12",
-    "后蜀": "#d35400", "闽国": "#9b59b6", "南汉": "#3498db",
-    "楚": "#3498db", "荆南": "#1abc9c", "北汉": "#95a5a6",
-}
-
-# 都城坐标
-CAPITAL_COORDS = {
-    "开封": (114.34, 34.79, "后梁/后晋/后汉/后周"),
-    "洛阳": (112.43, 34.62, "后唐"),
-    "杭州": (120.16, 30.27, "吴越"),
-    "南京": (118.78, 32.07, "南唐"),
-    "成都": (104.07, 30.67, "前蜀/后蜀"),
-    "福州": (119.30, 26.08, "闽国"),
-    "广州": (113.27, 23.13, "南汉"),
-    "长沙": (112.94, 28.23, "楚"),
-    "荆州": (112.19, 30.33, "荆南"),
-    "太原": (112.55, 37.87, "北汉"),
-}
 
 
 def render_map_header():
@@ -352,6 +308,211 @@ def render_capital_scatter():
     return html_template
 
 
+def get_province_history(province: str) -> dict:
+    """获取省份历史沿革信息"""
+    province_history = {
+        "河南省": {
+            "regimes": ["后梁", "后唐", "后晋", "后汉", "后周"],
+            "capitals": ["开封", "洛阳"],
+            "description": "河南是五代时期的政治中心，五代中有四个朝代定都开封（后梁、后晋、后汉、后周），后唐定都洛阳。",
+            "key_events": [
+                "907 年朱温在开封称帝建立后梁",
+                "923 年李存勖在洛阳称帝建立后唐",
+                "936 年石敬瑭在开封称帝建立后晋",
+                "947 年刘知远在开封称帝建立后汉",
+                "951 年郭威在开封称帝建立后周",
+                "960 年赵匡胤在陈桥（开封附近）发动兵变建立北宋",
+            ],
+        },
+        "山西省": {
+            "regimes": ["后唐", "后晋", "后汉", "北汉"],
+            "capitals": ["太原"],
+            "description": "山西是沙陀势力的根据地，后唐、后晋、后汉的建立者都是沙陀人。北汉是唯一在北方的十国政权。",
+            "key_events": [
+                "891 年李克用被封为晋王，据有太原",
+                "923 年李存勖在太原称帝建立后唐",
+                "936 年石敬瑭在太原起兵建立后晋",
+                "947 年刘知远在太原起兵建立后汉",
+                "951 年刘崇在太原称帝建立北汉",
+                "979 年宋太宗灭北汉，五代十国结束",
+            ],
+        },
+        "山东省": {
+            "regimes": ["后梁", "后唐", "后晋", "后汉", "后周"],
+            "capitals": [],
+            "description": "山东是后梁的根据地，朱温曾任宣武节度使据有此地。",
+            "key_events": [
+                "882 年朱温降唐，被任命为宣武节度使",
+                "907 年朱温建立后梁，山东属后梁",
+            ],
+        },
+        "河北省": {
+            "regimes": ["后唐", "后晋", "后汉", "后周"],
+            "capitals": [],
+            "description": "河北是唐末藩镇割据的核心区域，卢龙、成德、魏博三镇在此。",
+            "key_events": [
+                "763 年安史之乱后，河北三镇形成割据",
+                "923 年后唐灭燕，据有河北",
+            ],
+        },
+        "浙江省": {
+            "regimes": ["吴越"],
+            "capitals": ["杭州"],
+            "description": "吴越国定都杭州，钱镠统治时期兴修水利，发展经济，是十国中最富裕的政权之一。",
+            "key_events": [
+                "893 年钱镠被唐封为镇海节度使",
+                "907 年钱镠被封为吴越王",
+                "978 年钱弘俶纳土归宋，和平统一",
+            ],
+        },
+        "江苏省": {
+            "regimes": ["南唐", "吴越"],
+            "capitals": ["南京"],
+            "description": "南唐定都南京（金陵），是十国中疆域最大、文化最繁荣的政权。",
+            "key_events": [
+                "937 年李昪在金陵称帝建立南唐",
+                "961 年李煜即位，南唐文化达到鼎盛",
+                "975 年宋灭南唐，李煜被俘",
+            ],
+        },
+        "四川省": {
+            "regimes": ["前蜀", "后蜀"],
+            "capitals": ["成都"],
+            "description": "四川先后建立前蜀和后蜀两个政权，成都成为重要的文化中心。",
+            "key_events": [
+                "907 年王建在成都称帝建立前蜀",
+                "925 年后唐灭前蜀",
+                "934 年孟知祥在成都称帝建立后蜀",
+                "965 年宋灭后蜀",
+            ],
+        },
+        "福建省": {
+            "regimes": ["闽国"],
+            "capitals": ["福州"],
+            "description": "闽国定都福州，王审知统治时期发展海外贸易。",
+            "key_events": [
+                "893 年王审知攻占福州",
+                "909 年王审知被封为闽王",
+                "945 年南唐灭闽",
+            ],
+        },
+        "广东省": {
+            "regimes": ["南汉"],
+            "capitals": ["广州"],
+            "description": "南汉定都广州，统治广东、广西、海南地区。",
+            "key_events": [
+                "917 年刘䶮在广州称帝建立大越，后改国号为汉",
+                "971 年宋灭南汉",
+            ],
+        },
+        "湖南省": {
+            "regimes": ["楚"],
+            "capitals": ["长沙"],
+            "description": "楚国定都长沙，马殷统治时期与中原王朝保持朝贡关系。",
+            "key_events": [
+                "896 年马殷据有湖南",
+                "907 年马殷被封为楚王",
+                "951 年南唐灭楚",
+            ],
+        },
+        "湖北省": {
+            "regimes": ["荆南", "南唐"],
+            "capitals": ["荆州"],
+            "description": "荆南是十国中最小的政权，定都荆州，向多国称臣以求生存。",
+            "key_events": [
+                "924 年高季兴被封为南平王，建立荆南",
+                "963 年宋灭荆南",
+            ],
+        },
+        "安徽省": {
+            "regimes": ["南唐", "后周"],
+            "capitals": [],
+            "description": "安徽南部属南唐，北部属后周。",
+            "key_events": [
+                "937 年南唐建立，据有皖南",
+                "956 年后周攻南唐，得皖北",
+            ],
+        },
+        "江西省": {
+            "regimes": ["南唐"],
+            "capitals": [],
+            "description": "江西全境属南唐。",
+            "key_events": [
+                "937 年南唐建立，据有江西",
+                "975 年宋灭南唐，江西归宋",
+            ],
+        },
+        "陕西省": {
+            "regimes": ["后梁", "前蜀", "后蜀"],
+            "capitals": [],
+            "description": "陕西南部属前蜀和后蜀，北部曾属后梁。",
+            "key_events": [
+                "907 年后梁建立，据有陕西北部",
+                "911 年前蜀据有陕南",
+            ],
+        },
+    }
+    return province_history.get(province, None)
+
+
+def render_province_detail(province: str):
+    """渲染省份详情卡片"""
+    history = get_province_history(province)
+
+    if not history:
+        st.warning(f"暂未收录 {province} 的历史沿革信息")
+        return
+
+    # 省份详情卡片
+    st.markdown(f"### 📍 {province} 历史沿革")
+
+    # 描述
+    if history.get("description"):
+        st.info(history["description"])
+
+    # 基本信息
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("#### 涉及政权")
+        regimes_str = ", ".join(history.get("regimes", []))
+        st.markdown(f"**{regimes_str}**")
+
+    with col2:
+        st.markdown("#### 都城")
+        capitals = history.get("capitals", [])
+        if capitals:
+            st.markdown(f"**{', '.join(capitals)}**")
+        else:
+            st.markdown("**无**")
+
+    # 重大历史事件
+    if history.get("key_events"):
+        st.markdown("#### 📜 重大历史事件")
+        for event in history["key_events"]:
+            st.markdown(f"- {event}")
+
+    st.markdown("---")
+
+
+def render_province_selector():
+    """渲染省份选择器"""
+    st.subheader("🔍 省份详情查询")
+
+    # 获取所有省份列表
+    mapping = get_province_regime_mapping()
+    provinces = sorted(mapping['province'].unique())
+
+    # 省份选择器
+    selected_province = st.selectbox(
+        "选择省份查看历史沿革",
+        provinces,
+        key="province_selector"
+    )
+
+    return selected_province
+
+
 def render_province_regime_table():
     """渲染省份 - 政权对照表"""
     st.subheader("📋 现代省份与五代十国政权对照")
@@ -439,7 +600,7 @@ def main():
     st.subheader("🗺️ 疆域地图")
 
     regime_names = ["全部"] + [r['name'] for r in WUDAI_REGIMES + SHIGUO_REGIMES]
-    selected_regime = st.selectbox("选择政权", regime_names)
+    selected_regime = st.selectbox("选择政权", regime_names, key="regime_selector")
 
     if selected_regime == "全部":
         regime_map = render_regime_map()
@@ -459,6 +620,11 @@ def main():
     html(capital_chart, height=550, scrolling=False)
 
     st.markdown("---")
+
+    # 省份详情查询（下钻功能）
+    selected_province = render_province_selector()
+    if selected_province:
+        render_province_detail(selected_province)
 
     # 面积对比
     area_chart = render_regime_area_chart()

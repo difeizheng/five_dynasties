@@ -20,8 +20,8 @@ from src.text_analyzer import (
     search_text,
     analyze_text_statistics,
     get_text_summary,
-    HISTORICAL_TERMS,
 )
+from src.config import HISTORICAL_TERMS, QUICK_SEARCH_TERMS
 
 st.set_page_config(page_title="文献检索", page_icon="📖", layout="wide")
 
@@ -188,14 +188,8 @@ def render_quick_search():
     """渲染快捷搜索"""
     st.subheader("⚡ 快捷搜索")
 
-    quick_terms = [
-        "朱温", "李存勖", "石敬瑭", "郭威", "柴荣",
-        "钱镠", "李煜", "王建", "孟知祥",
-        "后梁", "后唐", "后晋", "后汉", "后周",
-        "吴越", "南唐", "前蜀", "后蜀",
-        "开封", "洛阳", "杭州", "南京", "成都",
-        "节度使", "藩镇", "称帝", "即位",
-    ]
+    # 使用统一配置的快捷搜索词
+    quick_terms = QUICK_SEARCH_TERMS
 
     cols = st.columns(5)
 
@@ -209,45 +203,12 @@ def render_historical_terms():
     """渲染历史专有名词表"""
     st.subheader("📚 历史专有名词索引")
 
-    # 根据 HISTORICAL_TERMS 实际内容自动分类
+    # 使用统一配置的分类历史专有名词
     terms_with_category = []
 
-    # 政权
-    regimes = ['五代', '十国', '后梁', '后唐', '后晋', '后汉', '后周',
-               '吴越', '南唐', '前蜀', '后蜀', '闽国', '南汉', '荆南',
-               '北汉', '契丹', '北宋', '南宋', '唐朝', '隋朝', '汉朝']
-    for term in regimes:
-        if term in HISTORICAL_TERMS:
-            terms_with_category.append({'类别': '政权', '名词': term})
-
-    # 人物
-    persons = ['朱温', '李存勖', '石敬瑭', '刘知远', '郭威', '柴荣',
-               '钱镠', '李昪', '李煜', '王建', '孟知祥', '王审知',
-               '马殷', '高季兴', '刘䶮', '刘崇']
-    for term in persons:
-        if term in HISTORICAL_TERMS:
-            terms_with_category.append({'类别': '人物', '名词': term})
-
-    # 官职
-    titles = ['节度使', '刺史', '知州', '知县', '尚书', '侍郎',
-              '宰相', '丞相', '御史', '太尉', '大将军']
-    for term in titles:
-        if term in HISTORICAL_TERMS:
-            terms_with_category.append({'类别': '官职', '名词': term})
-
-    # 地名
-    places = ['开封', '洛阳', '杭州', '南京', '成都', '福州', '广州',
-              '长沙', '荆州', '太原', '长安']
-    for term in places:
-        if term in HISTORICAL_TERMS:
-            terms_with_category.append({'类别': '地名', '名词': term})
-
-    # 事件
-    events = ['藩镇', '藩王', '割据', '称帝', '即位', '禅让',
-              '陈桥兵变', '安史之乱', '黄巢起义', '赤壁之战']
-    for term in events:
-        if term in HISTORICAL_TERMS:
-            terms_with_category.append({'类别': '事件', '名词': term})
+    for category, terms in HISTORICAL_TERMS.items():
+        for term in terms:
+            terms_with_category.append({'类别': category, '名词': term})
 
     terms_df = pd.DataFrame(terms_with_category)
 
