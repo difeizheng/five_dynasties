@@ -35,12 +35,15 @@ five_dynasties/
 │   ├── 4_🏰_藩镇分析.py            # 藩镇分析页面
 │   ├── 5_📊_数据统计.py            # 数据统计页面
 │   ├── 6_📖_文献检索.py            # 文献检索页面
-│   └── 7_🔍_对比分析.py            # 对比分析页面（新增）
+│   ├── 7_🔍_对比分析.py            # 对比分析页面
+│   ├── 8_📺_数据大屏.py            # 数据可视化大屏（新增）
+│   └── 9_⭐_我的收藏.py            # 用户收藏系统（新增）
 ├── src/
 │   ├── config.py                   # 统一配置管理
-│   ├── data_loader.py              # 数据加载
+│   ├── data_loader.py              # 数据加载（含验证）
 │   ├── data_processor.py           # 数据处理
-│   └── streamlit_utils.py          # Streamlit 工具函数
+│   ├── streamlit_utils.py          # Streamlit 工具函数（含地图组件）
+│   └── favorite_manager.py         # 收藏系统模块
 ├── TODO.md                         # 开发任务清单
 └── MEMORY.md                       # 项目记忆（本文件）
 ```
