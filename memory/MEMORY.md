@@ -181,3 +181,31 @@ pandas
 jieba
 requests
 ```
+
+## 新增页面（v1.10.3+）
+
+### Webhook 测试工具（pages/9_🔗_Webhook 测试.py）
+
+**功能**：测试 webhook URL 的可用性和响应性能
+
+**主要特性**：
+- 支持 GET/POST/PUT/DELETE 四种 HTTP 方法
+- 测量响应时间（毫秒级别）
+- 显示响应状态码、headers 和 body
+- 内置 httpbin 测试预设
+- 可调节超时时间（1-60 秒）
+
+**POST 请求默认 payload**：
+```json
+{
+    "test": true,
+    "timestamp": "2024-01-01 12:00:00",
+    "message": "Webhook 测试消息"
+}
+```
+
+**测试预设 URL**：
+- `http://localhost:8000/` - 本地 API 服务
+- `http://localhost:8501/` - 本地 Streamlit
+- `https://httpbin.org/post` - HTTP 测试服务
+- `https://httpbin.org/status/200` - 状态码测试
