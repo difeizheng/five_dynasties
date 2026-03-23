@@ -19,9 +19,8 @@ from src.data_processor import (
     get_regime_color,
     get_fanzhen_base_data,
     FANZHEN_COLORS,
-    PROVINCE_MAPPING,
 )
-from src.config import FANZHEN_CHRONICLES
+from src.config import FANZHEN_CHRONICLES, PROVINCE_MAPPING
 from src.streamlit_utils import build_choropleth_map_html
 
 st.set_page_config(page_title="藩镇分析", page_icon="🏰", layout="wide")
