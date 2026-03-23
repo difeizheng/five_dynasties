@@ -18,10 +18,8 @@ from src.data_processor import (
     get_regime_color,
     get_province_regime_mapping,
     REGIME_COLORS,
-    CAPITAL_COORDS,
-    CAPITAL_TO_PROVINCE,
 )
-from src.config import PROVINCE_MAPPING
+from src.config import PROVINCE_MAPPING, CAPITAL_COORDS, CAPITAL_TO_PROVINCE
 from src.streamlit_utils import build_choropleth_map_html, build_simple_highlight_map_html
 
 st.set_page_config(page_title="政权地图", page_icon="🗺️", layout="wide")
