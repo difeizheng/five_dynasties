@@ -409,6 +409,7 @@ def build_choropleth_map_html(
     color_mapping: Dict[str, str],
     title: str,
     tooltip_formatter: str = None,
+    province_regime_map: Dict[str, str] = None,
     legend_title: str = None,
     height: int = 600,
 ) -> str:
@@ -422,6 +423,7 @@ def build_choropleth_map_html(
         color_mapping: 值到颜色的映射 {value: color}
         title: 地图标题
         tooltip_formatter: tooltip 格式化模板，支持{name}, {value}, {label}占位符
+        province_regime_map: 省份到政权的映射 {province: regime}，用于 tooltip
         legend_title: 图例标题
         height: 地图高度
 
@@ -444,6 +446,9 @@ def build_choropleth_map_html(
             return '<b>' + params.name + '</b>';
         }"""
 
+    # 构建省份 - 政权映射用于 tooltip
+    province_regime_json = json.dumps(province_regime_map or {}, ensure_ascii=False)
+
     html_template = f'''<!DOCTYPE html>
 <html>
 <head>
@@ -460,6 +465,7 @@ def build_choropleth_map_html(
     <script>
         var chinaGeojson = {geojson_content};
         var provinceDataMap = {json.dumps({k: v for k, v in value_mapping.items()})};
+        var provinceRegimeMap = {province_regime_json};
         var mapData = {json.dumps(map_data, ensure_ascii=False)};
 
         echarts.registerMap('china', chinaGeojson);

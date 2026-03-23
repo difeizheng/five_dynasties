@@ -55,12 +55,14 @@ def render_regime_map(regime_name: str = None):
 
     # 构建省份 - 政权映射
     province_info = {}
+    province_regime_map = {}  # 用于 tooltip 的 {省份：政权} 映射
     regimes_in_map = set()
 
     for _, row in mapping.iterrows():
         province = PROVINCE_MAPPING.get(row['province'], row['province'])
         regime = row['regime']
         province_info[province] = {"regime": regime}
+        province_regime_map[province] = regime
         regimes_in_map.add(regime)
 
     regimes_list = list(regimes_in_map)
@@ -98,6 +100,7 @@ def render_regime_map(regime_name: str = None):
         color_mapping=color_mapping,
         title=title_text,
         tooltip_formatter=tooltip_js,
+        province_regime_map=province_regime_map,
     )
 
 
