@@ -21,8 +21,6 @@ from src.config import YEARLY_EVENTS
 
 st.set_page_config(page_title="时间轴", page_icon="📅", layout="wide")
 
-st.set_page_config(page_title="时间轴", page_icon="📅", layout="wide")
-
 # 自定义 CSS
 st.markdown("""
 <style>
