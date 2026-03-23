@@ -212,12 +212,18 @@
   - [ ] 保存推演记录
 - **预估工作量**: 3-5 天
 
-### 任务 14: API 接口
+### 任务 14: API 接口 ✅ 已完成
 - **描述**: 提供 RESTful API 供第三方调用
-  - [ ] 政权数据 API
-  - [ ] 人物数据 API
-  - [ ] 藩镇数据 API
-  - [ ] API 文档
+  - [x] 政权数据 API (`/api/regimes`)
+  - [x] 人物数据 API (`/api/characters`)
+  - [x] 藩镇数据 API (`/api/fanzhen`)
+  - [x] 地理数据 API (`/api/provinces`)
+  - [x] 事件数据 API (`/api/events`)
+  - [x] 世系数据 API (`/api/succession`)
+  - [x] 统计数据 API (`/api/stats`, `/api/timeline`)
+  - [x] API 文档页面 (`pages/10_🔌_API 接口.py`)
+- **文件**: `api.py`, `pages/10_🔌_API 接口.py`
+- **技术栈**: FastAPI, uvicorn
 - **预估工作量**: 2-3 天
 
 ### 任务 15: 数据可视化大屏 ✅ 已完成
