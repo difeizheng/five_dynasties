@@ -54,52 +54,36 @@ def render_regime_map(regime_name: str = None):
         mapping = mapping[mapping['regime'] == regime_name]
 
     # 构建省份 - 政权映射
-    province_info = {}
     province_regime_map = {}  # 用于 tooltip 的 {省份：政权} 映射
+    region_color_map = {}  # 用于颜色的 {省份：颜色} 映射
     regimes_in_map = set()
 
     for _, row in mapping.iterrows():
         province = PROVINCE_MAPPING.get(row['province'], row['province'])
         regime = row['regime']
-        province_info[province] = {"regime": regime}
         province_regime_map[province] = regime
+        region_color_map[province] = REGIME_COLORS.get(regime, "#999999")
         regimes_in_map.add(regime)
-
-    regimes_list = list(regimes_in_map)
-
-    # 为每个政权分配唯一值
-    regime_value_map = {regime: idx + 1 for idx, regime in enumerate(regimes_list)}
 
     # 构建地图数据
     map_data = []
-    for province, info in province_info.items():
-        regime = info["regime"]
+    for province in province_regime_map.keys():
         map_data.append({
             "name": province,
-            "value": regime_value_map[regime]
+            "value": 1
         })
 
-    # 颜色映射
-    color_mapping = {
-        value: REGIME_COLORS.get(regime, "#999999")
-        for regime, value in regime_value_map.items()
-    }
-
-    # 构建 tooltip 格式化函数
-    tooltip_js = """function(params) {
-        var regime = provinceRegimeMap[params.name] || '未知';
-        return '<b>' + params.name + '</b><br/>所属政权：' + regime;
-    }"""
-
-    title_text = ' '.join(regimes_list) + ' 疆域范围'
+    title_text = ' '.join(sorted(regimes_in_map)) + ' 疆域范围'
 
     return build_choropleth_map_html(
         geojson_content=china_geojson,
         map_data=map_data,
-        value_mapping=regime_value_map,
-        color_mapping=color_mapping,
+        region_color_map=region_color_map,
         title=title_text,
-        tooltip_formatter=tooltip_js,
+        tooltip_formatter="""function(params) {
+            var regime = provinceRegimeMap[params.name] || '未知';
+            return '<b>' + params.name + '</b><br/>所属政权：' + regime;
+        }""",
         province_regime_map=province_regime_map,
     )
 

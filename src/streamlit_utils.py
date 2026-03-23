@@ -405,8 +405,7 @@ def export_comparison_report(regime1: str, regime2: str, report_data: Dict, file
 def build_choropleth_map_html(
     geojson_content: str,
     map_data: List[Dict],
-    value_mapping: Dict[str, Any],
-    color_mapping: Dict[str, str],
+    region_color_map: Dict[str, str],  # {region_name: color}
     title: str,
     tooltip_formatter: str = None,
     province_regime_map: Dict[str, str] = None,
@@ -414,15 +413,14 @@ def build_choropleth_map_html(
     height: int = 600,
 ) -> str:
     """
-    构建 choropleth 地图 HTML（使用 visualMap 方案）
+    构建 choropleth 地图 HTML（使用 series 中的 itemStyle 方案）
 
     Args:
         geojson_content: GeoJSON 内容
         map_data: 地图数据列表，每项包含 name 和 value
-        value_mapping: 值到标签的映射 {value: label}
-        color_mapping: 值到颜色的映射 {value: color}
+        region_color_map: 区域名称到颜色的映射 {region_name: color}
         title: 地图标题
-        tooltip_formatter: tooltip 格式化模板，支持{name}, {value}, {label}占位符
+        tooltip_formatter: tooltip 格式化模板
         province_regime_map: 省份到政权的映射 {province: regime}，用于 tooltip
         legend_title: 图例标题
         height: 地图高度
@@ -430,13 +428,8 @@ def build_choropleth_map_html(
     Returns:
         完整的 HTML 字符串
     """
-    # 构建 pieces 配置
-    pieces_config = [
-        {"value": value, "label": label, "color": color_mapping.get(value, "#999999")}
-        for value, label in value_mapping.items()
-    ]
-    colors_list = [color_mapping.get(value, "#999999") for value in value_mapping.keys()]
-    legend_data = list(value_mapping.values())
+    # 获取所有区域名称用于图例
+    region_names = list(region_color_map.keys())
 
     # 构建 tooltip 格式化函数
     if tooltip_formatter:
@@ -448,6 +441,9 @@ def build_choropleth_map_html(
 
     # 构建省份 - 政权映射用于 tooltip
     province_regime_json = json.dumps(province_regime_map or {}, ensure_ascii=False)
+
+    # 构建颜色映射 JSON 用于 itemStyle
+    region_color_json = json.dumps(region_color_map, ensure_ascii=False)
 
     html_template = f'''<!DOCTYPE html>
 <html>
@@ -464,8 +460,8 @@ def build_choropleth_map_html(
     <div id="map"></div>
     <script>
         var chinaGeojson = {geojson_content};
-        var provinceDataMap = {json.dumps({k: v for k, v in value_mapping.items()})};
         var provinceRegimeMap = {province_regime_json};
+        var regionColorMap = {region_color_json};
         var mapData = {json.dumps(map_data, ensure_ascii=False)};
 
         echarts.registerMap('china', chinaGeojson);
@@ -492,6 +488,11 @@ def build_choropleth_map_html(
                     color: '#333',
                     formatter: '{{b}}'
                 }},
+                itemStyle: {{
+                    color: function(params) {{
+                        return regionColorMap[params.name] || '#cccccc';
+                    }}
+                }},
                 emphasis: {{
                     itemStyle: {{
                         areaColor: '#ffd700',
@@ -504,21 +505,8 @@ def build_choropleth_map_html(
                     }}
                 }}
             }}],
-            visualMap: {{
-                type: 'piecewise',
-                show: true,
-                right: '10',
-                top: '50',
-                pieces: {json.dumps(pieces_config, ensure_ascii=False)},
-                textStyle: {{
-                    color: '#333'
-                }},
-                inRange: {{
-                    color: {json.dumps(colors_list)}
-                }}
-            }},
             legend: {{
-                data: {json.dumps(legend_data, ensure_ascii=False)},
+                data: {json.dumps(region_names, ensure_ascii=False)},
                 top: 50,
                 selectedMode: true,
                 type: 'scroll',

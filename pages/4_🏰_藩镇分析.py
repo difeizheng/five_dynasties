@@ -59,6 +59,7 @@ def render_fanzhen_map():
     # 构建藩镇 - 省份映射
     fanzhen_province_map = {}
     province_fanzhen_map = {}
+    region_color_map = {}  # 用于颜色的 {省份：颜色} 映射
 
     for fanzhen_name, data in fanzhen_data.items():
         province = data['province']
@@ -67,24 +68,15 @@ def render_fanzhen_map():
             province_fanzhen_map[province] = []
         province_fanzhen_map[province].append(fanzhen_name)
 
-    # 为每个藩镇分配唯一值
-    fanzhen_list = list(fanzhen_data.keys())
-    fanzhen_value_map = {fanzhen: idx + 1 for idx, fanzhen in enumerate(fanzhen_list)}
-
-    # 构建地图数据
+    # 构建地图数据和颜色映射
     map_data = []
     for province, fanzhens in province_fanzhen_map.items():
         main_fanzhen = fanzhens[0]
         map_data.append({
             "name": province,
-            "value": fanzhen_value_map[main_fanzhen]
+            "value": 1
         })
-
-    # 颜色映射
-    color_mapping = {
-        value: FANZHEN_COLORS.get(fanzhen, "#999999")
-        for fanzhen, value in fanzhen_value_map.items()
-    }
+        region_color_map[province] = FANZHEN_COLORS.get(main_fanzhen, "#999999")
 
     # 构建 tooltip 格式化函数
     tooltip_js = """function(params) {
@@ -93,13 +85,19 @@ def render_fanzhen_map():
         return '<b>' + params.name + '</b><br/>藩镇：' + fanzhenStr;
     }"""
 
+    # 构建省份 - 藩镇映射用于 tooltip
+    province_regime_map = {
+        province: fanzhens[0] if fanzhens else '无'
+        for province, fanzhens in province_fanzhen_map.items()
+    }
+
     return build_choropleth_map_html(
         geojson_content=china_geojson,
         map_data=map_data,
-        value_mapping=fanzhen_value_map,
-        color_mapping=color_mapping,
+        region_color_map=region_color_map,
         title="唐末藩镇分布",
         tooltip_formatter=tooltip_js,
+        province_regime_map=province_regime_map,
     )
 
 

@@ -316,30 +316,22 @@ def render_map_section():
     mapping = get_province_regime_mapping()
 
     # 构建省份 - 政权映射
-    province_info = {}
-    regimes_in_map = set()
+    province_regime_map = {}  # 用于 tooltip 的 {省份：政权} 映射
+    region_color_map = {}  # 用于颜色的 {省份：颜色} 映射
 
     for _, row in mapping.iterrows():
         province = PROVINCE_MAPPING.get(row['province'], row['province'])
         regime = row['regime']
-        province_info[province] = {"regime": regime}
-        regimes_in_map.add(regime)
+        province_regime_map[province] = regime
+        region_color_map[province] = REGIME_COLORS.get(regime, "#999999")
 
-    regimes_list = list(regimes_in_map)
-    regime_value_map = {regime: idx + 1 for idx, regime in enumerate(regimes_list)}
-
+    # 构建地图数据
     map_data = []
-    for province, info in province_info.items():
-        regime = info["regime"]
+    for province in province_regime_map.keys():
         map_data.append({
             "name": province,
-            "value": regime_value_map[regime]
+            "value": 1
         })
-
-    color_mapping = {
-        value: REGIME_COLORS.get(regime, "#999999")
-        for regime, value in regime_value_map.items()
-    }
 
     tooltip_js = """function(params) {
         var regime = provinceRegimeMap[params.name] || '未知';
@@ -349,10 +341,10 @@ def render_map_section():
     map_html = build_choropleth_map_html(
         geojson_content=china_geojson,
         map_data=map_data,
-        value_mapping=regime_value_map,
-        color_mapping=color_mapping,
+        region_color_map=region_color_map,
         title="五代十国疆域范围",
         tooltip_formatter=tooltip_js,
+        province_regime_map=province_regime_map,
         height=500,
     )
 
