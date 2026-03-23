@@ -20,6 +20,8 @@ from src.data_processor import (
     get_regime_color,
 )
 from src.config import REGIME_COLORS, CAPITAL_TO_PROVINCE
+from src.layout import setup_mobile_layout, render_header, render_footer, render_navigation
+from src.pwa import add_pwa_meta, register_pwa
 from pyecharts import options as opts
 from pyecharts.charts import Bar, Pie, Timeline, Grid
 from pyecharts.commons.utils import JsCode
@@ -33,41 +35,12 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# 自定义 CSS
-st.markdown("""
-<style>
-    .main-header {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #1f2937;
-        text-align: center;
-        padding: 1rem 0;
-    }
-    .stat-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 1.5rem;
-        border-radius: 1rem;
-        color: white;
-        text-align: center;
-    }
-    .regime-tag {
-        display: inline-block;
-        padding: 0.25rem 0.75rem;
-        border-radius: 2rem;
-        font-size: 0.875rem;
-        margin: 0.25rem;
-    }
-    .dataframe {
-        font-size: 0.9rem;
-    }
-</style>
-""", unsafe_allow_html=True)
+# PWA 支持
+add_pwa_meta()
+register_pwa()
 
-
-def render_header():
-    """渲染页眉"""
-    st.markdown('<p class="main-header">📜 五代十国历史信息可视化系统</p>', unsafe_allow_html=True)
-    st.markdown("---")
+# 移动端布局优化
+setup_mobile_layout()
 
 
 def render_stats_cards():
@@ -227,7 +200,11 @@ def render_capital_map():
 
 def main():
     """主函数"""
-    render_header()
+    # 侧边栏导航
+    render_navigation()
+
+    # 页面头部
+    render_header("五代十国历史信息可视化系统", "探索五代十国时期的历史变迁")
 
     # 统计卡片
     render_stats_cards()
@@ -275,15 +252,7 @@ def main():
         html(chart.render_embed(), height=600, scrolling=False)
 
     # 底部信息
-    st.markdown("---")
-    st.markdown(
-        """
-        <div style="text-align: center; color: #6b7280; padding: 1rem;">
-            五代十国历史信息可视化系统 v1.0 | 基于 Streamlit 构建
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    render_footer()
 
 
 if __name__ == "__main__":
