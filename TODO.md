@@ -244,15 +244,15 @@
   - 数据加载失败时页面无提示
   - 缺少降级方案
 
-- [ ] **重复代码**
-  - 地图渲染逻辑在多个页面重复
-  - HTML 模板生成逻辑重复
+- [x] **重复代码** ✅ 已完成
+  - 地图渲染逻辑在多个页面重复 - 已抽取到 `src/streamlit_utils.py`
+  - HTML 模板生成逻辑重复 - 已抽取公共组件 `build_choropleth_map_html` 和 `build_simple_highlight_map_html`
 
 ### 数据问题
 
-- [ ] Excel 数据结构未完全利用
+- [x] Excel 数据结构未完全利用 - 已添加数据验证机制
 - [ ] 部分数据未清洗（可能存在格式问题）
-- [ ] 缺少数据验证机制
+- [x] 缺少数据验证机制 - 已添加 `validate_dataframe_schema` 等验证函数
 
 ---
 

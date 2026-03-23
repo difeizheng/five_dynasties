@@ -8,6 +8,7 @@ from streamlit.components.v1 import html
 from typing import Optional, Callable, Any, Dict, List
 from functools import wraps
 import traceback
+import json
 
 
 # ============================================
@@ -395,3 +396,241 @@ def export_comparison_report(regime1: str, regime2: str, report_data: Dict, file
 
     report_text = "\n".join(report_lines)
     export_text_as_file(report_text, filename)
+
+
+# ============================================
+# 地图渲染组件
+# ============================================
+
+def build_choropleth_map_html(
+    geojson_content: str,
+    map_data: List[Dict],
+    value_mapping: Dict[str, Any],
+    color_mapping: Dict[str, str],
+    title: str,
+    tooltip_formatter: str = None,
+    legend_title: str = None,
+    height: int = 600,
+) -> str:
+    """
+    构建 choropleth 地图 HTML（使用 visualMap 方案）
+
+    Args:
+        geojson_content: GeoJSON 内容
+        map_data: 地图数据列表，每项包含 name 和 value
+        value_mapping: 值到标签的映射 {value: label}
+        color_mapping: 值到颜色的映射 {value: color}
+        title: 地图标题
+        tooltip_formatter: tooltip 格式化模板，支持{name}, {value}, {label}占位符
+        legend_title: 图例标题
+        height: 地图高度
+
+    Returns:
+        完整的 HTML 字符串
+    """
+    # 构建 pieces 配置
+    pieces_config = [
+        {"value": value, "label": label, "color": color_mapping.get(value, "#999999")}
+        for value, label in value_mapping.items()
+    ]
+    colors_list = [color_mapping.get(value, "#999999") for value in value_mapping.keys()]
+    legend_data = list(value_mapping.values())
+
+    # 构建 tooltip 格式化函数
+    if tooltip_formatter:
+        tooltip_js = tooltip_formatter
+    else:
+        tooltip_js = """function(params) {
+            return '<b>' + params.name + '</b>';
+        }"""
+
+    html_template = f'''<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{title}</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body {{ margin: 0; padding: 0; background: #fff; }}
+        #map {{ width: 100%; height: {height}px; }}
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var chinaGeojson = {geojson_content};
+        var provinceDataMap = {json.dumps({k: v for k, v in value_mapping.items()})};
+        var mapData = {json.dumps(map_data, ensure_ascii=False)};
+
+        echarts.registerMap('china', chinaGeojson);
+
+        var chart = echarts.init(document.getElementById('map'), 'white');
+
+        var option = {{
+            title: {{
+                text: "{title}",
+                left: 'center',
+                top: 10
+            }},
+            tooltip: {{
+                trigger: 'item',
+                formatter: {tooltip_js}
+            }},
+            series: [{{
+                type: 'map',
+                map: 'china',
+                data: mapData,
+                label: {{
+                    show: true,
+                    fontSize: 9,
+                    color: '#333',
+                    formatter: '{{b}}'
+                }},
+                emphasis: {{
+                    itemStyle: {{
+                        areaColor: '#ffd700',
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }},
+                    label: {{
+                        color: '#fff',
+                        fontWeight: 'bold'
+                    }}
+                }}
+            }}],
+            visualMap: {{
+                type: 'piecewise',
+                show: true,
+                right: '10',
+                top: '50',
+                pieces: {json.dumps(pieces_config, ensure_ascii=False)},
+                textStyle: {{
+                    color: '#333'
+                }},
+                inRange: {{
+                    color: {json.dumps(colors_list)}
+                }}
+            }},
+            legend: {{
+                data: {json.dumps(legend_data, ensure_ascii=False)},
+                top: 50,
+                selectedMode: true,
+                type: 'scroll',
+                orient: 'horizontal'
+            }}
+        }};
+
+        chart.setOption(option);
+
+        window.addEventListener('resize', function() {{
+            var chart = echarts.getInstanceByDom(document.getElementById('map'));
+            if (chart) chart.resize();
+        }});
+    </script>
+</body>
+</html>'''
+
+    return html_template
+
+
+def build_simple_highlight_map_html(
+    geojson_content: str,
+    highlight_regions: List[str],
+    highlight_color: str = "#e74c3c",
+    highlight_label: str = "高亮区域",
+    title: str = "地图",
+    height: int = 500,
+) -> str:
+    """
+    构建简单的高亮地图 HTML（二分颜色方案）
+
+    Args:
+        geojson_content: GeoJSON 内容
+        highlight_regions: 需要高亮的区域列表
+        highlight_color: 高亮颜色
+        highlight_label: 高亮区域标签
+        title: 地图标题
+        height: 地图高度
+
+    Returns:
+        完整的 HTML 字符串
+    """
+    html_template = f'''<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{title}</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body {{ margin: 0; padding: 0; background: #fff; }}
+        #map {{ width: 100%; height: {height}px; }}
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var chinaGeojson = {geojson_content};
+        var highlightRegions = {json.dumps(highlight_regions)};
+
+        echarts.registerMap('china', chinaGeojson);
+
+        var mapData = highlightRegions.map(function(name) {{
+            return {{ name: name, value: 1 }};
+        }});
+
+        var chart = echarts.init(document.getElementById('map'), 'white');
+
+        var option = {{
+            title: {{
+                text: "{title}",
+                left: 'center',
+                top: 10
+            }},
+            tooltip: {{
+                trigger: 'item',
+                formatter: '<b>{{b}}</b>: {highlight_label}'
+            }},
+            series: [{{
+                type: 'map',
+                map: 'china',
+                data: mapData,
+                label: {{
+                    show: true,
+                    fontSize: 9,
+                    color: '#333',
+                    formatter: '{{b}}'
+                }},
+                emphasis: {{
+                    itemStyle: {{
+                        areaColor: '#ffd700'
+                    }}
+                }}
+            }}],
+            visualMap: {{
+                type: 'piecewise',
+                show: true,
+                left: 'right',
+                top: '50',
+                pieces: [
+                    {{value: 1, label: '{highlight_label}', color: '{highlight_color}'}}
+                ],
+                textStyle: {{
+                    color: '#333'
+                }},
+                inRange: {{
+                    color: ['#f5f5f5', '{highlight_color}']
+                }}
+            }}
+        }};
+
+        chart.setOption(option);
+
+        window.addEventListener('resize', function() {{
+            var chart = echarts.getInstanceByDom(document.getElementById('map'));
+            if (chart) chart.resize();
+        }});
+    </script>
+</body>
+</html>'''
+
+    return html_template

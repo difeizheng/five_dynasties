@@ -22,6 +22,7 @@ from src.data_processor import (
     CAPITAL_TO_PROVINCE,
 )
 from src.config import PROVINCE_MAPPING
+from src.streamlit_utils import build_choropleth_map_html, build_simple_highlight_map_html
 
 st.set_page_config(page_title="政权地图", page_icon="🗺️", layout="wide")
 
@@ -43,9 +44,9 @@ def render_map_header():
 
 
 def render_regime_map(regime_name: str = None):
-    """渲染政权地图 - 使用 visualMap + inRange 实现颜色填充"""
+    """渲染政权地图 - 使用公共组件"""
 
-    # 读取内嵌的 GeoJSON 数据
+    # 读取 GeoJSON 数据
     with open('china_full.geojson', 'r', encoding='utf-8') as f:
         china_geojson = f.read()
 
@@ -66,10 +67,10 @@ def render_regime_map(regime_name: str = None):
 
     regimes_list = list(regimes_in_map)
 
-    # 为每个政权分配唯一值用于 visualMap
+    # 为每个政权分配唯一值
     regime_value_map = {regime: idx + 1 for idx, regime in enumerate(regimes_list)}
 
-    # 构建地图数据（包含 value 字段）
+    # 构建地图数据
     map_data = []
     for province, info in province_info.items():
         regime = info["regime"]
@@ -78,130 +79,34 @@ def render_regime_map(regime_name: str = None):
             "value": regime_value_map[regime]
         })
 
-    # 构建 visualMap pieces 配置和颜色列表
-    pieces_config = []
-    colors_list = []
-    for regime, value in regime_value_map.items():
-        color = REGIME_COLORS.get(regime, "#999999")
-        pieces_config.append({
-            "value": value,
-            "label": regime,
-            "color": color
-        })
-        colors_list.append(color)
+    # 颜色映射
+    color_mapping = {
+        value: REGIME_COLORS.get(regime, "#999999")
+        for regime, value in regime_value_map.items()
+    }
 
-    # 创建自定义 HTML - 内嵌 GeoJSON 数据
-    html_template = '''<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>政权地图</title>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <style>
-        body { margin: 0; padding: 0; background: #fff; }
-        #map { width: 100%; height: 600px; }
-    </style>
-</head>
-<body>
-    <div id="map"></div>
-    <script>
-        // 内嵌 GeoJSON 数据
-        var chinaGeojson = GEOJSON_PLACEHOLDER;
+    # 构建 tooltip 格式化函数
+    tooltip_js = """function(params) {
+        var regime = provinceRegimeMap[params.name] || '未知';
+        return '<b>' + params.name + '</b><br/>所属政权：' + regime;
+    }"""
 
-        // 省份 - 政权映射（用于 tooltip）
-        var provinceRegimeMap = PROVINCE_REGIME_PLACEHOLDER;
-
-        // 注册地图
-        echarts.registerMap('china', chinaGeojson);
-
-        var mapData = DATA_PLACEHOLDER;
-
-        var chart = echarts.init(document.getElementById('map'), 'white');
-
-        var option = {
-            title: {
-                text: "TITLE_PLACEHOLDER",
-                left: 'center',
-                top: 10
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: function(params) {
-                    var regime = provinceRegimeMap[params.name] || '未知';
-                    return '<b>' + params.name + '</b><br/>所属政权：' + regime;
-                }
-            },
-            series: [{
-                type: 'map',
-                map: 'china',
-                data: mapData,
-                label: {
-                    show: true,
-                    fontSize: 9,
-                    color: '#333',
-                    formatter: '{b}'
-                },
-                emphasis: {
-                    itemStyle: {
-                        areaColor: '#ffd700',
-                        borderColor: '#fff',
-                        borderWidth: 2
-                    },
-                    label: {
-                        color: '#fff',
-                        fontWeight: 'bold'
-                    }
-                }
-            }],
-            visualMap: {
-                type: 'piecewise',
-                show: true,
-                right: '10',
-                top: '50',
-                pieces: PIECES_PLACEHOLDER,
-                textStyle: {
-                    color: '#333'
-                },
-                inRange: {
-                    color: COLORS_PLACEHOLDER
-                }
-            },
-            legend: {
-                data: LEGEND_PLACEHOLDER,
-                top: 50,
-                selectedMode: true,
-                type: 'scroll',
-                orient: 'horizontal'
-            }
-        };
-
-        chart.setOption(option);
-
-        window.addEventListener('resize', function() {
-            var chart = echarts.getInstanceByDom(document.getElementById('map'));
-            if (chart) chart.resize();
-        });
-    </script>
-</body>
-</html>'''
-
-    # 替换占位符
     title_text = ' '.join(regimes_list) + ' 疆域范围'
-    html_template = html_template.replace('TITLE_PLACEHOLDER', title_text)
-    html_template = html_template.replace('GEOJSON_PLACEHOLDER', china_geojson)
-    html_template = html_template.replace('DATA_PLACEHOLDER', json.dumps(map_data, ensure_ascii=False))
-    html_template = html_template.replace('PROVINCE_REGIME_PLACEHOLDER', json.dumps({k: v["regime"] for k, v in province_info.items()}, ensure_ascii=False))
-    html_template = html_template.replace('PIECES_PLACEHOLDER', json.dumps(pieces_config, ensure_ascii=False))
-    html_template = html_template.replace('COLORS_PLACEHOLDER', json.dumps(colors_list, ensure_ascii=False))
-    html_template = html_template.replace('LEGEND_PLACEHOLDER', json.dumps(regimes_list, ensure_ascii=False))
 
-    return html_template
+    return build_choropleth_map_html(
+        geojson_content=china_geojson,
+        map_data=map_data,
+        value_mapping=regime_value_map,
+        color_mapping=color_mapping,
+        title=title_text,
+        tooltip_formatter=tooltip_js,
+    )
 
 
 def render_capital_scatter():
-    """渲染都城分布散点图 - 使用内嵌 GeoJSON 实现颜色填充"""
+    """渲染都城分布散点图 - 使用公共组件"""
 
-    # 读取内嵌的 GeoJSON 数据
+    # 读取 GeoJSON 数据
     with open('china_full.geojson', 'r', encoding='utf-8') as f:
         china_geojson = f.read()
 
@@ -211,101 +116,16 @@ def render_capital_scatter():
         "广东省", "湖南省", "湖北省", "山西省"
     ]
 
-    # 构建地图数据
-    map_data = []
-    province_set = set(capital_provinces)
-    # 添加所有省份，都城省份 value=1，其他省份 value=0
-    for province in capital_provinces:
-        map_data.append({"name": province, "value": 1})
+    title = "五代十国都城分布"
 
-    html_template = '''<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>都城分布</title>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <style>
-        body { margin: 0; padding: 0; background: #fff; }
-        #map { width: 100%; height: 500px; }
-    </style>
-</head>
-<body>
-    <div id="map"></div>
-    <script>
-        // 内嵌 GeoJSON 数据
-        var chinaGeojson = GEOJSON_PLACEHOLDER;
-
-        // 注册地图
-        echarts.registerMap('china', chinaGeojson);
-
-        // 都城省份列表
-        var capitalProvinces = CAPITAL_PROVINCES_PLACEHOLDER;
-
-        // 构建地图数据
-        var mapData = [];
-        for (var i = 0; i < capitalProvinces.length; i++) {
-            mapData.push({name: capitalProvinces[i], value: 1});
-        }
-
-        var chart = echarts.init(document.getElementById('map'), 'white');
-
-        var option = {
-            title: {
-                text: "五代十国都城分布",
-                left: 'center',
-                top: 10
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: '<b>{b}</b>: 都城所在地'
-            },
-            series: [{
-                type: 'map',
-                map: 'china',
-                data: mapData,
-                label: {
-                    show: true,
-                    fontSize: 9,
-                    color: '#333',
-                    formatter: '{b}'
-                },
-                emphasis: {
-                    itemStyle: {
-                        areaColor: '#ffd700'
-                    }
-                }
-            }],
-            visualMap: {
-                type: 'piecewise',
-                show: true,
-                left: 'right',
-                top: '50',
-                pieces: [
-                    {value: 1, label: '都城所在地', color: '#e74c3c'}
-                ],
-                textStyle: {
-                    color: '#333'
-                },
-                inRange: {
-                    color: ['#f5f5f5', '#e74c3c']
-                }
-            }
-        };
-
-        chart.setOption(option);
-
-        window.addEventListener('resize', function() {
-            var chart = echarts.getInstanceByDom(document.getElementById('map'));
-            if (chart) chart.resize();
-        });
-    </script>
-</body>
-</html>'''
-
-    html_template = html_template.replace('GEOJSON_PLACEHOLDER', china_geojson)
-    html_template = html_template.replace('CAPITAL_PROVINCES_PLACEHOLDER', json.dumps(capital_provinces, ensure_ascii=False))
-
-    return html_template
+    return build_simple_highlight_map_html(
+        geojson_content=china_geojson,
+        highlight_regions=capital_provinces,
+        highlight_color="#e74c3c",
+        highlight_label="都城所在地",
+        title=title,
+        height=500,
+    )
 
 
 def get_province_history(province: str) -> dict:
