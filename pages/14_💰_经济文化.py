@@ -629,35 +629,33 @@ with tab5:
                         break
 
     if map_data:
-        from pyecharts.charts import Geo
+        from pyecharts.charts import Scatter
+        from pyecharts.globals import SymbolType
 
-        # 按类别分组统计
-        category_count = {}
+        # 按地点分组统计
+        location_data = {}
         for item in map_data:
-            cat = item['category']
-            key = f"{item['coords'][0]},{item['coords'][1]}"
-            if key not in category_count:
-                category_count[key] = {'coords': item['coords'], 'count': 0, 'items': []}
-            category_count[key]['count'] += 1
-            category_count[key]['items'].append(item)
+            loc_name = item['location'].split('市')[0].split('省')[0]
+            if loc_name not in location_data:
+                location_data[loc_name] = {'coords': item['coords'], 'count': 0, 'items': []}
+            location_data[loc_name]['count'] += 1
+            location_data[loc_name]['items'].append(item)
 
-        geo = Geo(init_opts=opts.InitOpts(width="100%", height="600px"))
-        geo.add_schema(
-            maptype="china",
-            itemstyle_opts=opts.ItemStyleOpts(color="#333"),
-        )
+        # 使用散点图代替 Geo
+        scatter_data = [(data['coords'][0], data['coords'][1], data['count']) for data in location_data.values()]
 
-        geo_data = [(item['coords'], item['count']) for item in category_count.values()]
-        geo.add(
+        scatter = Scatter(init_opts=opts.InitOpts(width="100%", height="600px"))
+        scatter.add_xaxis([])
+        scatter.add_yaxis(
             "艺术作品",
-            geo_data,
-            type_=ChartType.EFFECT_SCATTER,
-            color="#e74c3c",
-            symbol_size=10,
+            scatter_data,
+            symbol_size=20,
+            label_opts=opts.LabelOpts(formatter="{c}"),
         )
-
-        geo.set_global_opts(
+        scatter.set_global_opts(
             title_opts=opts.TitleOpts(title="艺术作品地理分布"),
+            xaxis_opts=opts.AxisOpts(is_show=False),
+            yaxis_opts=opts.AxisOpts(is_show=False),
             visualmap_opts=opts.VisualMapOpts(
                 is_show=True,
                 min_=1,
@@ -667,12 +665,12 @@ with tab5:
                 pos_top="60%",
             ),
         )
-        st.components.v1.html(geo.render_embed(), height=650, scrolling=False)
+        st.components.v1.html(scatter.render_embed(), height=650, scrolling=False)
 
         # 显示各地点详情
         st.markdown("### 📍 各地艺术作品")
-        for location_key, data in category_count.items():
-            with st.expander(f"📍 {data['coords']} - {data['count']} 件作品"):
+        for location_name, data in location_data.items():
+            with st.expander(f"📍 {location_name} - {data['count']} 件作品"):
                 for item in data['items']:
                     st.markdown(f"**{item['name']}** ({item['category']}) - {item['regime']}")
 
