@@ -413,7 +413,7 @@ def build_choropleth_map_html(
     height: int = 600,
 ) -> str:
     """
-    构建 choropleth 地图 HTML（使用 series 中的 itemStyle 方案）
+    构建 choropleth 地图 HTML（使用 visualMap pieces 映射颜色）
 
     Args:
         geojson_content: GeoJSON 内容
@@ -428,6 +428,27 @@ def build_choropleth_map_html(
     Returns:
         完整的 HTML 字符串
     """
+    # 构建数据：给每个省份分配一个唯一 ID（从 1 开始）
+    data_with_id = []
+    name_to_id = {}
+    for idx, item in enumerate(map_data):
+        name = item.get('name', '')
+        name_to_id[name] = idx + 1
+        data_with_id.append({'name': name, 'value': idx + 1})
+
+    # 构建 visualMap 的 pieces 配置 - 将 ID 映射到颜色
+    pieces = []
+    for item in map_data:
+        name = item.get('name', '')
+        color = region_color_map.get(name, '#cccccc')
+        idx = name_to_id.get(name, 0)
+        pieces.append({
+            'min': idx,
+            'max': idx,
+            'color': color,
+            'label': name
+        })
+
     # 获取所有区域名称用于图例
     region_names = list(region_color_map.keys())
 
@@ -441,9 +462,6 @@ def build_choropleth_map_html(
 
     # 构建省份 - 政权映射用于 tooltip
     province_regime_json = json.dumps(province_regime_map or {}, ensure_ascii=False)
-
-    # 构建颜色映射 JSON 用于 itemStyle
-    region_color_json = json.dumps(region_color_map, ensure_ascii=False)
 
     html_template = f'''<!DOCTYPE html>
 <html>
@@ -461,8 +479,8 @@ def build_choropleth_map_html(
     <script>
         var chinaGeojson = {geojson_content};
         var provinceRegimeMap = {province_regime_json};
-        var regionColorMap = {region_color_json};
-        var mapData = {json.dumps(map_data, ensure_ascii=False)};
+        var mapData = {json.dumps(data_with_id, ensure_ascii=False)};
+        var regionNames = {json.dumps(region_names, ensure_ascii=False)};
 
         echarts.registerMap('china', chinaGeojson);
 
@@ -488,16 +506,9 @@ def build_choropleth_map_html(
                     color: '#333',
                     formatter: '{{b}}'
                 }},
-                itemStyle: {{
-                    color: function(params) {{
-                        return regionColorMap[params.name] || '#cccccc';
-                    }}
-                }},
                 emphasis: {{
                     itemStyle: {{
-                        areaColor: '#ffd700',
-                        borderColor: '#fff',
-                        borderWidth: 2
+                        areaColor: '#ffd700'
                     }},
                     label: {{
                         color: '#fff',
@@ -505,12 +516,196 @@ def build_choropleth_map_html(
                     }}
                 }}
             }}],
+            visualMap: {{
+                type: 'piecewise',
+                show: false,
+                min: 0,
+                max: {len(map_data) + 1},
+                pieces: {json.dumps(pieces, ensure_ascii=False)},
+                inRange: {{}},
+                outOfRange: {{
+                    color: '#f5f5f5'
+                }}
+            }},
             legend: {{
-                data: {json.dumps(region_names, ensure_ascii=False)},
+                data: regionNames,
                 top: 50,
                 selectedMode: true,
                 type: 'scroll',
-                orient: 'horizontal'
+                orient: 'horizontal',
+                textStyle: {{
+                    color: '#333'
+                }}
+            }}
+        }};
+
+        chart.setOption(option);
+
+        window.addEventListener('resize', function() {{
+            var chart = echarts.getInstanceByDom(document.getElementById('map'));
+            if (chart) chart.resize();
+        }});
+    </script>
+</body>
+</html>'''
+
+    return html_template
+
+
+def build_choropleth_map_html_with_regime_legend(
+    geojson_content: str,
+    map_data: List[Dict],
+    province_regime_map: Dict[str, str],  # {province: regime}
+    tooltip_formatter: str = None,
+    legend_names: List[str] = None,  # 政权名称列表
+    legend_colors: Dict[str, str] = None,  # {regime: color}
+    title: str = "地图",
+    height: int = 600,
+) -> str:
+    """
+    构建 choropleth 地图 HTML（按政权分组的图例）- 使用 visualMap 方案
+
+    Args:
+        geojson_content: GeoJSON 内容
+        map_data: 地图数据列表，每项包含 name、value 和 itemStyle
+        province_regime_map: 省份到政权的映射 {province: regime}
+        tooltip_formatter: tooltip 格式化模板
+        legend_names: 政权名称列表
+        legend_colors: 政权颜色映射 {regime: color}
+        title: 地图标题
+        height: 地图高度
+
+    Returns:
+        完整的 HTML 字符串
+    """
+    # 给每个省份分配一个唯一 ID，并根据政权设置颜色
+    data_with_id = []
+    name_to_id = {}
+    id_to_regime = {}
+
+    for idx, item in enumerate(map_data):
+        name = item.get('name', '')
+        name_to_id[name] = idx + 1
+        regime = province_regime_map.get(name, '')
+        id_to_regime[idx + 1] = regime
+        data_with_id.append({'name': name, 'value': idx + 1})
+
+    # 构建 visualMap 的 pieces 配置 - 将 ID 映射到颜色
+    pieces = []
+    for item in map_data:
+        name = item.get('name', '')
+        regime = province_regime_map.get(name, '')
+        color = legend_colors.get(regime, '#cccccc') if legend_colors else '#cccccc'
+        idx = name_to_id.get(name, 0)
+        pieces.append({
+            'min': idx,
+            'max': idx,
+            'color': color,
+            'label': name
+        })
+
+    # 构建图例数据（按政权分组）
+    if legend_names is None:
+        legend_names = list(set(province_regime_map.values()))
+
+    if legend_colors is None:
+        legend_colors = {}
+
+    # 构建自定义图例项
+    custom_legend_items = []
+    for name in legend_names:
+        color = legend_colors.get(name, '#999999')
+        custom_legend_items.append({
+            'name': name,
+            'itemStyle': {'color': color}
+        })
+
+    # 构建 tooltip 格式化函数
+    if tooltip_formatter:
+        tooltip_js = tooltip_formatter
+    else:
+        tooltip_js = """function(params) {
+            return '<b>' + params.name + '</b><br/>所属政权：' + (provinceRegimeMap[params.name] || '未知');
+        }"""
+
+    # 构建省份 - 政权映射用于 tooltip
+    province_regime_json = json.dumps(province_regime_map or {}, ensure_ascii=False)
+
+    html_template = f'''<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{title}</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body {{ margin: 0; padding: 0; background: #fff; }}
+        #map {{ width: 100%; height: {height}px; }}
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var chinaGeojson = {geojson_content};
+        var provinceRegimeMap = {province_regime_json};
+        var mapData = {json.dumps(data_with_id, ensure_ascii=False)};
+        var customLegendItems = {json.dumps(custom_legend_items, ensure_ascii=False)};
+
+        echarts.registerMap('china', chinaGeojson);
+
+        var chart = echarts.init(document.getElementById('map'), 'white');
+
+        var option = {{
+            title: {{
+                text: "{title}",
+                left: 'center',
+                top: 10
+            }},
+            tooltip: {{
+                trigger: 'item',
+                formatter: {tooltip_js}
+            }},
+            series: [{{
+                type: 'map',
+                map: 'china',
+                data: mapData,
+                label: {{
+                    show: true,
+                    fontSize: 9,
+                    color: '#333',
+                    formatter: '{{b}}'
+                }},
+                emphasis: {{
+                    itemStyle: {{
+                        areaColor: '#ffd700'
+                    }},
+                    label: {{
+                        color: '#fff',
+                        fontWeight: 'bold'
+                    }}
+                }}
+            }}],
+            visualMap: {{
+                type: 'piecewise',
+                show: false,
+                min: 0,
+                max: {len(map_data) + 1},
+                pieces: {json.dumps(pieces, ensure_ascii=False)},
+                inRange: {{}},
+                outOfRange: {{
+                    color: '#f5f5f5'
+                }}
+            }},
+            legend: {{
+                data: customLegendItems,
+                top: 50,
+                selectedMode: true,
+                type: 'scroll',
+                orient: 'horizontal',
+                textStyle: {{
+                    color: '#333'
+                }},
+                itemWidth: 15,
+                itemHeight: 15
             }}
         }};
 
@@ -628,3 +823,326 @@ def build_simple_highlight_map_html(
 </html>'''
 
     return html_template
+
+
+def build_capital_map_html(
+    geojson_content: str,
+    capital_data: dict,
+    title: str = "都城分布",
+    height: int = 500,
+) -> str:
+    """
+    构建都城地图 HTML（支持自定义 tooltip 显示都城和政权信息）
+
+    Args:
+        geojson_content: GeoJSON 内容
+        capital_data: 都城数据字典 {省份：[(都城名，政权名), ...]}
+        title: 地图标题
+        height: 地图高度
+
+    Returns:
+        完整的 HTML 字符串
+    """
+    # 构建高亮省份列表
+    highlight_provinces = list(capital_data.keys())
+
+    # 构建省份到都城信息的映射（用于 tooltip）
+    capital_info_map = {}
+    for province, capitals in capital_data.items():
+        capital_info_map[province] = capitals
+
+    html_template = f'''<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{title}</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body {{ margin: 0; padding: 0; background: #fff; }}
+        #map {{ width: 100%; height: {height}px; }}
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var chinaGeojson = {geojson_content};
+        var highlightProvinces = {json.dumps(highlight_provinces)};
+        var capitalInfoMap = {json.dumps(capital_info_map)};
+
+        echarts.registerMap('china', chinaGeojson);
+
+        var mapData = highlightProvinces.map(function(name) {{
+            return {{ name: name, value: 1 }};
+        }});
+
+        var chart = echarts.init(document.getElementById('map'), 'white');
+
+        var option = {{
+            title: {{
+                text: "{title}",
+                left: 'center',
+                top: 10
+            }},
+            tooltip: {{
+                trigger: 'item',
+                formatter: function(params) {{
+                    var province = params.name;
+                    var capitals = capitalInfoMap[province];
+                    if (!capitals || capitals.length === 0) {{
+                        return '<b>' + province + '</b>';
+                    }}
+                    var content = '<b>' + province + '</b><br/>';
+                    capitals.forEach(function(cap) {{
+                        content += cap[0] + '(' + cap[1] + ')<br/>';
+                    }});
+                    return content;
+                }}
+            }},
+            series: [{{
+                type: 'map',
+                map: 'china',
+                data: mapData,
+                label: {{
+                    show: true,
+                    fontSize: 9,
+                    color: '#333',
+                    formatter: '{{b}}'
+                }},
+                emphasis: {{
+                    itemStyle: {{
+                        areaColor: '#ffd700'
+                    }}
+                }}
+            }}],
+            visualMap: {{
+                type: 'piecewise',
+                show: true,
+                left: 'right',
+                top: '50',
+                pieces: [
+                    {{value: 1, label: '都城所在地', color: '#e74c3c'}}
+                ],
+                textStyle: {{
+                    color: '#333'
+                }},
+                inRange: {{
+                    color: ['#f5f5f5', '#e74c3c']
+                }}
+            }}
+        }};
+
+        chart.setOption(option);
+
+        window.addEventListener('resize', function() {{
+            var chart = echarts.getInstanceByDom(document.getElementById('map'));
+            if (chart) chart.resize();
+        }});
+    </script>
+</body>
+</html>'''
+
+    return html_template
+
+
+# ============================================
+# 用户数据导出/导入组件
+# ============================================
+
+def export_user_data_to_json(data: dict, filename: str = "user_data.json"):
+    """
+    导出用户数据为 JSON 文件
+
+    Args:
+        data: 用户数据字典
+        filename: 文件名
+    """
+    import base64
+    import json
+
+    json_content = json.dumps(data, ensure_ascii=False, indent=2)
+    b64 = base64.b64encode(json_content.encode('utf-8')).decode()
+    href = f'<a href="data:application/json;base64,{b64}" download="{filename}" style="display: inline-block; padding: 0.5rem 1rem; background: #28a745; color: white; text-decoration: none; border-radius: 0.25rem;">📥 下载 JSON 文件</a>'
+    st.markdown(href, unsafe_allow_html=True)
+
+
+def generate_share_link(data: dict) -> str:
+    """
+    生成分享链接（基于 base64 编码）
+
+    Args:
+        data: 要分享的数据
+
+    Returns:
+        分享链接（包含编码数据的 URL）
+    """
+    import base64
+    import json
+
+    json_content = json.dumps(data, ensure_ascii=False)
+    b64 = base64.b64encode(json_content.encode('utf-8')).decode()
+    return f"?data={b64}"
+
+
+def parse_share_link_params(query_string: str) -> dict:
+    """
+    解析分享链接参数
+
+    Args:
+        query_string: URL 查询字符串
+
+    Returns:
+        解析后的数据字典
+    """
+    import base64
+    import json
+    from urllib.parse import parse_qs
+
+    params = parse_qs(query_string)
+    if 'data' in params:
+        b64 = params['data'][0]
+        json_content = base64.b64decode(b64.encode('utf-8')).decode('utf-8')
+        return json.loads(json_content)
+    return {}
+
+
+def render_import_file_uploader(file_type: str = "json", key: str = "import_file"):
+    """
+    渲染文件上传器
+
+    Args:
+        file_type: 文件类型
+        key: 组件 key
+
+    Returns:
+        上传的文件内容（字典）或 None
+    """
+    uploaded_file = st.file_uploader(
+        "选择要导入的文件",
+        type=[file_type],
+        key=key,
+        help=f"请选择.{file_type}格式的文件进行导入"
+    )
+
+    if uploaded_file is not None:
+        try:
+            import json
+            content = uploaded_file.read().decode('utf-8')
+            data = json.loads(content)
+            return data
+        except Exception as e:
+            st.error(f"文件解析失败：{str(e)}")
+            return None
+    return None
+
+
+def export_session_state_to_json(include_keys: list = None, exclude_keys: list = None) -> dict:
+    """
+    导出 session state 数据
+
+    Args:
+        include_keys: 要包含的 key 列表（默认包含所有）
+        exclude_keys: 要排除的 key 列表
+
+    Returns:
+        用户数据字典
+    """
+    user_data = {}
+
+    # 默认包含的用户数据 key
+    default_keys = [
+        'user_score',
+        'achievements_unlocked',
+        'bookmarked_items',
+        'favorite_regimes',
+        'quiz_history',
+        'story_progress',
+    ]
+
+    keys_to_export = include_keys or default_keys
+
+    for key in keys_to_export:
+        if exclude_keys and key in exclude_keys:
+            continue
+        if key in st.session_state:
+            user_data[key] = st.session_state[key]
+
+    return user_data
+
+
+def import_session_state_from_json(data: dict, merge: bool = True):
+    """
+    导入 session state 数据
+
+    Args:
+        data: 要导入的数据字典
+        merge: 是否合并（True）还是覆盖（False）
+    """
+    for key, value in data.items():
+        if key not in st.session_state or not merge:
+            st.session_state[key] = value
+        elif isinstance(value, list) and isinstance(st.session_state[key], list):
+            # 列表类型合并
+            for item in value:
+                if item not in st.session_state[key]:
+                    st.session_state[key].append(item)
+        elif isinstance(value, dict) and isinstance(st.session_state[key], dict):
+            # 字典类型合并
+            st.session_state[key].update(value)
+
+
+def render_user_data_export_import():
+    """
+    渲染用户数据导出/导入 UI 组件
+    """
+    st.markdown("### 📤 导出我的数据")
+    st.markdown("将你的学习进度、收藏和成就导出为 JSON 文件")
+
+    # 选择要导出的数据类型
+    data_types = st.multiselect(
+        "选择要导出的数据类型",
+        options=[
+            ("user_score", "测验得分"),
+            ("achievements_unlocked", "解锁成就"),
+            ("bookmarked_items", "收藏内容"),
+            ("favorite_regimes", "偏好政权"),
+            ("quiz_history", "测验历史"),
+            ("story_progress", "故事进度"),
+        ],
+        default=[
+            ("user_score", "测验得分"),
+            ("achievements_unlocked", "解锁成就"),
+            ("bookmarked_items", "收藏内容"),
+        ]
+    )
+
+    if data_types:
+        include_keys = [k for k, v in data_types]
+
+        if st.button("📥 生成导出数据"):
+            user_data = export_session_state_to_json(include_keys=include_keys)
+            st.session_state.temp_export_data = user_data
+            st.success("数据已准备就绪，请点击下方下载按钮")
+            export_user_data_to_json(user_data, "my_five_dynasties_data.json")
+
+    st.markdown("---")
+
+    st.markdown("### 📥 导入数据")
+    st.markdown("从 JSON 文件恢复你的学习进度")
+
+    imported_data = render_import_file_uploader("json", "import_user_data")
+
+    if imported_data:
+        st.success("文件解析成功！")
+        st.json(imported_data)
+
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("🔄 覆盖当前数据"):
+                import_session_state_from_json(imported_data, merge=False)
+                st.success("数据已覆盖！")
+                st.rerun()
+        with col2:
+            if st.button("➕ 合并到当前数据"):
+                import_session_state_from_json(imported_data, merge=True)
+                st.success("数据已合并！")
+                st.rerun()
