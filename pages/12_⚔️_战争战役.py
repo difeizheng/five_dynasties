@@ -162,9 +162,8 @@ with tab1:
             type_=ChartType.EFFECT_SCATTER,
             color=["#e74c3c", "#3498db", "#2ecc71", "#9b59b6", "#95a5a6"],
             symbol_size=12,
-            ripple_effect_opts=opts.RippleEffectOpts(
-                brush_type="stroke",
-                scale=3
+            effect_opts=opts.EffectOpts(
+                symbol_size=10
             ),
             label_opts=opts.LabelOpts(
                 formatter=JsCode("""

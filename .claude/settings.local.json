@@ -90,7 +90,9 @@
       "Bash(sed -i 's/- \\\\[ \\\\] 任务 11: 性能优化/- [x] 任务 11: 性能优化/g' TODO.md)",
       "Bash(sed -i 's/### 任务 9: 导出功能/### 任务 9: 导出功能 ✅ 已完成/g' TODO.md)",
       "Bash(sed -i 's/- \\\\[x\\\\] 图表导出（PNG\\\\/SVG）/- [x] 图表导出（HTML）/g' TODO.md)",
-      "Bash(sed -i 's/- \\\\[x\\\\] 数据导出（CSV\\\\/Excel）/- [x] 数据导出（CSV\\\\/Excel）/g' TODO.md)"
+      "Bash(sed -i 's/- \\\\[x\\\\] 数据导出（CSV\\\\/Excel）/- [x] 数据导出（CSV\\\\/Excel）/g' TODO.md)",
+      "Bash(pkill -f \"streamlit run\")",
+      "Bash(cmd /c \"taskkill /F /PID 19824\")"
     ]
   }
 }

@@ -145,7 +145,8 @@ else:
     st.markdown("### 📝 答题中")
 
     # 显示进度
-    progress = st.progress((st.session_state.quiz_index + 1) / len(st.session_state.current_quiz))
+    progress_value = min((st.session_state.quiz_index + 1) / len(st.session_state.current_quiz), 1.0)
+    progress = st.progress(progress_value)
 
     if st.session_state.quiz_index >= len(st.session_state.current_quiz):
         # 测验结束

@@ -1271,19 +1271,1302 @@ RELIGION_DATA = {
 # 艺术作品数据
 ART_WORKS = {
     "绘画": [
-        {"name": "韩熙载夜宴图", "artist": "顾闳中", "regime": "南唐", "year": 960, "description": "描绘南唐大臣韩熙载夜宴场景"},
-        {"name": "潇湘图", "artist": "董源", "regime": "南唐", "year": 950, "description": "山水画代表作"},
-        {"name": "匡庐图", "artist": "荆浩", "regime": "后梁", "year": 910, "description": "北方山水画派代表作"},
-        {"name": "雪景寒林图", "artist": "范宽", "regime": "北宋", "year": 970, "description": "山水画杰作"},
+        {
+            "name": "韩熙载夜宴图",
+            "artist": "顾闳中",
+            "regime": "南唐",
+            "year": 960,
+            "type": "人物画",
+            "size": "28.7cm × 335.5cm",
+            "material": "绢本设色",
+            "collection": "北京故宫博物院",
+            "description": "描绘南唐大臣韩熙载夜宴场景",
+            "story": "后主李煜欲用韩熙载为相，然闻其生活奢放，乃命顾闳中夜至其第，窃窥之，目识心记，绘成此图。",
+            "appreciation": "此画采用连环画式构图，分为听乐、观舞、休息、清吹、送别五段，人物神情生动，线条流畅。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Han_Xizai_Night_Feast_Detail.jpg/1280px-Han_Xizai_Night_Feast_Detail.jpg",
+        },
+        {
+            "name": "潇湘图",
+            "artist": "董源",
+            "regime": "南唐",
+            "year": 950,
+            "type": "山水画",
+            "size": "50cm × 141cm",
+            "material": "绢本设色",
+            "collection": "北京故宫博物院",
+            "description": "山水画代表作，开创南派山水风格",
+            "story": "董源为南唐宫廷画家，擅画江南山水，此图描绘潇湘一带江南景色。",
+            "appreciation": "以披麻皴画法表现江南土质山丘，墨色清淡，意境深远，为南派山水画开山之作。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Dong_Yuan_-_Xiao_Xiang_Tu.jpg/1280px-Dong_Yuan_-_Xiao_Xiang_Tu.jpg",
+        },
+        {
+            "name": "匡庐图",
+            "artist": "荆浩",
+            "regime": "后梁",
+            "year": 910,
+            "type": "山水画",
+            "size": "185.8cm × 106.8cm",
+            "material": "绢本水墨",
+            "collection": "台北故宫博物院",
+            "description": "北方山水画派代表作",
+            "story": "荆浩为五代后梁画家，隐居于太行山，以真山真水为师，创北方山水画派。",
+            "appreciation": "采用高远构图，主峰耸立，气势雄伟，笔墨厚重，开创北方山水画派先河。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Jing_Hao_-_Kuang_Lu_Tu.jpg/1280px-Jing_Hao_-_Kuang_Lu_Tu.jpg",
+        },
+        {
+            "name": "雪景寒林图",
+            "artist": "范宽",
+            "regime": "北宋",
+            "year": 970,
+            "type": "山水画",
+            "size": "193.5cm × 160.3cm",
+            "material": "绢本水墨",
+            "collection": "天津博物馆",
+            "description": "山水画杰作，雪景山水典范",
+            "story": "范宽为北宋初年画家，师从荆浩，此图为雪景山水之杰作。",
+            "appreciation": "以雨点皴表现雪后山林，层次分明，意境清寒，为雪景山水之典范。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Fan_Kuan_-_Travelers_Among_Mountains_and_Streams.jpg/1280px-Fan_Kuan_-_Travelers_Among_Mountains_and_Streams.jpg",
+        },
+        {
+            "name": "高士图",
+            "artist": "卫贤",
+            "regime": "南唐",
+            "year": 950,
+            "type": "人物画",
+            "size": "134.5cm × 52.5cm",
+            "material": "绢本设色",
+            "collection": "北京故宫博物院",
+            "description": "描绘高士隐居生活",
+            "story": "卫贤为南唐宫廷画家，擅画楼台亭阁及高士图。",
+            "appreciation": "人物神态安详，背景山水秀丽，表现文人隐逸情怀。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Wei_Xian_-_Gao_Shi_Tu.jpg/800px-Wei_Xian_-_Gao_Shi_Tu.jpg",
+        },
+        {
+            "name": "勘书图",
+            "artist": "王齐翰",
+            "regime": "南唐",
+            "year": 960,
+            "type": "人物画",
+            "size": "28.4cm × 166.3cm",
+            "material": "绢本设色",
+            "collection": "台北故宫博物院",
+            "description": "描绘文人校勘书籍场景",
+            "story": "王齐翰为南唐后主时期画院待诏，此图反映南唐宫廷文化生活。",
+            "appreciation": "人物众多，神态各异，布局严谨，线条精细。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Wang_Qihan_-_Kan_Shu_Tu.jpg/1280px-Wang_Qihan_-_Kan_Shu_Tu.jpg",
+        },
+        {
+            "name": "秋林群鹿图",
+            "artist": "黄筌",
+            "regime": "后蜀",
+            "year": 940,
+            "type": "花鸟画",
+            "size": "95.2cm × 70.8cm",
+            "material": "绢本设色",
+            "collection": "台北故宫博物院",
+            "description": "花鸟画代表作",
+            "story": "黄筌为后蜀宫廷画家，以工笔花鸟著称，与江南徐熙并称'黄徐'。",
+            "appreciation": "工笔重彩，色彩艳丽，鹿群神态生动，为工笔花鸟画典范。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Huang_Quan_-_Autumn_Forest.jpg/800px-Huang_Quan_-_Autumn_Forest.jpg",
+        },
+        {
+            "name": "写生珍禽图",
+            "artist": "黄筌",
+            "regime": "后蜀",
+            "year": 935,
+            "type": "花鸟画",
+            "size": "41.5cm × 70.8cm",
+            "material": "绢本设色",
+            "collection": "北京故宫博物院",
+            "description": "工笔花鸟画杰作",
+            "story": "此图为黄筌写生稿，描绘各类珍禽昆虫，为其子黄居寀学习范本。",
+            "appreciation": "写实精细，每一鸟虫皆栩栩如生，体现'黄家富贵'风格。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Huang_Quan_-_Birds_and_Flowers.jpg/1280px-Huang_Quan_-_Birds_and_Flowers.jpg",
+        },
+        {
+            "name": "山鹧棘雀图",
+            "artist": "黄居寀",
+            "regime": "后蜀/北宋",
+            "year": 960,
+            "type": "花鸟画",
+            "size": "97cm × 53.2cm",
+            "material": "绢本设色",
+            "collection": "台北故宫博物院",
+            "description": "黄筌之子黄居寀代表作",
+            "story": "黄居寀继承父业，入宋后为翰林图画院待诏，此为其传世孤本。",
+            "appreciation": "构图饱满，色彩富丽，延续黄家工笔重彩风格。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Huang_Jucai_-_Partridge.jpg/800px-Huang_Jucai_-_Partridge.jpg",
+        },
+        {
+            "name": "重屏会棋图",
+            "artist": "周文矩",
+            "regime": "南唐",
+            "year": 955,
+            "type": "人物画",
+            "size": "40.3cm × 70.5cm",
+            "material": "绢本设色",
+            "collection": "北京故宫博物院",
+            "description": "描绘南唐中主李璟兄弟会棋场景",
+            "story": "周文矩为南唐画院待诏，此图屏风之中又有屏风，故称'重屏'。",
+            "appreciation": "人物神态自然，衣纹流畅，屏风山水与前景呼应，构思巧妙。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Zhou_Wenju_-_Chong_Ping_Hui_Qi_Tu.jpg/1280px-Zhou_Wenju_-_Chong_Ping_Hui_Qi_Tu.jpg",
+        },
+        {
+            "name": "琉璃堂人物图",
+            "artist": "周文矩",
+            "regime": "南唐",
+            "year": 960,
+            "type": "人物画",
+            "size": "31.3cm × 127.5cm",
+            "material": "绢本设色",
+            "collection": "美国大都会博物馆",
+            "description": "描绘文人雅集场景",
+            "story": "琉璃堂为南唐宫殿名，此图记录当时文人聚会盛况。",
+            "appreciation": "人物众多而有序，神态各异，衣纹用'战笔'，独具特色。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Zhou_Wenju_-_Liu_Li_Tang.jpg/1280px-Zhou_Wenju_-_Liu_Li_Tang.jpg",
+        },
+        {
+            "name": "闸口盘车图",
+            "artist": "卫贤",
+            "regime": "南唐",
+            "year": 955,
+            "type": "风俗画",
+            "size": "53.3cm × 115.2cm",
+            "material": "绢本设色",
+            "collection": "北京故宫博物院",
+            "description": "描绘水闸盘车劳作场景",
+            "story": "此图为罕见的风俗画题材，反映五代时期水利工程与劳动场景。",
+            "appreciation": "人物动作生动，建筑结构精确，为研究古代水利工程的重要图像资料。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Wei_Xian_-_Zha_Gou_Pan_Che.jpg/1280px-Wei_Xian_-_Zha_Gou_Pan_Che.jpg",
+        },
     ],
     "书法": [
-        {"name": "韭花帖", "artist": "杨凝式", "regime": "后梁", "year": 920, "description": "行书代表作"},
-        {"name": "神仙起居法帖", "artist": "杨凝式", "regime": "后汉", "year": 950, "description": "草书佳作"},
+        {
+            "name": "韭花帖",
+            "artist": "杨凝式",
+            "regime": "后梁",
+            "year": 920,
+            "type": "行书",
+            "size": "26cm × 13cm",
+            "material": "纸本墨迹",
+            "collection": "私人收藏",
+            "description": "行书代表作",
+            "story": "杨凝式见友人赠韭花而食之，感而作此书札，故称'韭花帖'。",
+            "appreciation": "用笔洒脱自然，结字奇正相生，章法疏密有致，为五代书法珍品。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Yang_Ningshi_-_Jiu_Hua_Tie.jpg/800px-Yang_Ningshi_-_Jiu_Hua_Tie.jpg",
+        },
+        {
+            "name": "神仙起居法帖",
+            "artist": "杨凝式",
+            "regime": "后汉",
+            "year": 950,
+            "type": "草书",
+            "size": "27.5cm × 325cm",
+            "material": "纸本墨迹",
+            "collection": "北京故宫博物院",
+            "description": "草书佳作",
+            "story": "杨凝式嗜酒放达，人称'杨风子'，此帖记述养生之道。",
+            "appreciation": "笔势奔放，如疾风骤雨，变化莫测，为狂草杰作。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Yang_Ningshi_-_Shen_Xian_Qi_Ju_Fa.jpg/1280px-Yang_Ningshi_-_Shen_Xian_Qi_Ju_Fa.jpg",
+        },
+        {
+            "name": "夏热帖",
+            "artist": "杨凝式",
+            "regime": "后晋",
+            "year": 940,
+            "type": "行草",
+            "size": "25.5cm × 28.2cm",
+            "material": "纸本墨迹",
+            "collection": "北京故宫博物院",
+            "description": "行草书札",
+            "story": "杨凝式夏日感热而作，问候友人之书札。",
+            "appreciation": "用笔老辣，结体夸张，章法错落有致。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Yang_Ningshi_-_Xia_Re_Tie.jpg/800px-Yang_Ningshi_-_Xia_Re_Tie.jpg",
+        },
+        {
+            "name": "卢鸿草堂十志图跋",
+            "artist": "杨凝式",
+            "regime": "后周",
+            "year": 955,
+            "type": "行书",
+            "size": "28cm × 55cm",
+            "material": "纸本墨迹",
+            "collection": "台北故宫博物院",
+            "description": "为《卢鸿草堂十志图》所作题跋",
+            "story": "杨凝式观卢鸿草堂图后有感而作。",
+            "appreciation": "用笔沉稳，结字端庄，为杨凝式晚年力作。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Yang_Ningshi_-_Lu_Hong_Ba.jpg/800px-Yang_Ningshi_-_Lu_Hong_Ba.jpg",
+        },
+        {
+            "name": "土母帖",
+            "artist": "李建中",
+            "regime": "北宋",
+            "year": 990,
+            "type": "行书",
+            "size": "31.2cm × 46.8cm",
+            "material": "纸本墨迹",
+            "collection": "台北故宫博物院",
+            "description": "北宋初年书法代表作",
+            "story": "李建中为宋初书法大家，此帖为其传世名作。",
+            "appreciation": "用笔圆润，结体严谨，承唐启宋，为宋初书法典范。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Li_Jianzhong_-_Tu_Mu_Tie.jpg/800px-Li_Jianzhong_-_Tu_Mu_Tie.jpg",
+        },
+        {
+            "name": "同年帖",
+            "artist": "李建中",
+            "regime": "北宋",
+            "year": 985,
+            "type": "行书",
+            "size": "25cm × 35cm",
+            "material": "纸本墨迹",
+            "collection": "北京故宫博物院",
+            "description": "行书书札",
+            "story": "李建中致同年好友之书札。",
+            "appreciation": "笔法娴熟，气息醇雅，为宋初行书佳作。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Li_Jianzhong_-_Tong_Nian_Tie.jpg/800px-Li_Jianzhong_-_Tong_Nian_Tie.jpg",
+        },
+        {
+            "name": "千字文残卷",
+            "artist": "怀素（传）",
+            "regime": "唐代（五代流传）",
+            "year": 800,
+            "type": "草书",
+            "size": "28cm × 350cm",
+            "material": "纸本墨迹",
+            "collection": "辽宁省博物馆",
+            "description": "草书千字文残卷",
+            "story": "传为唐代怀素所书，五代时期流传。",
+            "appreciation": "笔势连绵，如龙蛇飞舞，为狂草典范。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Huaisu_-_Qian_Zi_Wen.jpg/1280px-Huaisu_-_Qian_Zi_Wen.jpg",
+        },
+        {
+            "name": "古诗四帖",
+            "artist": "张旭（传）",
+            "regime": "唐代（五代流传）",
+            "year": 750,
+            "type": "草书",
+            "size": "29.5cm × 195.2cm",
+            "material": "纸本墨迹",
+            "collection": "辽宁省博物馆",
+            "description": "狂草代表作",
+            "story": "传为'草圣'张旭所书，五代时期珍藏。",
+            "appreciation": "笔势狂放不羁，如疾风骤雨，变化万千。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Zhang_Xu_-_Gu_Si_Tie.jpg/1280px-Zhang_Xu_-_Gu_Si_Tie.jpg",
+        },
     ],
     "陶瓷": [
-        {"name": "越窑青瓷", "regime": "吴越", "description": "秘色瓷闻名天下"},
-        {"name": "邢窑白瓷", "regime": "后周", "description": "类银类雪"},
-        {"name": "建窑黑釉瓷", "regime": "闽国", "description": "兔毫盏名贵"},
+        {
+            "name": "越窑青瓷",
+            "regime": "吴越",
+            "type": "青瓷",
+            "period": "五代",
+            "origin": "浙江余姚",
+            "description": "秘色瓷闻名天下",
+            "story": "吴越钱氏以秘色瓷进贡中原王朝，陆龟蒙诗云：'九秋风露越窑开，夺得千峰翠色来'。",
+            "appreciation": "釉色青翠，温润如玉，为青瓷之上品。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Yue_Ware.jpg/800px-Yue_Ware.jpg",
+        },
+        {
+            "name": "邢窑白瓷",
+            "regime": "后周",
+            "type": "白瓷",
+            "period": "五代",
+            "origin": "河北内丘",
+            "description": "类银类雪",
+            "story": "邢窑白瓷与越窑青瓷并称'南青北白'，为五代名瓷。",
+            "appreciation": "胎质细腻，釉色洁白，造型端庄。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Xing_Ware.jpg/800px-Xing_Ware.jpg",
+        },
+        {
+            "name": "建窑黑釉瓷",
+            "regime": "闽国",
+            "type": "黑釉瓷",
+            "period": "五代",
+            "origin": "福建建阳",
+            "description": "兔毫盏名贵",
+            "story": "建窑黑釉兔毫盏为宋代斗茶之精品，五代时期已有烧造。",
+            "appreciation": "釉色漆黑，兔毫纹清晰，为黑釉瓷之上品。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Jian_Ware.jpg/800px-Jian_Ware.jpg",
+        },
+        {
+            "name": "定窑白瓷",
+            "regime": "后周/北宋",
+            "type": "白瓷",
+            "period": "五代",
+            "origin": "河北曲阳",
+            "description": "刻花精美",
+            "story": "定窑为宋代五大名窑之一，五代时期开始烧造。",
+            "appreciation": "釉色洁白，刻花精细，刀法流畅。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Ding_Ware.jpg/800px-Ding_Ware.jpg",
+        },
+        {
+            "name": "耀州窑青瓷",
+            "regime": "后周",
+            "type": "青瓷",
+            "period": "五代",
+            "origin": "陕西铜川",
+            "description": "北方青瓷代表",
+            "story": "耀州窑为北方青瓷名窑，五代时期已负盛名。",
+            "appreciation": "釉色青绿，刻花豪放，具有北方特色。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Yaozhou_Ware.jpg/800px-Yaozhou_Ware.jpg",
+        },
+        {
+            "name": "长沙窑彩绘瓷",
+            "regime": "楚国",
+            "type": "彩绘瓷",
+            "period": "五代",
+            "origin": "湖南长沙",
+            "description": "釉下彩绘",
+            "story": "长沙窑首创釉下彩绘，为后世彩瓷之祖。",
+            "appreciation": "彩绘生动，题材丰富，具有民间艺术特色。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Changsha_Ware.jpg/800px-Changsha_Ware.jpg",
+        },
+        {
+            "name": "秘色瓷八棱净水瓶",
+            "regime": "吴越",
+            "type": "青瓷",
+            "period": "五代",
+            "origin": "浙江余姚",
+            "description": "法门寺地宫出土",
+            "story": "1987 年法门寺地宫出土，有碑文明确记载为秘色瓷，解开千年之谜。",
+            "appreciation": "造型优美，釉色青绿，为秘色瓷标准器。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Mise_Celadon.jpg/800px-Mise_Celadon.jpg",
+        },
+        {
+            "name": "白釉双龙柄瓶",
+            "regime": "后周",
+            "type": "白瓷",
+            "period": "五代",
+            "origin": "河北",
+            "description": "造型奇特",
+            "story": "双龙柄瓶为五代时期创新器型，深受皇室喜爱。",
+            "appreciation": "造型独特，工艺精湛，为白瓷精品。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/White_Ware_Bottle.jpg/800px-White_Ware_Bottle.jpg",
+        },
+    ],
+    "诗词": [
+        {
+            "name": "虞美人",
+            "artist": "李煜",
+            "regime": "南唐",
+            "year": 978,
+            "type": "词",
+            "content": "春花秋月何时了，往事知多少。小楼昨夜又东风，故国不堪回首月明中。\n\n雕栏玉砌应犹在，只是朱颜改。问君能有几多愁，恰似一江春水向东流。",
+            "background": "李煜降宋后被囚于汴京，此词为其绝命词，作于七夕之夜。",
+            "appreciation": "以自然永恒对比人事无常，抒发亡国之痛，情真意切，感人至深。",
+            "famous_lines": ["问君能有几多愁，恰似一江春水向东流"],
+        },
+        {
+            "name": "浪淘沙",
+            "artist": "李煜",
+            "regime": "南唐",
+            "year": 978,
+            "type": "词",
+            "content": "帘外雨潺潺，春意阑珊。罗衾不耐五更寒。梦里不知身是客，一晌贪欢。\n\n独自莫凭栏，无限江山。别时容易见时难。流水落花春去也，天上人间。",
+            "background": "李煜被囚汴京时所作，追忆故国，感叹身世。",
+            "appreciation": "借景抒情，以梦醒对比现实，表达亡国之君的悲哀。",
+            "famous_lines": ["流水落花春去也，天上人间"],
+        },
+        {
+            "name": "相见欢",
+            "artist": "李煜",
+            "regime": "南唐",
+            "year": 977,
+            "type": "词",
+            "content": "无言独上西楼，月如钩。寂寞梧桐深院锁清秋。\n\n剪不断，理还乱，是离愁。别是一般滋味在心头。",
+            "background": "李煜降宋后被软禁，孤独寂寞中作此词。",
+            "appreciation": "以月夜秋景烘托离愁，比喻新奇，情感深沉。",
+            "famous_lines": ["剪不断，理还乱，是离愁"],
+        },
+        {
+            "name": "乌夜啼",
+            "artist": "李煜",
+            "regime": "南唐",
+            "year": 977,
+            "type": "词",
+            "content": "林花谢了春红，太匆匆。无奈朝来寒雨，晚来风。\n\n胭脂泪，留人醉，几时重。自是人生长恨，水长东。",
+            "background": "李煜感叹春光易逝，人生苦短。",
+            "appreciation": "借落花风雨喻人生无常，语言浅白而意境深远。",
+            "famous_lines": ["自是人生长恨，水长东"],
+        },
+        {
+            "name": "浣溪沙",
+            "artist": "李璟",
+            "regime": "南唐",
+            "year": 955,
+            "type": "词",
+            "content": "菡萏香销翠叶残，西风愁起绿波间。还与韶光共憔悴，不堪看。\n\n细雨梦回鸡塞远，小楼吹彻玉笙寒。多少泪珠何限恨，倚阑干。",
+            "background": "南唐中主李璟感秋伤怀之作。",
+            "appreciation": "情景交融，意境凄凉，为南唐词代表作。",
+            "famous_lines": ["细雨梦回鸡塞远，小楼吹彻玉笙寒"],
+        },
+        {
+            "name": "摊破浣溪沙",
+            "artist": "李璟",
+            "regime": "南唐",
+            "year": 950,
+            "type": "词",
+            "content": "手卷真珠上玉钩，依前春恨锁重楼。风里落花谁是主，思悠悠。\n\n青鸟不传云外信，丁香空结雨中愁。回首绿波三楚暮，接天流。",
+            "background": "李璟思念远方亲人所作。",
+            "appreciation": "以落花丁香喻愁绪，意境深远。",
+            "famous_lines": ["青鸟不传云外信，丁香空结雨中愁"],
+        },
+        {
+            "name": "谒金门",
+            "artist": "冯延巳",
+            "regime": "南唐",
+            "year": 950,
+            "type": "词",
+            "content": "风乍起，吹皱一池春水。闲引鸳鸯香径里，手挼红杏蕊。\n\n斗鸭阑干独倚，碧玉搔头斜坠。终日望君君不至，举头闻鹊喜。",
+            "background": "冯延巳代女子抒写相思之情。",
+            "appreciation": "以春水鸳鸯起兴，婉约细腻，为花间词派代表作。",
+            "famous_lines": ["风乍起，吹皱一池春水"],
+        },
+        {
+            "name": "长命女",
+            "artist": "冯延巳",
+            "regime": "南唐",
+            "year": 945,
+            "type": "词",
+            "content": "春日宴，绿酒一杯歌一遍。再拜陈三愿。\n\n一愿郎君千岁，二愿妾身常健，三愿如同梁上燕，岁岁长相见。",
+            "background": "冯延巳模仿民间歌谣所作。",
+            "appreciation": "语言质朴，情感真挚，具有民歌特色。",
+            "famous_lines": ["三愿如同梁上燕，岁岁长相见"],
+        },
+        {
+            "name": "还乡歌",
+            "artist": "钱镠",
+            "regime": "吴越",
+            "year": 920,
+            "type": "诗",
+            "content": "三节还乡兮挂锦衣，碧天朗朗兮爱日晖。\n\n功成道上兮列旌旗，父老远来兮相追随。\n\n家山乡眷兮会时稀，今朝设宴兮觥散飞。\n\n斗牛牛女映光辉，吴越江山兮共此时。",
+            "background": "钱镠衣锦还乡时所作的歌。",
+            "appreciation": "表达功成名就后还乡的喜悦之情，气势豪迈。",
+            "famous_lines": ["三节还乡兮挂锦衣"],
+        },
+        {
+            "name": "菩萨蛮",
+            "artist": "李煜",
+            "regime": "南唐",
+            "year": 975,
+            "type": "词",
+            "content": "花明月暗笼轻雾，今宵好向郎边去。刬袜步香阶，手提金缕鞋。\n\n画堂南畔见，一向偎人颤。奴为出来难，教君恣意怜。",
+            "background": "李煜与小周后幽会时所作。",
+            "appreciation": "描写女子幽会时的心理活动，细腻生动。",
+            "famous_lines": ["刬袜步香阶，手提金缕鞋"],
+        },
+        {
+            "name": "破阵子",
+            "artist": "李煜",
+            "regime": "南唐",
+            "year": 975,
+            "type": "词",
+            "content": "四十年来家国，三千里地山河。凤阁龙楼连霄汉，玉树琼枝作烟萝，几曾识干戈？\n\n一旦归为臣虏，沈腰潘鬓消磨。最是仓皇辞庙日，教坊犹奏别离歌，垂泪对宫娥。",
+            "background": "李煜降宋后回忆亡国之作。",
+            "appreciation": "对比昔日繁华与今日屈辱，血泪之作。",
+            "famous_lines": ["四十年来家国，三千里地山河"],
+        },
+        {
+            "name": "望江南",
+            "artist": "李煜",
+            "regime": "南唐",
+            "year": 976,
+            "type": "词",
+            "content": "多少恨，昨夜梦魂中。还似旧时游上苑，车如流水马如龙，花月正春风。",
+            "background": "李煜被囚汴京，梦回故国所作。",
+            "appreciation": "以梦境对比现实，抒发亡国之痛。",
+            "famous_lines": ["车如流水马如龙，花月正春风"],
+        },
+        {
+            "name": "清平乐",
+            "artist": "冯延巳",
+            "regime": "南唐",
+            "year": 952,
+            "type": "词",
+            "content": "雨晴烟晚，绿水新池满。双燕飞来垂柳院，小阁画帘高卷。\n\n黄昏独倚朱阑，西南新月眉弯。砌下落花风起，罗衣特地春寒。",
+            "background": "冯延巳春日怀人所作。",
+            "appreciation": "情景交融，委婉含蓄。",
+            "famous_lines": ["砌下落花风起，罗衣特地春寒"],
+        },
+        {
+            "name": "蝶恋花",
+            "artist": "冯延巳",
+            "regime": "南唐",
+            "year": 953,
+            "type": "词",
+            "content": "六曲阑干偎碧树，杨柳风轻，展尽黄金缕。谁把钿筝移玉柱，穿帘海燕双飞去。\n\n满眼游丝兼落絮，红杏开时，一霎清明雨。浓睡觉来莺乱语，惊残好梦无寻处。",
+            "background": "冯延巳春日感怀之作。",
+            "appreciation": "描写春景细腻，情感婉转。",
+            "famous_lines": ["满眼游丝兼落絮，红杏开时，一霎清明雨"],
+        },
+        {
+            "name": "长相思",
+            "artist": "李煜",
+            "regime": "南唐",
+            "year": 976,
+            "type": "词",
+            "content": "一重山，两重山。山远天高烟水寒，相思枫叶丹。\n\n菊花开，菊花残。塞雁高飞人未还，一帘风月闲。",
+            "background": "李煜思念故国所作。",
+            "appreciation": "以山水菊花寄托相思之情。",
+            "famous_lines": ["山远天高烟水寒，相思枫叶丹"],
+        },
+        {
+            "name": "渔父",
+            "artist": "李煜",
+            "regime": "南唐",
+            "year": 970,
+            "type": "词",
+            "content": "浪花有意千里雪，桃花无言一队春。一壶酒，一竿身，快活如侬有几人。\n\n一棹春风一叶舟，一纶茧缕一轻钩。花满渚，酒满瓯，万顷波中得自由。",
+            "background": "李煜向往隐逸生活所作。",
+            "appreciation": "表达对自由生活的向往。",
+            "famous_lines": ["一壶酒，一竿身，快活如侬有几人"],
+        },
+        {
+            "name": "忆秦娥",
+            "artist": "冯延巳",
+            "regime": "南唐",
+            "year": 951,
+            "type": "词",
+            "content": "风淅淅，夜雨连云黑。滴滴，窗外芭蕉灯下客。\n\n除非魂化人，除非人化魂。不得，此夜此情何处说。",
+            "background": "冯延巳夜雨怀人之作。",
+            "appreciation": "以夜雨芭蕉烘托孤寂之情。",
+            "famous_lines": ["窗外芭蕉灯下客"],
+        },
+        {
+            "name": "玉楼春",
+            "artist": "钱惟演",
+            "regime": "吴越/北宋",
+            "year": 990,
+            "type": "词",
+            "content": "城上风光莺语乱，城下烟波春拍岸。绿杨芳草几时休，泪眼愁肠先已断。\n\n情怀渐觉成衰晚，鸾镜朱颜惊暗换。昔年多病厌芳尊，今日芳尊惟恐浅。",
+            "background": "钱惟演晚年感怀之作。",
+            "appreciation": "感叹时光流逝，人生易老。",
+            "famous_lines": ["绿杨芳草几时休，泪眼愁肠先已断"],
+        },
+    ],
+    "音乐": [
+        {
+            "name": "霓裳羽衣曲",
+            "regime": "南唐",
+            "type": "宫廷乐舞",
+            "description": "唐代著名法曲，南唐时期仍流传",
+            "story": "相传为唐玄宗游月宫闻仙乐而作，南唐后主李煜与大周后曾重新整理此曲。",
+            "appreciation": "乐曲清雅脱俗，舞姿优美，为唐代法曲之代表。",
+            "instruments": ["琵琶", "箜篌", "笙", "笛", "羯鼓"],
+        },
+        {
+            "name": "念家山",
+            "regime": "南唐",
+            "type": "词牌音乐",
+            "description": "李煜创作的音乐作品",
+            "story": "李煜降宋后创作，表达对故国的思念之情。",
+            "appreciation": "曲调悲凉，情感真挚。",
+            "instruments": ["古琴", "箫"],
+        },
+        {
+            "name": "振金铃",
+            "regime": "南唐",
+            "type": "宫廷乐舞",
+            "description": "南唐宫廷宴乐",
+            "story": "南唐宫廷宴饮时所奏之乐，配合舞蹈表演。",
+            "appreciation": "节奏明快，气氛热烈。",
+            "instruments": ["金铃", "琵琶", "笙", "笛"],
+        },
+        {
+            "name": "一斛珠",
+            "regime": "南唐",
+            "type": "词牌音乐",
+            "description": "唐教坊曲名，后成为词牌",
+            "story": "源于唐代典故，南唐时期广泛传唱。",
+            "appreciation": "曲调婉转，适合表达缠绵情感。",
+            "instruments": ["琵琶", "古筝", "箫"],
+        },
+        {
+            "name": "浣溪沙",
+            "regime": "南唐",
+            "type": "词牌音乐",
+            "description": "唐教坊曲名",
+            "story": "原为咏西施浣纱故事，后成为常用词牌。",
+            "appreciation": "曲调清新，节奏明快。",
+            "instruments": ["古筝", "笛", "拍板"],
+        },
+        {
+            "name": "菩萨蛮",
+            "regime": "南唐",
+            "type": "词牌音乐",
+            "description": "唐教坊曲名",
+            "story": "原为西域乐曲，唐代传入中原。",
+            "appreciation": "曲调悠扬，富有异域风情。",
+            "instruments": ["琵琶", "箜篌", "横笛"],
+        },
+        {
+            "name": "虞美人",
+            "regime": "南唐",
+            "type": "词牌音乐",
+            "description": "唐教坊曲名",
+            "story": "原为咏虞姬故事，李煜以此词牌作绝命词后闻名。",
+            "appreciation": "曲调悲怆，适合表达哀思。",
+            "instruments": ["古琴", "箫", "琵琶"],
+        },
+        {
+            "name": "浪淘沙",
+            "regime": "南唐",
+            "type": "词牌音乐",
+            "description": "唐教坊曲名",
+            "story": "原为民间歌曲，后入教坊。",
+            "appreciation": "曲调激越，富有变化。",
+            "instruments": ["琵琶", "鼓", "笛"],
+        },
+    ],
+    "建筑": [
+        {
+            "name": "金陵城",
+            "regime": "南唐",
+            "type": "都城",
+            "location": "今江苏南京",
+            "year": 937,
+            "description": "南唐都城，十国时期最繁华的城市之一",
+            "story": "南唐烈祖李昪定都金陵，大修宫殿，金陵成为十国时期文化中心。",
+            "appreciation": "城郭壮丽，宫室华美，为当时江南第一大城。",
+            "features": ["宫城", "皇城", "外郭城", "秦淮河"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Nanjing_City_Wall.jpg/1280px-Nanjing_City_Wall.jpg",
+        },
+        {
+            "name": "杭州城",
+            "regime": "吴越",
+            "type": "都城",
+            "location": "今浙江杭州",
+            "year": 907,
+            "description": "吴越都城，东南形胜之地",
+            "story": "钱镠定都杭州，修筑海塘，疏浚西湖，使杭州成为'东南第一州'。",
+            "appreciation": "山水秀丽，城郭完备，为后世杭州繁华奠定基础。",
+            "features": ["吴王城", "西湖", "钱塘江海塘"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/West_Lake_Hangzhou.jpg/1280px-West_Lake_Hangzhou.jpg",
+        },
+        {
+            "name": "开封城",
+            "regime": "后梁/后晋/后汉/后周",
+            "type": "都城",
+            "location": "今河南开封",
+            "year": 907,
+            "description": "五代都城，北宋东京前身",
+            "story": "朱温定都开封，此后四代均以此为都，周世宗大加扩建。",
+            "appreciation": "城郭宏大，街道整齐，为北宋东京奠定基础。",
+            "features": ["宫城", "内城", "外城", "汴河"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Kaifeng_City.jpg/1280px-Kaifeng_City.jpg",
+        },
+        {
+            "name": "洛阳城",
+            "regime": "后唐",
+            "type": "都城",
+            "location": "今河南洛阳",
+            "year": 923,
+            "description": "后唐都城，十三朝古都",
+            "story": "后唐庄宗定都洛阳，恢复唐制，重修宫殿。",
+            "appreciation": "宫室壮丽，文物荟萃，为中原文化中心。",
+            "features": ["宫城", "皇城", "外郭城", "洛水"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Luoyang_Ancient_City.jpg/1280px-Luoyang_Ancient_City.jpg",
+        },
+        {
+            "name": "六和塔",
+            "regime": "吴越",
+            "type": "佛塔",
+            "location": "今浙江杭州",
+            "year": 970,
+            "description": "吴越王钱弘俶为镇钱塘江潮而建",
+            "story": "钱弘俶建塔镇潮，取'天地四方'之意，名六和塔。",
+            "appreciation": "塔高九层，气势雄伟，为宋代佛塔代表。",
+            "features": ["砖木结构", "八角九层", "塔基深厚"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Liuhe_Pagoda.jpg/1280px-Liuhe_Pagoda.jpg",
+        },
+        {
+            "name": "雷峰塔",
+            "regime": "吴越",
+            "type": "佛塔",
+            "location": "今浙江杭州",
+            "year": 975,
+            "description": "吴越王钱弘俶为黄妃所建",
+            "story": "钱弘俶建塔纪念黄妃，初名黄妃塔，后因位于雷峰而称雷峰塔。",
+            "appreciation": "塔影横湖，为西湖十景之一。",
+            "features": ["砖木结构", "八角五层", "塔刹精美"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Leifeng_Pagoda.jpg/1280px-Leifeng_Pagoda.jpg",
+        },
+        {
+            "name": "保俶塔",
+            "regime": "吴越",
+            "type": "佛塔",
+            "location": "今浙江杭州",
+            "year": 968,
+            "description": "吴越王钱弘俶入朝北宋，臣民建塔祈福",
+            "story": "钱弘俶入汴京朝见，臣民建塔祈其平安归来。",
+            "appreciation": "塔形秀丽，为西湖标志性建筑。",
+            "features": ["砖木结构", "八角七层", "塔身修长"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Baochu_Pagoda.jpg/1280px-Baochu_Pagoda.jpg",
+        },
+        {
+            "name": "灵隐寺",
+            "regime": "吴越",
+            "type": "寺庙",
+            "location": "今浙江杭州",
+            "year": 950,
+            "description": "东晋古刹，吴越时期大修",
+            "story": "吴越王钱氏崇佛，大修灵隐寺，延请高僧住持。",
+            "appreciation": "寺宇宏伟，佛像庄严，为江南名刹。",
+            "features": ["大雄宝殿", "天王殿", "飞来峰造像"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Lingyin_Temple.jpg/1280px-Lingyin_Temple.jpg",
+        },
+        {
+            "name": "净慈寺",
+            "regime": "吴越",
+            "type": "寺庙",
+            "location": "今浙江杭州",
+            "year": 954,
+            "description": "吴越王钱弘俶创建",
+            "story": "钱弘俶为永明延寿禅师建寺，名净慈寺。",
+            "appreciation": "与灵隐寺并称西湖两大名刹。",
+            "features": ["大雄宝殿", "济公殿", "南屏晚钟"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Jingci_Temple.jpg/1280px-Jingci_Temple.jpg",
+        },
+        {
+            "name": "嵩山少林寺",
+            "regime": "后周",
+            "type": "寺庙",
+            "location": "今河南登封",
+            "year": 495,
+            "description": "禅宗祖庭，五代时期仍为佛教圣地",
+            "story": "后周世宗灭佛，少林寺幸免于难。",
+            "appreciation": "寺院宏大，武艺闻名，为禅宗祖庭。",
+            "features": ["山门", "大雄宝殿", "塔林", "武术"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Shaolin_Temple.jpg/1280px-Shaolin_Temple.jpg",
+        },
+        {
+            "name": "开封铁塔",
+            "regime": "后周",
+            "type": "佛塔",
+            "location": "今河南开封",
+            "year": 960,
+            "description": "后周时期所建佛塔",
+            "story": "后周世宗崇佛，建此塔供奉佛舍利。",
+            "appreciation": "塔身如铁，故名铁塔，为开封地标。",
+            "features": ["砖石结构", "八角十三层", "塔身褐色"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Kaifeng_Iron_Pagoda.jpg/1280px-Kaifeng_Iron_Pagoda.jpg",
+        },
+        {
+            "name": "南唐二陵",
+            "regime": "南唐",
+            "type": "陵墓",
+            "location": "今江苏南京",
+            "year": 961,
+            "description": "南唐烈祖李昪永陵和中主李璟顺陵",
+            "story": "南唐二陵位于牛首山，规模宏大，雕刻精美。",
+            "appreciation": "陵墓结构复杂，石刻艺术价值高。",
+            "features": ["墓道", "天井", "墓室", "石刻"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Nantang_Tombs.jpg/1280px-Nantang_Tombs.jpg",
+        },
+    ],
+    "金银器": [
+        {
+            "name": "鎏金鹦鹉纹银盒",
+            "regime": "吴越",
+            "type": "盛器",
+            "size": "直径 7.5cm",
+            "material": "银鎏金",
+            "collection": "浙江省博物馆",
+            "description": "吴越王宫遗物，锤揲工艺精湛",
+            "story": "1966 年出土于浙江金华万佛塔，为吴越王宫供奉之物。盒面锤揲出鹦鹉衔枝纹，寓意吉祥。",
+            "appreciation": "采用锤揲、錾刻、鎏金等多种工艺，纹饰精美，为五代金银器代表。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Tang_Silver_Box.jpg/800px-Tang_Silver_Box.jpg",
+        },
+        {
+            "name": "银鎏金凤冠",
+            "regime": "南唐",
+            "type": "冠饰",
+            "size": "高 25cm",
+            "material": "银鎏金、宝石镶嵌",
+            "collection": "南京博物院",
+            "description": "南唐宫廷后妃冠饰",
+            "story": "出土于南唐二陵，为后妃陪葬品。冠上凤凰展翅欲飞，镶嵌珍珠宝石。",
+            "appreciation": "凤鸟造型生动，镶嵌工艺精湛，体现皇家气派。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Phoenix_Crown.jpg/800px-Phoenix_Crown.jpg",
+        },
+        {
+            "name": "鎏金蔓草纹银茶碾",
+            "regime": "吴越",
+            "type": "茶具",
+            "size": "长 25cm",
+            "material": "银鎏金",
+            "collection": "故宫博物院",
+            "description": "吴越王宫茶具，用于碾茶",
+            "story": "吴越王钱氏向北宋进贡的宫廷茶具，用于碾碎茶饼。",
+            "appreciation": "器型规整，蔓草纹錾刻精细，反映五代茶文化。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Tang_Tea_Grinder.jpg/800px-Tang_Tea_Grinder.jpg",
+        },
+        {
+            "name": "银金花双耳银炉",
+            "regime": "后周",
+            "type": "香炉",
+            "size": "高 18cm",
+            "material": "银鎏金",
+            "collection": "河南博物院",
+            "description": "后周宫廷香炉",
+            "story": "后周宫廷祭祀或日常用香炉，双耳饰以金花。",
+            "appreciation": "造型端庄，金花与银地对比鲜明。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Incense_Burner.jpg/800px-Incense_Burner.jpg",
+        },
+        {
+            "name": "金镯",
+            "regime": "吴越",
+            "type": "首饰",
+            "size": "直径 6cm",
+            "material": "金",
+            "collection": "浙江省博物馆",
+            "description": "吴越宫廷首饰",
+            "story": "吴越王后或贵族女性佩戴之物。",
+            "appreciation": "造型简洁，工艺精细。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Gold_Bracelet.jpg/800px-Gold_Bracelet.jpg",
+        },
+        {
+            "name": "鎏金飞凤纹银梳",
+            "regime": "南唐",
+            "type": "梳具",
+            "size": "宽 8cm",
+            "material": "银鎏金",
+            "collection": "南京博物院",
+            "description": "南唐宫廷梳具",
+            "story": "南唐宫廷女性使用的精美梳具。",
+            "appreciation": "梳背錾刻飞凤纹，工艺精湛。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Silver_Comb.jpg/800px-Silver_Comb.jpg",
+        },
+        {
+            "name": "金花银盘",
+            "regime": "吴越",
+            "type": "盛器",
+            "size": "直径 30cm",
+            "material": "银鎏金",
+            "collection": "故宫博物院",
+            "description": "吴越王宫宴会用盘",
+            "story": "吴越王宫廷宴会或供奉用器。",
+            "appreciation": "盘心錾刻团花，边缘饰以金花纹。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Silver_Plate.jpg/800px-Silver_Plate.jpg",
+        },
+    ],
+    "玉器": [
+        {
+            "name": "玉哀册",
+            "regime": "南唐",
+            "type": "礼器",
+            "size": "长 30cm",
+            "material": "青玉",
+            "collection": "南京博物院",
+            "description": "南唐帝后丧葬礼器",
+            "story": "出土于南唐二陵，为帝后丧葬时宣读的哀册，以玉制成，象征永恒。",
+            "appreciation": "玉质温润，刻字工整，为五代玉器珍品。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Jade_Tablet.jpg/800px-Jade_Tablet.jpg",
+        },
+        {
+            "name": "白玉双鱼佩",
+            "regime": "吴越",
+            "type": "佩饰",
+            "size": "长 8cm",
+            "material": "白玉",
+            "collection": "浙江省博物馆",
+            "description": "吴越贵族佩饰",
+            "story": "吴越贵族佩戴的玉饰，双鱼寓意年年有余。",
+            "appreciation": "白玉温润，双鱼造型生动，雕工精细。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Jade_Fish.jpg/800px-Jade_Fish.jpg",
+        },
+        {
+            "name": "玉带板",
+            "regime": "后周",
+            "type": "带饰",
+            "size": "长 10cm",
+            "material": "青玉",
+            "collection": "河南博物院",
+            "description": "官员腰带装饰",
+            "story": "后周官员腰带上镶嵌的玉饰，显示身份。",
+            "appreciation": "玉质上乘，雕工精细。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Jade_Belt.jpg/800px-Jade_Belt.jpg",
+        },
+        {
+            "name": "玉蝉",
+            "regime": "南唐",
+            "type": "佩饰",
+            "size": "长 5cm",
+            "material": "青玉",
+            "collection": "南京博物院",
+            "description": "南唐贵族佩饰",
+            "story": "蝉在古代象征高洁，为文人雅士喜爱。",
+            "appreciation": "造型简洁，线条流畅。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Jade_Cicada.jpg/800px-Jade_Cicada.jpg",
+        },
+        {
+            "name": "玉簪",
+            "regime": "吴越",
+            "type": "首饰",
+            "size": "长 15cm",
+            "material": "白玉",
+            "collection": "浙江省博物馆",
+            "description": "吴越贵族女性发饰",
+            "story": "吴越贵族女性插发用的玉簪。",
+            "appreciation": "玉质洁白，造型优雅。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Jade_Hairpin.jpg/800px-Jade_Hairpin.jpg",
+        },
+        {
+            "name": "玉龙纹璧",
+            "regime": "后周",
+            "type": "礼器",
+            "size": "直径 15cm",
+            "material": "青玉",
+            "collection": "故宫博物院",
+            "description": "后周宫廷礼器",
+            "story": "后周宫廷祭祀或收藏用玉器。",
+            "appreciation": "璧面雕龙纹，工艺精湛。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Jade_Bi.jpg/800px-Jade_Bi.jpg",
+        },
+        {
+            "name": "玉花鸟佩",
+            "regime": "南唐",
+            "type": "佩饰",
+            "size": "长 7cm",
+            "material": "青玉",
+            "collection": "南京博物院",
+            "description": "南唐贵族佩饰",
+            "story": "南唐贵族佩戴的花鸟纹玉饰。",
+            "appreciation": "花鸟造型生动，雕工精细。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Jade_Pendant.jpg/800px-Jade_Pendant.jpg",
+        },
+    ],
+    "漆器": [
+        {
+            "name": "剔红牡丹纹盘",
+            "regime": "吴越",
+            "type": "盛器",
+            "size": "直径 25cm",
+            "material": "剔红漆",
+            "collection": "故宫博物院",
+            "description": "吴越宫廷漆器",
+            "story": "吴越王宫廷用器，以剔红工艺制成。",
+            "appreciation": "漆色红润，牡丹花纹浮雕精美。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Lacquer_Plate.jpg/800px-Lacquer_Plate.jpg",
+        },
+        {
+            "name": "嵌螺钿花鸟纹盒",
+            "regime": "南唐",
+            "type": "盛器",
+            "size": "直径 15cm",
+            "material": "漆嵌螺钿",
+            "collection": "南京博物院",
+            "description": "南唐宫廷漆器",
+            "story": "南唐宫廷用于盛放首饰或香料的盒子。",
+            "appreciation": "螺钿镶嵌精细，花鸟图案生动。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Lacquer_Box.jpg/800px-Lacquer_Box.jpg",
+        },
+        {
+            "name": "黑漆奁",
+            "regime": "南唐",
+            "type": "妆具",
+            "size": "高 20cm",
+            "material": "黑漆",
+            "collection": "南京博物院",
+            "description": "南唐宫廷女性妆具",
+            "story": "南唐宫廷女性用于盛放化妆品的多层奁盒。",
+            "appreciation": "造型优雅，漆色纯正。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Lacquer_Case.jpg/800px-Lacquer_Case.jpg",
+        },
+        {
+            "name": "剔犀如意云纹盘",
+            "regime": "后蜀",
+            "type": "盛器",
+            "size": "直径 20cm",
+            "material": "剔犀漆",
+            "collection": "四川省博物馆",
+            "description": "后蜀宫廷漆器",
+            "story": "后蜀宫廷用器，以剔犀工艺制成。",
+            "appreciation": "云纹流畅，漆层丰厚。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Lacquer_Dish.jpg/800px-Lacquer_Dish.jpg",
+        },
+        {
+            "name": "朱漆碗",
+            "regime": "吴越",
+            "type": "食器",
+            "size": "直径 15cm",
+            "material": "朱漆",
+            "collection": "浙江省博物馆",
+            "description": "吴越宫廷食器",
+            "story": "吴越宫廷用漆碗。",
+            "appreciation": "造型简洁，漆色红润。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Lacquer_Bowl.jpg/800px-Lacquer_Bowl.jpg",
+        },
+        {
+            "name": "嵌螺钿琵琶",
+            "regime": "南唐",
+            "type": "乐器",
+            "size": "长 95cm",
+            "material": "漆嵌螺钿",
+            "collection": "日本正仓院",
+            "description": "南唐宫廷乐器",
+            "story": "南唐宫廷用琵琶，后传入日本。",
+            "appreciation": "螺钿镶嵌精美，为乐器中的艺术品。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Biwa_Instrument.jpg/800px-Biwa_Instrument.jpg",
+        },
+    ],
+    "织绣": [
+        {
+            "name": "缂丝牡丹图",
+            "regime": "南唐",
+            "type": "织绣",
+            "size": "50cm × 40cm",
+            "material": "缂丝",
+            "collection": "故宫博物院",
+            "description": "南唐缂丝代表作",
+            "story": "南唐宫廷织造，缂丝工艺复杂，有'一寸缂丝一寸金'之说。",
+            "appreciation": "缂织精细，牡丹花色彩艳丽，栩栩如生。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Kesi_Textile.jpg/800px-Kesi_Textile.jpg",
+        },
+        {
+            "name": "锦地花鸟纹锦",
+            "regime": "后蜀",
+            "type": "织锦",
+            "size": "60cm × 50cm",
+            "material": "织锦",
+            "collection": "四川省博物馆",
+            "description": "后蜀织锦代表作",
+            "story": "后蜀织锦发达，此为宫廷织造。",
+            "appreciation": "花纹繁复，色彩丰富。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Brocade_Textile.jpg/800px-Brocade_Textile.jpg",
+        },
+        {
+            "name": "刺绣观音像",
+            "regime": "吴越",
+            "type": "刺绣",
+            "size": "40cm × 30cm",
+            "material": "丝绣",
+            "collection": "浙江省博物馆",
+            "description": "吴越宫廷刺绣",
+            "story": "吴越宫廷刺绣作品，用于供奉。",
+            "appreciation": "绣工精细，观音神态庄严。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Embroidery.jpg/800px-Embroidery.jpg",
+        },
+        {
+            "name": "罗地云气纹罗",
+            "regime": "南唐",
+            "type": "织罗",
+            "size": "55cm × 45cm",
+            "material": "织罗",
+            "collection": "南京博物院",
+            "description": "南唐织罗代表作",
+            "story": "南唐宫廷织造的轻薄罗织物。",
+            "appreciation": "罗孔均匀，云气纹飘逸。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Silk_Luo.jpg/800px-Silk_Luo.jpg",
+        },
+        {
+            "name": "绫地团花纹绫",
+            "regime": "后周",
+            "type": "织绫",
+            "size": "50cm × 40cm",
+            "material": "织绫",
+            "collection": "河南博物院",
+            "description": "后周织绫代表作",
+            "story": "后周宫廷织造的绫织物。",
+            "appreciation": "花纹规整，质地细腻。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Silk_Ling.jpg/800px-Silk_Ling.jpg",
+        },
+        {
+            "name": "绢本设色佛像",
+            "regime": "南唐",
+            "type": "绢画",
+            "size": "80cm × 50cm",
+            "material": "绢本设色",
+            "collection": "敦煌研究院",
+            "description": "南唐佛教绢画",
+            "story": "敦煌藏经洞出土，为南唐时期佛教信徒供奉之作。",
+            "appreciation": "色彩艳丽，佛像庄严。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Dunhuang_Painting.jpg/800px-Dunhuang_Painting.jpg",
+        },
+    ],
+    "石窟": [
+        {
+            "name": "敦煌莫高窟",
+            "regime": "归义军/回鹘",
+            "type": "石窟",
+            "location": "今甘肃敦煌",
+            "year": 366,
+            "description": "世界文化遗产，佛教艺术宝库",
+            "story": "五代时期归义军政权统治敦煌，继续开凿洞窟。曹氏归义军时期修建大量洞窟，为敦煌艺术的重要组成部分。",
+            "appreciation": "洞窟内壁画精美，彩塑生动，为佛教艺术宝库。",
+            "features": ["壁画", "彩塑", "经卷", "建筑"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Mogao_Caves.jpg/1280px-Mogao_Caves.jpg",
+        },
+        {
+            "name": "大足石刻",
+            "regime": "后蜀",
+            "type": "石窟",
+            "location": "今重庆大足",
+            "year": 892,
+            "description": "世界文化遗产，中国晚期石窟艺术代表",
+            "story": "五代后蜀时期开始大规模开凿，延续至宋代。宝顶山、北山石刻最为著名。",
+            "appreciation": "造像精美，题材丰富，融合儒释道三教。",
+            "features": ["宝顶山", "北山", "南山", "石篆山"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Dazu_Rock_Carvings.jpg/1280px-Dazu_Rock_Carvings.jpg",
+        },
+        {
+            "name": "龙门石窟",
+            "regime": "后梁/后唐",
+            "type": "石窟",
+            "location": "今河南洛阳",
+            "year": 493,
+            "description": "世界文化遗产，中国三大石窟之一",
+            "story": "五代时期洛阳为后唐都城，龙门石窟继续得到修缮。",
+            "appreciation": "造像庄严，雕刻精美。",
+            "features": ["奉先寺", "宾阳洞", "莲花洞", "古阳洞"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Longmen_Grottoes.jpg/1280px-Longmen_Grottoes.jpg",
+        },
+        {
+            "name": "云冈石窟",
+            "regime": "后魏/辽",
+            "type": "石窟",
+            "location": "今山西大同",
+            "year": 460,
+            "description": "世界文化遗产，中国三大石窟之一",
+            "story": "五代时期云冈石窟虽已衰落，但仍有修缮活动。",
+            "appreciation": "造像雄伟，融合中西艺术风格。",
+            "features": ["昙曜五窟", "第 5 窟", "第 6 窟"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Yungang_Grottoes.jpg/1280px-Yungang_Grottoes.jpg",
+        },
+        {
+            "name": "麦积山石窟",
+            "regime": "后秦/后蜀",
+            "type": "石窟",
+            "location": "今甘肃天水",
+            "year": 384,
+            "description": "中国四大石窟之一",
+            "story": "五代时期麦积山石窟仍有开凿和修缮活动。",
+            "appreciation": "泥塑精美，被誉为'东方雕塑馆'。",
+            "features": ["泥塑", "壁画", "栈道"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Maiji_Grottoes.jpg/1280px-Maiji_Grottoes.jpg",
+        },
+        {
+            "name": "炳灵寺石窟",
+            "regime": "归义军/回鹘",
+            "type": "石窟",
+            "location": "今甘肃永靖",
+            "year": 420,
+            "description": "丝绸之路重要石窟",
+            "story": "五代时期归义军统治下继续开凿。",
+            "appreciation": "造像风格独特，融合汉藏艺术。",
+            "features": ["唐代大佛", "石窟群"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Bingling_Temple.jpg/1280px-Bingling_Temple.jpg",
+        },
+        {
+            "name": "安岳石窟",
+            "regime": "后蜀",
+            "type": "石窟",
+            "location": "今四川安岳",
+            "year": 850,
+            "description": "中国石刻艺术宝库",
+            "story": "后蜀时期大规模开凿，为四川地区重要石窟群。",
+            "appreciation": "造像精美，数量众多。",
+            "features": ["圆觉洞", "华严洞", "茗山寺"],
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Anyue_Grottoes.jpg/1280px-Anyue_Grottoes.jpg",
+        },
+    ],
+    "雕塑": [
+        {
+            "name": "彩绘陶仕女俑",
+            "regime": "后唐",
+            "type": "陶俑",
+            "size": "高 45cm",
+            "material": "彩绘陶",
+            "collection": "河南博物院",
+            "description": "后唐宫廷陪葬陶俑",
+            "story": "后唐宫廷贵族墓葬陪葬品，反映当时宫廷女性形象。",
+            "appreciation": "造型优美，彩绘艳丽。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Tang_Figurine.jpg/800px-Tang_Figurine.jpg",
+        },
+        {
+            "name": "彩绘武士俑",
+            "regime": "后周",
+            "type": "陶俑",
+            "size": "高 60cm",
+            "material": "彩绘陶",
+            "collection": "河南博物院",
+            "description": "后周墓葬陪葬陶俑",
+            "story": "后周贵族墓葬陪葬品，表现武士形象。",
+            "appreciation": "造型威武，彩绘保存完好。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Warrior_Figurine.jpg/800px-Warrior_Figurine.jpg",
+        },
+        {
+            "name": "白瓷观音像",
+            "regime": "后周",
+            "type": "瓷塑",
+            "size": "高 35cm",
+            "material": "白瓷",
+            "collection": "故宫博物院",
+            "description": "后周白瓷雕塑",
+            "story": "后周时期白瓷雕塑代表作。",
+            "appreciation": "瓷质细腻，观音神态庄严慈祥。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Porcelain_Guanyin.jpg/800px-Porcelain_Guanyin.jpg",
+        },
+        {
+            "name": "木雕天王像",
+            "regime": "吴越",
+            "type": "木雕",
+            "size": "高 120cm",
+            "material": "木雕彩绘",
+            "collection": "浙江省博物馆",
+            "description": "吴越寺庙供奉木雕",
+            "story": "吴越时期寺庙供奉的天王像。",
+            "appreciation": "造型威武，彩绘精美。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wooden_King.jpg/800px-Wooden_King.jpg",
+        },
+        {
+            "name": "铜鎏金佛像",
+            "regime": "后蜀",
+            "type": "铜像",
+            "size": "高 50cm",
+            "material": "铜鎏金",
+            "collection": "四川省博物馆",
+            "description": "后蜀佛教铜像",
+            "story": "后蜀时期佛教信徒供奉的铜佛像。",
+            "appreciation": "鎏金灿烂，佛像庄严。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Bronze_Buddha.jpg/800px-Bronze_Buddha.jpg",
+        },
+        {
+            "name": "石刻供养人像",
+            "regime": "后蜀",
+            "type": "石刻",
+            "size": "高 80cm",
+            "material": "青石",
+            "collection": "大足石刻博物馆",
+            "description": "大足石刻供养人像",
+            "story": "后蜀时期佛教信徒出资开凿的供养人像。",
+            "appreciation": "造型写实，衣纹流畅。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Stone_Donor.jpg/800px-Stone_Donor.jpg",
+        },
+        {
+            "name": "三彩镇墓兽",
+            "regime": "后唐",
+            "type": "陶俑",
+            "size": "高 55cm",
+            "material": "三彩陶",
+            "collection": "河南博物院",
+            "description": "后唐墓葬陪葬品",
+            "story": "后唐贵族墓葬中用于镇墓的神兽。",
+            "appreciation": "造型奇特，釉色艳丽。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Sancai_Tomb_Guardian.jpg/800px-Sancai_Tomb_Guardian.jpg",
+        },
+        {
+            "name": "石雕菩萨像",
+            "regime": "后周",
+            "type": "石雕",
+            "size": "高 90cm",
+            "material": "汉白玉",
+            "collection": "河北博物院",
+            "description": "后周佛教石雕",
+            "story": "后周时期佛教寺庙供奉的菩萨像。",
+            "appreciation": "汉白玉质地细腻，菩萨神态慈祥。",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Stone_Bodhisattva.jpg/800px-Stone_Bodhisattva.jpg",
+        },
     ],
 }
 
@@ -1400,6 +2683,274 @@ OFFICIAL_TIMELINE = [
     {"year": 955, "event": "柴荣整饬吏治，裁撤冗官", "significance": "提高行政效率"},
     {"year": 960, "event": "北宋建立，赵匡胤改革官制", "significance": "杯酒释兵权，文官政治确立"},
 ]
+
+# ============================================
+# 文化制度配置
+# ============================================
+
+# 科举制度
+COEXAM_SYSTEM = {
+    "概述": "五代十国时期沿袭唐代科举制度，但规模缩小。后唐、后周较为重视科举，南唐、后蜀等南方政权也有开科取士。",
+    "考试科目": [
+        {"name": "进士科", "description": "最重要的科目，考诗赋、策论", "difficulty": "最难", "prestige": "最高"},
+        {"name": "明经科", "description": "考儒家经典及注疏", "difficulty": "较难", "prestige": "较高"},
+        {"name": "九经科", "description": "考九部儒家经典", "difficulty": "难", "prestige": "高"},
+        {"name": "三史科", "description": "考《史记》《汉书》《后汉书》", "difficulty": "难", "prestige": "高"},
+        {"name": "明法科", "description": "考法律条文", "difficulty": "中等", "prestige": "中等"},
+        {"name": "明算科", "description": "考算术、天文历法", "difficulty": "中等", "prestige": "中等"},
+    ],
+    "著名状元": [
+        {"name": "王禹偁", "regime": "后周", "year": 958, "achievement": "后周状元，后为北宋名臣，文学家"},
+        {"name": "张泌", "regime": "南唐", "year": 950, "achievement": "南唐状元，词人"},
+        {"name": "伍乔", "regime": "南唐", "year": 945, "achievement": "南唐状元，文学家"},
+        {"name": "韩熙载", "regime": "南唐", "year": 923, "achievement": "后唐进士，后投奔南唐"},
+    ],
+    "考试内容": {
+        "诗赋": "五言律诗、七言律诗、赋",
+        "策论": "时务策、经义策",
+        "经义": "儒家经典及其注疏",
+    },
+}
+
+# 教育机构
+EDUCATION_SYSTEM = {
+    "国子监": {
+        "description": "最高学府和教育管理机构",
+        "location": "各朝都城",
+        "students": "官僚子弟",
+        "curriculum": ["儒家经典", "史书", "文学", "礼仪"],
+        "famous_teachers": ["冯道", "和凝"],
+    },
+    "书院": {
+        "description": "私人创办的教育机构，五代时期开始兴起",
+        "famous_academies": [
+            {"name": "白鹿洞书院", "location": "庐山", "founder": "李渤", "regime": "南唐"},
+            {"name": "岳麓书院", "location": "长沙", "regime": "楚国"},
+            {"name": "嵩阳书院", "location": "登封", "regime": "后周"},
+        ],
+    },
+    "私塾": {
+        "description": "民间私人教学场所",
+        "students": "平民子弟",
+        "curriculum": ["三字经", "百家姓", "千字文", "基础算术"],
+    },
+}
+
+# 重要典籍
+IMPORTANT_BOOKS = [
+    {"title": "旧唐书", "author": "刘昫等", "regime": "后晋", "year": 945, "category": "史书", "description": "二十四史之一，记载唐代历史"},
+    {"title": "旧五代史", "author": "薛居正等", "regime": "北宋", "year": 974, "category": "史书", "description": "记载五代十国历史"},
+    {"title": "花间集", "author": "赵崇祚", "regime": "后蜀", "year": 940, "category": "词集", "description": "中国最早的文人词总集"},
+    {"title": "南唐二主词", "author": "李璟、李煜", "regime": "南唐", "year": 975, "category": "词集", "description": "李璟李煜父子词作合集"},
+    {"title": "阳春集", "author": "冯延巳", "regime": "南唐", "year": 955, "category": "词集", "description": "冯延巳词作集"},
+    {"title": "开元天宝遗事", "author": "王仁裕", "regime": "后周", "year": 955, "category": "笔记", "description": "记载唐玄宗时期轶事"},
+    {"title": "鉴诫录", "author": "何光远", "regime": "后蜀", "year": 945, "category": "笔记", "description": "记载唐五代轶事"},
+    {"title": "北梦琐言", "author": "孙光宪", "regime": "荆南", "year": 960, "category": "笔记", "description": "记载唐五代轶事"},
+    {"title": "唐摭言", "author": "王定保", "regime": "南汉", "year": 930, "category": "笔记", "description": "记载唐代科举制度"},
+    {"title": "茶经", "author": "陆羽", "regime": "唐代（五代流传）", "year": 780, "category": "专著", "description": "世界第一部茶学专著，五代时期广泛流传"},
+]
+
+# 印刷术
+PRINTING_TECH = {
+    "雕版印刷": {
+        "description": "五代时期雕版印刷技术发展成熟，为宋代印刷术高峰奠定基础",
+        "famous_works": [
+            {"name": "金刚经", "year": 868, "description": "世界现存最早的雕版印刷品（唐咸通九年）", "location": "敦煌藏经洞"},
+            {"name": "九经", "regime": "后唐", "year": 932, "description": "后唐冯道主持刻印儒家九经，为国子监刻书之始"},
+            {"name": "花间集", "regime": "后蜀", "year": 940, "description": "中国最早的文人词总集刻本"},
+            {"name": "开元杂报", "regime": "唐代（五代流传）", "description": "世界最早的报纸雏形"},
+        ],
+        "centers": ["开封", "成都", "金陵", "杭州"],
+    },
+    "活字印刷": {
+        "description": "五代时期尚未发明活字印刷，但为北宋毕昇发明泥活字奠定基础",
+        "note": "毕昇于 1041-1048 年发明泥活字印刷术",
+    },
+}
+
+# ============================================
+# 民俗文化配置
+# ============================================
+
+# 传统节日
+FESTIVALS = {
+    "春节": {
+        "date": "正月初一",
+        "description": "一年中最重要的节日",
+        "activities": ["贴门神", "放爆竹", "饮屠苏酒", "拜年", "舞龙舞狮"],
+        "food": ["饺子", "年糕", "春盘"],
+        "story": "五代时期春节习俗已基本形成，皇宫举行大朝会，民间拜年贺岁。",
+    },
+    "元宵节": {
+        "date": "正月十五",
+        "description": "观灯赏月的重要节日",
+        "activities": ["赏花灯", "猜灯谜", "舞龙灯", "踩高跷"],
+        "food": ["元宵", "汤圆"],
+        "story": "南唐后主李煜曾在元宵节作词：'月上柳梢头，人约黄昏后'（一说为欧阳修作）。",
+    },
+    "清明节": {
+        "date": "清明节气",
+        "description": "扫墓祭祖的节日",
+        "activities": ["扫墓", "踏青", "插柳", "荡秋千", "蹴鞠"],
+        "food": ["青团", "馓子"],
+        "story": "五代时期清明节扫墓习俗盛行，皇帝也亲自祭陵。",
+    },
+    "端午节": {
+        "date": "五月初五",
+        "description": "纪念屈原的节日",
+        "activities": ["赛龙舟", "挂艾草", "佩香囊", "系五彩绳"],
+        "food": ["粽子", "雄黄酒"],
+        "story": "五代时期端午节赛龙舟活动在南方政权尤为盛行。",
+    },
+    "七夕节": {
+        "date": "七月初七",
+        "description": "乞巧节，中国情人节",
+        "activities": ["乞巧", "拜织女", "穿针引线", "观星"],
+        "food": ["巧果", "瓜子"],
+        "story": "南唐宫廷七夕节乞巧活动极为奢华。",
+    },
+    "中秋节": {
+        "date": "八月十五",
+        "description": "团圆赏月的节日",
+        "activities": ["赏月", "拜月", "饮桂花酒"],
+        "food": ["月饼", "桂花糕"],
+        "story": "中秋节在五代时期定型，文人赏月赋诗成为风尚。李煜多首词作与中秋月色有关。",
+    },
+    "重阳节": {
+        "date": "九月初九",
+        "description": "登高避灾的节日",
+        "activities": ["登高", "插茱萸", "赏菊", "饮菊花酒"],
+        "food": ["重阳糕", "菊花酒"],
+        "story": "五代时期重阳节登高习俗盛行，文人多在此日聚会赋诗。",
+    },
+    "腊八节": {
+        "date": "腊月初八",
+        "description": "佛教节日，也是传统祭祀日",
+        "activities": ["浴佛", "祭祀"],
+        "food": ["腊八粥"],
+        "story": "五代时期佛教盛行，腊八节喝腊八粥的习俗已 widespread。",
+    },
+}
+
+# 服饰文化
+CLOTHING_CULTURE = {
+    "官服": {
+        "description": "五代官服沿袭唐制，按品级有不同颜色和纹饰",
+        "levels": [
+            {"color": "紫色", "rank": "三品以上", "pattern": "蟒袍"},
+            {"color": "绯色", "rank": "四品五品", "pattern": "孔雀"},
+            {"color": "绿色", "rank": "六品七品", "pattern": "练鹊"},
+            {"color": "青色", "rank": "八品九品", "pattern": "鹌鹑"},
+        ],
+        "accessories": ["玉带", "金鱼袋", "朝珠", "乌纱帽"],
+    },
+    "民服": {
+        "description": "平民百姓日常服装",
+        "men": ["短衫", "长裤", "布鞋", "头巾"],
+        "women": ["襦裙", "褙子", "抹胸", "绣花鞋"],
+        "fabric": ["麻布", "棉布", "粗绸"],
+    },
+    "宫廷服饰": {
+        "皇帝": ["衮服", "朝服", "常服", "龙袍"],
+        "皇后": ["凤袍", "朝服", "常服", "霞帔"],
+        "妃嫔": ["宫装", "罗裙", "披帛"],
+    },
+    "发式": {
+        "男子": ["幞头", "巾帻", "冠冕"],
+        "女子": ["高髻", "云髻", "螺髻", "双环望仙髻"],
+        "accessories": ["金簪", "玉钗", "步摇", "花钿"],
+    },
+}
+
+# 饮食文化
+FOOD_CULTURE = {
+    "名菜": [
+        {"name": "东坡肉（雏形）", "regime": "宋代（五代基础）", "description": "五代时期已有类似做法"},
+        {"name": "水晶脍", "regime": "南唐", "description": "南唐宫廷名菜，用鱼脍制成"},
+        {"name": "玲珑牡丹鲊", "regime": "吴越", "description": "吴越宫廷名菜，形似牡丹"},
+        {"name": "烧尾宴", "regime": "唐代（五代流传）", "description": "唐代流传至五代的宫廷宴席"},
+    ],
+    "茶酒": {
+        "茶": {
+            "description": "五代时期饮茶文化盛行，茶艺精湛",
+            "types": ["团茶", "饼茶", "散茶"],
+            "famous": ["顾渚紫笋", "阳羡茶", "蒙顶茶", "建州茶"],
+            "story": "吴越、南唐等国向中原王朝进贡茶叶。",
+        },
+        "酒": {
+            "description": "五代时期酿酒技术发达",
+            "types": ["黄酒", "果酒", "药酒", "白酒（蒸馏酒雏形）"],
+            "famous": ["剑南春", "郫筒酒", "兰陵酒"],
+            "story": "李煜词中多有饮酒之作，如'醉乡路稳宜频到，此外不堪行'。",
+        },
+    },
+    "饮食习俗": {
+        "分餐制": "五代时期仍保留分餐而食的习惯",
+        "宴席礼仪": "皇宫大宴有严格的座次和上菜顺序",
+        "节令食品": "各节日有对应的特色食品",
+    },
+}
+
+# 居住文化
+HOUSING_CULTURE = {
+    "民居": {
+        "北方": {
+            "type": ["四合院", "窑洞"],
+            "material": ["砖木", "土木"],
+            "features": ["坐北朝南", "中轴对称", "院落式"],
+        },
+        "南方": {
+            "type": ["天井院", "吊脚楼"],
+            "material": ["木结构", "竹木"],
+            "features": ["通风防潮", "天井采光", "依水而建"],
+        },
+    },
+    "家具": {
+        "坐具": ["椅", "凳", "墩", "榻"],
+        "卧具": ["床", "榻"],
+        "案几": ["书案", "茶几", "供桌"],
+        "storage": ["柜", "箱", "匣"],
+        "features": "五代家具承唐启宋，简洁实用",
+    },
+    "陈设": {
+        "室内": ["屏风", "帷帐", "字画", "盆景"],
+        "文房": ["笔", "墨", "纸", "砚", "笔架", "水盂"],
+        "decorations": ["瓷器", "玉器", "铜器", "漆器"],
+    },
+    "宫殿建筑": {
+        "特点": ["规模宏大", "中轴对称", "前朝后寝"],
+        "代表": ["开封皇宫", "金陵皇宫", "杭州吴王宫"],
+    },
+}
+
+# 科技成就
+TECH_ACHIEVEMENTS = {
+    "印刷术": {
+        "description": "雕版印刷技术成熟",
+        "representative": "后唐刻印九经",
+        "impact": "推动文化传播",
+    },
+    "天文历法": {
+        "description": "五代时期历法有所改进",
+        "representative": "后周王朴制定《钦天历》",
+        "impact": "提高农业生产和日常生活的时间准确性",
+    },
+    "医药学": {
+        "description": "医药学继续发展",
+        "representative": "《海药本草》等药物学著作",
+        "impact": "丰富中医药学知识",
+    },
+    "建筑技术": {
+        "description": "木结构建筑技术成熟",
+        "representative": "六和塔、雷峰塔等佛塔建筑",
+        "impact": "为宋代建筑高峰奠定基础",
+    },
+    "航海技术": {
+        "description": "吴越、闽国等沿海政权航海技术发达",
+        "representative": "海上贸易路线拓展",
+        "impact": "促进海外贸易和文化交流",
+    },
+}
 
 # ============================================
 # 辅助函数
@@ -2257,6 +3808,132 @@ def get_score_level(score: int):
         if score >= level:
             return SCORE_LEVELS[level]
     return SCORE_LEVELS[0]
+
+
+# ============================================
+# 文化制度与民俗文化辅助函数
+# ============================================
+
+def get_coexam_system():
+    """获取科举制度数据"""
+    return COEXAM_SYSTEM
+
+
+def get_education_system():
+    """获取教育机构数据"""
+    return EDUCATION_SYSTEM
+
+
+def get_important_books(category=None):
+    """获取重要典籍"""
+    if category:
+        return [b for b in IMPORTANT_BOOKS if b.get('category') == category]
+    return IMPORTANT_BOOKS
+
+
+def get_printing_tech():
+    """获取印刷术数据"""
+    return PRINTING_TECH
+
+
+def get_festivals(festival_name=None):
+    """获取传统节日数据"""
+    if festival_name:
+        return FESTIVALS.get(festival_name, {})
+    return FESTIVALS
+
+
+def get_clothing_culture():
+    """获取服饰文化数据"""
+    return CLOTHING_CULTURE
+
+
+def get_food_culture():
+    """获取饮食文化数据"""
+    return FOOD_CULTURE
+
+
+def get_housing_culture():
+    """获取居住文化数据"""
+    return HOUSING_CULTURE
+
+
+def get_tech_achievements():
+    """获取科技成就数据"""
+    return TECH_ACHIEVEMENTS
+
+
+# ============================================
+# 艺术作品互动功能辅助函数
+# ============================================
+
+def get_all_art_works_flat():
+    """获取所有艺术作品（扁平化列表）"""
+    all_works = []
+    art_works = ART_WORKS
+    for category, works in art_works.items():
+        for work in works:
+            work_copy = work.copy()
+            work_copy['category'] = category
+            all_works.append(work_copy)
+    return all_works
+
+
+def get_daily_art_work(seed=None):
+    """获取每日推荐艺术作品（基于日期或种子）"""
+    import datetime
+    if seed is None:
+        # 使用当前日期作为种子
+        today = datetime.date.today()
+        seed = today.toordinal()
+
+    all_works = get_all_art_works_flat()
+    if not all_works:
+        return None
+
+    # 基于种子选择作品
+    index = seed % len(all_works)
+    return all_works[index]
+
+
+def get_art_work_by_name(name):
+    """根据名称获取艺术作品"""
+    all_works = get_all_art_works_flat()
+    for work in all_works:
+        if work.get('name') == name:
+            return work
+    return None
+
+
+def get_art_works_by_regime(regime):
+    """根据政权获取艺术作品"""
+    all_works = get_all_art_works_flat()
+    return [w for w in all_works if w.get('regime') == regime]
+
+
+def get_art_works_by_category(category):
+    """根据类别获取艺术作品"""
+    return ART_WORKS.get(category, [])
+
+
+def get_art_work_categories():
+    """获取所有艺术类别"""
+    return list(ART_WORKS.keys())
+
+
+def search_art_works(keyword):
+    """搜索艺术作品"""
+    all_works = get_all_art_works_flat()
+    keyword = keyword.lower()
+    results = []
+    for work in all_works:
+        # 在名称、作者、描述中搜索
+        if (keyword in work.get('name', '').lower() or
+            keyword in work.get('artist', '').lower() or
+            keyword in work.get('description', '').lower() or
+            keyword in work.get('regime', '').lower()):
+            results.append(work)
+    return results
 
 
 # ============================================

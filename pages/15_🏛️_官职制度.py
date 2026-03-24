@@ -6,7 +6,7 @@
 import streamlit as st
 import pandas as pd
 from pyecharts import options as opts
-from pyecharts.charts import Tree, Bar, Org
+from pyecharts.charts import Tree, Bar
 
 import sys
 import os
