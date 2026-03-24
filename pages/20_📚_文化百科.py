@@ -143,7 +143,8 @@ with tabs[2]:
 
     # 显示典籍列表
     for book in books:
-        with st.expander(f"**📕 {book['name']}** - {book.get('author', '佚名')} ({book.get('regime', '')})"):
+        title = book.get('title', '未知典籍')
+        with st.expander(f"**📕 {title}** - {book.get('author', '佚名')} ({book.get('regime', '')})"):
             st.markdown(f"**类别**: {book.get('category', '')}")
             st.markdown(f"**年代**: {book.get('year', '未知')}年")
             st.markdown(f"**简介**: {book.get('description', '')}")

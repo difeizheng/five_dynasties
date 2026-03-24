@@ -92,7 +92,10 @@
       "Bash(sed -i 's/- \\\\[x\\\\] 图表导出（PNG\\\\/SVG）/- [x] 图表导出（HTML）/g' TODO.md)",
       "Bash(sed -i 's/- \\\\[x\\\\] 数据导出（CSV\\\\/Excel）/- [x] 数据导出（CSV\\\\/Excel）/g' TODO.md)",
       "Bash(pkill -f \"streamlit run\")",
-      "Bash(cmd /c \"taskkill /F /PID 19824\")"
+      "Bash(cmd /c \"taskkill /F /PID 19824\")",
+      "Bash(pkill -f \"streamlit\")",
+      "Bash(cmd /c \"taskkill /F /IM python.exe\")",
+      "Bash(xargs -I {} kill -9 {})"
     ]
   }
 }
