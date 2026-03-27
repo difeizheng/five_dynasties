@@ -36,7 +36,7 @@ streamlit run app.py --server.port=8502
 ## GitHub 仓库
 
 - 地址：https://github.com/difeizheng/five_dynasties
-- 最新标签：v1.1.0
+- 最新标签：v2.1
 
 ## 已实现的功能
 
@@ -209,3 +209,63 @@ requests
 - `http://localhost:8501/` - 本地 Streamlit
 - `https://httpbin.org/post` - HTTP 测试服务
 - `https://httpbin.org/status/200` - 状态码测试
+
+## 版本历史
+
+### v2.1 - 文化艺术功能增强
+
+**新增功能**：
+- 📚 文化百科页面（pages/20_📚_文化百科.py）
+  - 科举制度：考试科目、著名状元、考试内容
+  - 教育机构：国子监、书院、私塾
+  - 重要典籍：史书、词集、笔记、专著（支持分类筛选）
+  - 印刷术：雕版印刷、活字印刷
+  - 传统节日：春节、元宵、清明、端午等 8 个节日
+  - 服饰文化：官服、民服、宫廷服饰、发式
+  - 饮食文化：名菜、茶酒、饮食习俗
+  - 居住文化：民居、家具、陈设、宫殿建筑
+  - 科技成就：印刷术、天文历法、医药学、建筑技术
+
+- 🎨 经济文化页面增强（pages/14_💰_经济文化.py）
+  - 艺术作品数据扩充至 100+ 项（12 个类别）
+  - 每日推荐模块（基于日期自动轮换）
+  - 收藏功能（session_state 存储）
+  - 分享卡生成（HTML 格式，可下载）
+  - 艺术地图可视化（Scatter 图表展示作品地理分布）
+
+**技术改进**：
+- 新增 config.py 辅助函数：
+  - `get_daily_art_work()` - 获取每日推荐艺术作品
+  - `get_all_art_works_flat()` - 获取扁平化艺术作品列表
+  - `search_art_works()` - 搜索艺术作品
+
+- pyecharts 2.x 兼容性修复：
+  - 移除 `Org` 图表导入（已废弃）
+  - 艺术地图从 Geo 改为 Scatter（解决坐标格式问题）
+
+**Bug 修复**：
+- 修复文化百科典籍显示 KeyError（title vs name 字段名不一致）
+- 修复测验进度条超出范围错误
+- 修复战争战役图表 RippleEffectOpts 废弃类错误
+
+**数据扩充**：
+- `ART_WORKS`: 15 项 → 100+ 项
+- `IMPORTANT_BOOKS`: 10 项
+- `FESTIVALS`: 8 个节日
+- `CLOTHING_CULTURE`: 官服、民服、宫廷、发式
+- `FOOD_CULTURE`: 名菜、茶酒、饮食习俗
+- `HOUSING_CULTURE`: 民居、家具、陈设、宫殿
+- `TECH_ACHIEVEMENTS`: 四大类科技成就
+
+### v2.0 - 史料来源与数据分享
+
+**新增功能**：
+- 📚 史料来源页面
+- 📤 数据分享功能
+- 🔗 Webhook 测试工具
+
+---
+
+## 当前状态
+- 服务运行端口：8502
+- 最新提交：fix: 修复文化百科典籍显示 KeyError 错误
